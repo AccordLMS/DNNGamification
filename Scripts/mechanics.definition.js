@@ -1,0 +1,4 @@
+﻿var editDefinition =
+{
+    init: function () { }
+}

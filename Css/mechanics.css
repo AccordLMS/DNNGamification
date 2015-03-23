@@ -1,0 +1,9 @@
+﻿.gmfMechanics * { box-sizing: border-box; }
+
+.gmfMechanics .gmfBadgeThumbnail, .gmfMechanics .gmfPhotoThumbnail { height: 32px; }
+
+.gmfMechanics { margin: 5px 0 15px; overflow: auto; }
+    .gmfMechanics .gmfAssignment { }
+        .gmfMechanics .gmfAssignment .gmfSearchBox { }
+            .gmfMechanics .gmfAssignment .gmfSearchBox input[type="text"] { float: left; margin-right: 10px; width: 200px; }
+    .gmfMechanics .gmfAddBadge { margin-bottom: 25px; }

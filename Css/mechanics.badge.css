@@ -1,0 +1,126 @@
+﻿.gmfEditBadge * { box-sizing: border-box; }
+
+.gmfEditBadge input[type="text"], .gmfEditBadge textarea { width: 382px; }
+
+@media (min-width: 768px) {
+    .gmfEditBadge input[type="text"], .gmfEditBadge textarea { width: 382px; }
+}
+
+@media (min-width: 992px) {
+    .gmfEditBadge input[type="text"], .gmfEditBadge textarea { width: 424px; }
+}
+
+@media (min-width: 1200px) {
+    .gmfEditBadge input[type="text"], .gmfEditBadge textarea { width: 445px; }
+}
+
+.gmfEditBadge { margin: 25px 0; }
+
+.gmfExpirationPeriod { display: block; width: 463px; overflow: auto; }
+    .gmfExpirationPeriod .gmfQuantity { float: left; margin: 4px 15px 0 0; overflow: hidden; width: 60px; }
+        .gmfExpirationPeriod .gmfQuantity input[type="text"] { width: 60px; text-align: center; margin-bottom: 16px; }
+    .gmfExpirationPeriod .gmfUnit { float: left; overflow: hidden; margin: 2px 0 0 0; width: 167px; }
+        .gmfExpirationPeriod .gmfUnit .gmfCombobox { width: 167px; }
+    .gmfExpirationPeriod .gmfReset { float: left; margin: 10px 0; width: 140px; text-align: center; }
+
+@media (min-width: 768px) {
+    .gmfExpirationPeriod { width: 400px; }
+        .gmfExpirationPeriod .gmfUnit { width: 167px; }
+            .gmfExpirationPeriod .gmfUnit .gmfCombobox { width: 167px; }
+}
+
+@media (min-width: 992px) {
+    .gmfExpirationPeriod { width: 442px; }
+        .gmfExpirationPeriod .gmfUnit { width: 209px; }
+            .gmfExpirationPeriod .gmfUnit .gmfCombobox { width: 209px; }
+}
+
+@media (min-width: 1200px) {
+    .gmfExpirationPeriod { width: 445px; }
+        .gmfExpirationPeriod .gmfUnit { width: 230px; }
+            .gmfExpirationPeriod .gmfUnit .gmfCombobox { width: 230px; }
+}
+
+.gmfFileSelectorScope { width: 382px; overflow: hidden; display: block; }
+
+.gmfFileSelector { width: 100%; box-sizing: border-box; margin-bottom: 20px; background-color: #f0f0f0; display: block; float: left; padding: 25px; }
+    .gmfFileSelector .gmfCombobox { width: 167px; }
+    .gmfFileSelector .dnnLeft { padding: 0; display: block; }
+        .gmfFileSelector .dnnLeft .gmfPreview, .gmfFileSelector .dnnLeft .gmfEmptyPreview { max-height: 90px; max-width: 90px; margin: 0 0 0 25px; }
+        .gmfFileSelector .dnnLeft .gmfEmptyPreview { width: 90px; height: 90px; border: 1px dashed #ccc; border-radius: 50%; }
+    .gmfFileSelector span { display: block; float: left; text-align: left; margin: 8px 10px 0 0; width: 40px; }
+        .gmfFileSelector span.dnnInputFileWrapper { margin: 0 0 25px 50px; max-width: 283px; overflow: hidden; padding: 6px 5px; text-align: center; text-overflow: ellipsis; white-space: nowrap; }
+    .gmfFileSelector .gmfButtons { margin: 0 0 0 50px; width: auto; height: 34px; }
+        .gmfFileSelector .gmfButtons .dnnSecondaryAction { margin-right: 10px; }
+            .gmfFileSelector .gmfButtons .dnnSecondaryAction:last-child { margin-right: 0; }
+
+@media (min-width: 768px) {
+    .gmfFileSelectorScope { width: 382px; }
+        .gmfFileSelectorScope .gmfInputFileWrapper { max-width: 283px; }
+        .gmfFileSelectorScope .gmfCombobox { width: 167px; }
+}
+
+@media (min-width: 992px) {
+    .gmfFileSelectorScope { width: 424px; }
+        .gmfFileSelectorScope .gmfInputFileWrapper { max-width: 325px; }
+        .gmfFileSelectorScope .gmfCombobox { width: 209px; }
+}
+
+@media (min-width: 1200px) {
+    .gmfFileSelectorScope { width: 445px; }
+        .gmfFileSelectorScope .gmfInputFileWrapper { max-width: 346px; }
+        .gmfFileSelectorScope .gmfCombobox { width: 230px; }
+}
+
+.gmfActivities { display: block; }
+    .gmfActivities .gmfEnclose { width: 382px; overflow: auto; }
+        .gmfActivities .gmfEnclose .gmfSelector { float: left; margin: 0 15px 0 0; overflow: hidden; width: 239px; }
+            .gmfActivities .gmfEnclose .gmfSelector .gmfCombobox { width: 239px; }
+        .gmfActivities .gmfEnclose .gmfPoints { float: left; width: 128px; }
+            .gmfActivities .gmfEnclose .gmfPoints .dnnLabel { padding-right: 0; width: 61px; margin: 5px 7px 0 0; text-align: center; }
+            .gmfActivities .gmfEnclose .gmfPoints input[type="text"] { width: 60px; text-align: center; }
+        .gmfActivities .gmfEnclose .gmfTable { margin: 5px 0 0 0; }
+            .gmfActivities .gmfEnclose .gmfTable table { width: 100%; table-layout: fixed; display: table; }
+                .gmfActivities .gmfEnclose .gmfTable table th:last-child { border-right: 0; }
+
+@media (min-width: 768px) {
+    .gmfActivities .gmfEnclose { width: 382px; }
+        .gmfActivities .gmfEnclose .gmfSelector { width: 239px; }
+            .gmfActivities .gmfEnclose .gmfSelector .gmfCombobox { width: 239px; }
+}
+@media (min-width: 992px) {
+    .gmfActivities .gmfEnclose { width: 424px; }
+        .gmfActivities .gmfEnclose .gmfSelector { width: 281px; }
+            .gmfActivities .gmfEnclose .gmfSelector .gmfCombobox { width: 281px; }
+}
+@media (min-width: 1200px) {
+    .gmfActivities .gmfEnclose { width: 445px; }
+        .gmfActivities .gmfEnclose .gmfSelector { width: 302px; }
+            .gmfActivities .gmfEnclose .gmfSelector .gmfCombobox { width: 302px; }
+}
+
+/*.gmfActivities { display: block; width: 382px; overflow: auto; }
+    .gmfActivities .gmfSelector { float: left; margin: 0 15px 0 0; overflow: hidden; width: 239px; }
+        .gmfActivities .gmfSelector .gmfCombobox { width: 239px; }
+    .gmfActivities .gmfPoints { float: left; width: 128px; }
+        .gmfActivities .gmfPoints .dnnLabel { padding-right: 0; width: 61px; margin: 5px 7px 0 0; text-align: center; }
+        .gmfActivities .gmfPoints input[type="text"] { width: 60px; text-align: center; }
+    .gmfActivities .gmfTable { margin: 5px 0 0 0; }
+        .gmfActivities .gmfTable table { width: 100%; table-layout: fixed; display: table; }
+            .gmfActivities .gmfTable table th:last-child { border-right: 0; }*/
+
+/*@media (min-width: 768px) {
+    .gmfActivities { width: 382px; }
+        .gmfActivities .gmfSelector { width: 239px; }
+            .gmfActivities .gmfSelector .gmfCombobox { width: 239px; }
+}
+@media (min-width: 992px) {
+    .gmfActivities { width: 424px; }
+        .gmfActivities .gmfSelector { width: 281px; }
+            .gmfActivities .gmfSelector .gmfCombobox { width: 281px; }
+}
+@media (min-width: 1200px) {
+    .gmfActivities { width: 445px; }
+        .gmfActivities .gmfSelector { width: 302px; }
+            .gmfActivities .gmfSelector .gmfCombobox { width: 302px; }
+}*/

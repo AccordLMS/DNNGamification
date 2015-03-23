@@ -1,0 +1,854 @@
+﻿IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_UserActivities]') AND type in (N'U'))
+    DROP TABLE {databaseOwner}[{objectQualifier}DNNGamification_UserActivities]
+GO
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_UserActivitiesLog]') AND type in (N'U'))
+    DROP TABLE {databaseOwner}[{objectQualifier}DNNGamification_UserActivitiesLog]
+GO
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_UserBadges]') AND type in (N'U'))
+    DROP TABLE {databaseOwner}[{objectQualifier}DNNGamification_UserBadges]
+GO
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_BadgeActivities]') AND type in (N'U'))
+    DROP TABLE {databaseOwner}[{objectQualifier}DNNGamification_BadgeActivities]
+GO
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_Badges]') AND type in (N'U'))
+    DROP TABLE {databaseOwner}[{objectQualifier}DNNGamification_Badges]
+GO
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_Activities]') AND type in (N'U'))
+    DROP TABLE {databaseOwner}[{objectQualifier}DNNGamification_Activities]
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_Activities]') AND type in (N'U'))
+BEGIN
+    CREATE TABLE {databaseOwner}[{objectQualifier}DNNGamification_Activities]
+    (
+        [ActivityId]      [int] IDENTITY(1,1) NOT NULL,
+        [DesktopModuleId] [int] NOT NULL,
+        [Name]            [nvarchar](100) NOT NULL,
+        [Description]     [nvarchar](512) NULL,
+        [Synonym]         [nvarchar](128) NOT NULL,
+        [ActivityPoints]  [int] NOT NULL,
+        [Once]            [bit] NOT NULL,
+
+        CONSTRAINT [PK_DNNGamification_Activities] PRIMARY KEY NONCLUSTERED ([ActivityId])
+    )
+
+    CREATE CLUSTERED INDEX [IX_DNNGamification_Activities_ActivityId] ON {databaseOwner}[{objectQualifier}DNNGamification_Activities] ([ActivityId] ASC)
+END
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_BadgeActivities]') AND type in (N'U'))
+BEGIN
+    CREATE TABLE {databaseOwner}[{objectQualifier}DNNGamification_BadgeActivities]
+    (
+        [BadgeActivityId] [int] IDENTITY(1,1) NOT NULL,
+        [PortalId]        [int] NOT NULL,
+        [ActivityId]      [int] NOT NULL,
+        [BadgeId]         [int] NOT NULL,
+        [ActivityPoints]  [int] NOT NULL,
+
+        CONSTRAINT [PK_DNNGamification_BadgeActivities] PRIMARY KEY NONCLUSTERED ([BadgeActivityId])
+    )
+
+    CREATE CLUSTERED INDEX [IX_DNNGamification_BadgeActivities_BadgeActivityId] ON {databaseOwner}[{objectQualifier}DNNGamification_BadgeActivities] ([BadgeActivityId] ASC)
+END
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_Badges]') AND type in (N'U'))
+BEGIN
+    CREATE TABLE {databaseOwner}[{objectQualifier}DNNGamification_Badges]
+    (
+        [BadgeId]            [int] IDENTITY(1,1) NOT NULL,
+        [ImageFileId]        [int] NOT NULL,
+        [PortalId]           [int] NOT NULL,
+        [Name]               [nvarchar](100) NOT NULL,
+        [Description]        [nvarchar](512) NULL,
+        [ExpirationUnit]     [int] NULL,
+        [ExpirationQuantity] [int] NULL,
+        [Expirable]          [bit] NOT NULL,
+
+        CONSTRAINT [PK_DNNGamification_Badges] PRIMARY KEY NONCLUSTERED ([BadgeId])
+    )
+
+    CREATE CLUSTERED INDEX [IX_DNNGamification_Badges_BadgeId] ON {databaseOwner}[{objectQualifier}DNNGamification_Badges] ([BadgeId] ASC)
+END
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_UserActivities]') AND type in (N'U'))
+BEGIN
+    CREATE TABLE {databaseOwner}[{objectQualifier}DNNGamification_UserActivities]
+    (
+        [UserActivityId]   [int] IDENTITY(1,1) NOT NULL,
+        [UserId]           [int] NOT NULL,
+        [PortalId]         [int] NOT NULL,
+        [ActivityPoints]   [int] NOT NULL,
+        [LastModifiedDate] [datetime] NULL,
+        [CreateDate]       [datetime] CONSTRAINT [DF_DNNGamification_UserActivities_CreateDate] DEFAULT (getutcdate()) NOT NULL,
+
+        CONSTRAINT [PK_DNNGamification_UserActivities] PRIMARY KEY NONCLUSTERED ([UserActivityId])
+    )
+
+    CREATE CLUSTERED INDEX [IX_DNNGamification_UserActivities_UserActivityId] ON {databaseOwner}[{objectQualifier}DNNGamification_UserActivities] ([UserActivityId] ASC)
+END
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_UserActivitiesLog]') AND type in (N'U'))
+BEGIN
+    CREATE TABLE {databaseOwner}[{objectQualifier}DNNGamification_UserActivitiesLog]
+    (
+        [UserActivityLogId] [int] IDENTITY(1,1) NOT NULL,
+        [ActivityId]          [int] NOT NULL,
+        [UserId]              [int] NOT NULL,
+        [PortalId]            [int] NOT NULL,
+        [ActivityPoints]      [int] NOT NULL,
+        [CreateDate]          [datetime] CONSTRAINT [DF_DNNGamification_UserActivitiesLog_CreateDate] DEFAULT (getutcdate()) NOT NULL,
+
+        CONSTRAINT [PK_DNNGamification_UserActivitiesLog] PRIMARY KEY NONCLUSTERED ([UserActivityLogId])
+    )
+
+    CREATE CLUSTERED INDEX [IX_DNNGamification_UserActivitiesLog_UserActivityLogId] ON {databaseOwner}[{objectQualifier}DNNGamification_UserActivitiesLog] ([UserActivityLogId] ASC)
+END
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_UserBadges]') AND type in (N'U'))
+BEGIN
+    CREATE TABLE {databaseOwner}[{objectQualifier}DNNGamification_UserBadges]
+    (
+        [UserBadgeId]   [int] IDENTITY(1,1) NOT NULL,
+        [BadgeId]       [int] NOT NULL,
+        [UserId]        [int] NOT NULL,
+        [PortalId]      [int] NOT NULL,
+        [CreateDate]    [datetime] CONSTRAINT [DF_DNNGamification_UserBadges_CreateDate] DEFAULT (getutcdate()) NOT NULL,
+        [Expire]        [datetime] NULL,
+
+        CONSTRAINT [PK_DNNGamification_UserBadges] PRIMARY KEY NONCLUSTERED ([UserBadgeId])
+    )
+
+    CREATE CLUSTERED INDEX [IX_DNNGamification_UserBadges_UserBadgeId] ON {databaseOwner}[{objectQualifier}DNNGamification_UserBadges] ([UserBadgeId] ASC)
+END
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}DNNGamification_BadgeActivities]
+ADD CONSTRAINT [FK_DNNGamification_BadgeActivities_Badges]
+FOREIGN KEY ([BadgeId]) REFERENCES {databaseOwner}[{objectQualifier}DNNGamification_Badges] ([BadgeId])
+ON DELETE CASCADE
+GO
+ALTER TABLE {databaseOwner}[{objectQualifier}DNNGamification_BadgeActivities]
+ADD CONSTRAINT [FK_DNNGamification_BadgeActivities_Activities]
+FOREIGN KEY ([ActivityId]) REFERENCES {databaseOwner}[{objectQualifier}DNNGamification_Activities] ([ActivityId])
+ON DELETE CASCADE
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}DNNGamification_UserActivitiesLog]
+ADD CONSTRAINT [FK_DNNGamification_UserActivitiesLog_Activities]
+FOREIGN KEY ([ActivityId]) REFERENCES {databaseOwner}[{objectQualifier}DNNGamification_Activities] ([ActivityId])
+ON DELETE CASCADE
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}DNNGamification_UserBadges]
+ADD CONSTRAINT [FK_DNNGamification_UserBadges_Badges]
+FOREIGN KEY ([BadgeId]) REFERENCES {databaseOwner}[{objectQualifier}DNNGamification_Badges] ([BadgeId])
+ON DELETE CASCADE
+GO
+
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_AddActivity]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_AddActivity]
+GO
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_AddBadgeActivity]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_AddBadgeActivity]
+GO
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_AddBadge]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_AddBadge]
+GO
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_AddUserActivity]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_AddUserActivity]
+GO
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_AddUserActivityLog]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_AddUserActivityLog]
+GO
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_AddUserBadge]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_AddUserBadge]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_AddActivity]
+    @DesktopModuleId int, @Name nvarchar(100), @Description nvarchar(512), @Synonym nvarchar(128), @ActivityPoints int, @Once bit
+AS
+BEGIN
+    INSERT INTO {databaseOwner}[{objectQualifier}DNNGamification_Activities] ([DesktopModuleId], [Name], [Description], [Synonym], [ActivityPoints], [Once])
+         VALUES (@DesktopModuleId, @Name, @Description, @Synonym, @ActivityPoints, @Once)
+
+    SELECT SCOPE_IDENTITY()
+END
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_AddBadgeActivity]
+    @PortalId int, @ActivityId int, @BadgeId int, @ActivityPoints int
+AS
+BEGIN
+    INSERT INTO {databaseOwner}[{objectQualifier}DNNGamification_BadgeActivities] ([PortalId], [ActivityId], [BadgeId], [ActivityPoints])
+         VALUES (@PortalId, @ActivityId, @BadgeId, @ActivityPoints)
+
+    SELECT SCOPE_IDENTITY()
+END
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_AddBadge]
+    @ImageFileId int, @PortalId int, @Name nvarchar(100), @Description nvarchar(512), @ExpirationUnit int, @ExpirationQuantity int, @Expirable bit
+AS
+BEGIN
+    INSERT INTO {databaseOwner}[{objectQualifier}DNNGamification_Badges] ([ImageFileId], [PortalId], [Name], [Description], [ExpirationUnit], [ExpirationQuantity], [Expirable])
+         VALUES (@ImageFileId, @PortalId, @Name, @Description, @ExpirationUnit, @ExpirationQuantity, @Expirable)
+
+    SELECT SCOPE_IDENTITY()
+END
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_AddUserActivity]
+    @UserId int, @PortalId int, @ActivityPoints int
+AS
+BEGIN
+    INSERT INTO {databaseOwner}[{objectQualifier}DNNGamification_UserActivities] ([UserId], [PortalId], [ActivityPoints])
+         VALUES (@UserId, @PortalId, @ActivityPoints)
+
+    SELECT SCOPE_IDENTITY()
+END
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_AddUserActivityLog]
+    @ActivityId int, @UserId int, @PortalId int, @ActivityPoints int
+AS
+BEGIN
+    DECLARE @_Id int = -1
+
+    DECLARE @_UserActivityId int = (SELECT TOP(1) [UserActivityId]
+       FROM {databaseOwner}[{objectQualifier}DNNGamification_UserActivities]
+      WHERE [UserId] = @UserId AND [PortalId] = @PortalId)
+
+     INSERT INTO {databaseOwner}[{objectQualifier}DNNGamification_UserActivitiesLog] ([ActivityId], [UserId], [PortalId], [ActivityPoints])
+          VALUES (@ActivityId, @UserId, @PortalId, @ActivityPoints)
+
+        SET @_Id = SCOPE_IDENTITY()
+
+IF (@_UserActivityId IS NOT NULL) BEGIN
+     UPDATE {databaseOwner}[{objectQualifier}DNNGamification_UserActivities]
+        SET [ActivityPoints] = ([ActivityPoints] + @ActivityPoints),
+            [LastModifiedDate] = getutcdate()
+      WHERE [UserId] = @UserId AND [PortalId] = @PortalId
+END ELSE BEGIN
+     INSERT INTO {databaseOwner}[{objectQualifier}DNNGamification_UserActivities] ([UserId], [PortalId], [ActivityPoints])
+          VALUES (@UserId, @PortalId, @ActivityPoints)
+END
+
+     SELECT @_Id
+
+END
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_AddUserBadge]
+    @BadgeId int, @UserId int, @PortalId int
+AS
+BEGIN
+   DECLARE @_Id int = -1
+
+    INSERT INTO {databaseOwner}[{objectQualifier}DNNGamification_UserBadges] ([BadgeId], [UserId], [PortalId])
+         VALUES (@BadgeId, @UserId, @PortalId)
+          
+       SET @_Id = SCOPE_IDENTITY()
+
+    UPDATE u
+       SET u.[Expire] =
+(CASE WHEN b.[ExpirationUnit] = 0 THEN dateadd(day,    b.[ExpirationQuantity], u.[CreateDate])
+      WHEN b.[ExpirationUnit] = 1 THEN dateadd(month,  b.[ExpirationQuantity], u.[CreateDate])
+      WHEN b.[ExpirationUnit] = 2 THEN dateadd(year,   b.[ExpirationQuantity], u.[CreateDate]) END)
+      FROM {databaseOwner}[{objectQualifier}DNNGamification_UserBadges] AS u
+INNER JOIN {databaseOwner}[{objectQualifier}DNNGamification_Badges] AS b ON u.[BadgeId] = b.[BadgeId]
+     WHERE b.[Expirable] = 1
+
+    SELECT @_Id
+END
+GO
+
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_DeleteActivityById]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_DeleteActivityById]
+GO
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_DeleteActivityBySynonymAndModule]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_DeleteActivityBySynonymAndModule]
+GO
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_DeleteBadgeActivityById]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_DeleteBadgeActivityById]
+GO
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_DeleteBadgeById]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_DeleteBadgeById]
+GO
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_DeleteUserActivityById]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_DeleteUserActivityById]
+GO
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_DeleteUserActivityLogById]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_DeleteUserActivityLogById]
+GO
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_DeleteUserBadgeById]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_DeleteUserBadgeById]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_DeleteActivityById]
+    @Id int
+AS
+BEGIN
+    DELETE FROM {databaseOwner}[{objectQualifier}DNNGamification_Activities]
+     WHERE [ActivityId] = @Id
+END
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_DeleteActivityBySynonymAndModule]
+    @Synonym nvarchar(128), @DesktopModuleId int
+AS
+BEGIN
+    DELETE FROM {databaseOwner}[{objectQualifier}DNNGamification_Activities]
+     WHERE [DesktopModuleId] = @DesktopModuleId
+       AND [Synonym] = @Synonym
+END
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_DeleteBadgeActivityById]
+    @Id int
+AS
+BEGIN
+    DELETE FROM {databaseOwner}[{objectQualifier}DNNGamification_BadgeActivities]
+     WHERE [BadgeActivityId] = @Id
+END
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_DeleteBadgeById]
+    @Id int
+AS
+BEGIN
+    DELETE FROM {databaseOwner}[{objectQualifier}DNNGamification_Badges]
+     WHERE [BadgeId] = @Id
+END
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_DeleteUserActivityById]
+    @Id int
+AS
+BEGIN
+    DELETE FROM {databaseOwner}[{objectQualifier}DNNGamification_UserActivities]
+     WHERE [UserActivityId] = @Id
+END
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_DeleteUserActivityLogById]
+    @Id int
+AS
+BEGIN
+    DELETE FROM {databaseOwner}[{objectQualifier}DNNGamification_UserActivitiesLog]
+     WHERE [UserActivityLogId] = @Id
+END
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_DeleteUserBadgeById]
+    @UserBadgeId int
+AS
+BEGIN
+    DELETE FROM {databaseOwner}[{objectQualifier}DNNGamification_UserBadges]
+     WHERE [UserBadgeId] = @UserBadgeId
+END
+GO
+
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_GetActivities]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_GetActivities]
+GO
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_GetActivitiesView]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_GetActivitiesView]
+GO
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_GetActivityById]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_GetActivityById]
+GO
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_GetActivityBySynonymAndModule]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_GetActivityBySynonymAndModule]
+GO
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_GetBadgeActivities]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_GetBadgeActivities]
+GO
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_GetBadgeActivitiesByBadge]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_GetBadgeActivitiesByBadge]
+GO
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_GetBadgeActivityById]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_GetBadgeActivityById]
+GO
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_GetBadgeById]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_GetBadgeById]
+GO
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_GetBadges]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_GetBadges]
+GO
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_GetBadgesView]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_GetBadgesView]
+GO
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_GetScoringChart]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_GetScoringChart]
+GO
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_GetScoringLeaderboard]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_GetScoringLeaderboard]
+GO
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_GetScoringUsers]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_GetScoringUsers]
+GO
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_GetUserActivityByUser]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_GetUserActivityByUser]
+GO
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_GetUserActivityLogById]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_GetUserActivityLogById]
+GO
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_GetUserActivityLogByUser]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_GetUserActivityLogByUser]
+GO
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_GetUserActivityLogByUserAndDefinition]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_GetUserActivityLogByUserAndDefinition]
+GO
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_GetUserBadgeById]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_GetUserBadgeById]
+GO
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_GetUserBadgesByUser]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_GetUserBadgesByUser]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_GetActivities]
+AS
+BEGIN
+    SELECT a.*,
+           m.[FriendlyName] AS [DesktopModuleName]
+      FROM {databaseOwner}[{objectQualifier}DNNGamification_Activities] AS a
+INNER JOIN {databaseOwner}[{objectQualifier}DesktopModules] AS m ON a.[DesktopModuleId] = m.[DesktopModuleID]
+END
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_GetActivitiesView]
+    @StartIndex int, @Length int, @OrderBy nvarchar(128), @OrderByDirection nvarchar(32)
+AS
+BEGIN
+    SELECT COUNT(*) AS TotalCount
+      FROM {databaseOwner}[{objectQualifier}DNNGamification_Activities]
+
+    SELECT *
+      FROM (SELECT ROW_NUMBER() OVER (
+  ORDER BY CASE WHEN @OrderBy='Name' AND @OrderByDirection='ASC'  THEN a.[Name] END ASC,
+           CASE WHEN @OrderBy='Name' AND @OrderByDirection='DESC' THEN a.[Name] END DESC,
+           CASE WHEN @OrderBy='ModuleName' AND @OrderByDirection='ASC'  THEN m.[FriendlyName] END ASC,
+           CASE WHEN @OrderBy='ModuleName' AND @OrderByDirection='DESC' THEN m.[FriendlyName] END DESC,
+           CASE WHEN @OrderBy='ActivityPoints' AND @OrderByDirection='ASC'  THEN a.[ActivityPoints] END ASC,
+           CASE WHEN @OrderBy='ActivityPoints' AND @OrderByDirection='DESC' THEN a.[ActivityPoints] END DESC,
+           CASE WHEN @OrderBy='Once' AND @OrderByDirection='ASC'  THEN a.[Once] END ASC,
+           CASE WHEN @OrderBy='Once' AND @OrderByDirection='DESC' THEN a.[Once] END DESC)
+           AS Row,
+           a.*, m.[FriendlyName] AS DesktopModuleName
+      FROM {databaseOwner}[{objectQualifier}DNNGamification_Activities] AS a
+INNER JOIN {databaseOwner}[{objectQualifier}DesktopModules] AS m ON a.[DesktopModuleId] = m.[DesktopModuleID]) AS q
+     WHERE q.[Row] > @StartIndex AND q.[Row] <= @StartIndex + @Length
+  ORDER BY q.[Row]
+END
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_GetActivityById]
+    @Id int
+AS
+BEGIN
+    SELECT a.*,
+           m.[FriendlyName] AS [DesktopModuleName]
+      FROM {databaseOwner}[{objectQualifier}DNNGamification_Activities] AS a
+INNER JOIN {databaseOwner}[{objectQualifier}DesktopModules] AS m ON a.[DesktopModuleId] = m.[DesktopModuleID]
+     WHERE a.[ActivityId] = @Id
+END
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_GetActivityBySynonymAndModule]
+    @Synonym nvarchar(128), @DesktopModuleId int
+AS
+BEGIN
+    SELECT a.*,
+           m.[FriendlyName] AS [DesktopModuleName]
+      FROM {databaseOwner}[{objectQualifier}DNNGamification_Activities] AS a
+INNER JOIN {databaseOwner}[{objectQualifier}DesktopModules] AS m ON a.[DesktopModuleId] = m.[DesktopModuleID]
+     WHERE a.[DesktopModuleId] = @DesktopModuleId
+       AND a.[Synonym] = @Synonym
+END
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_GetBadgeActivities]
+    @PortalId int
+AS
+BEGIN
+    SELECT b.*,
+           a.[DesktopModuleId],
+           m.[FriendlyName] AS [DesktopModuleName],
+           a.[Name]
+      FROM {databaseOwner}[{objectQualifier}DNNGamification_BadgeActivities] AS b
+INNER JOIN {databaseOwner}[{objectQualifier}DNNGamification_Activities] AS a ON b.[ActivityId] = a.[ActivityId]
+INNER JOIN {databaseOwner}[{objectQualifier}DesktopModules] AS m ON a.[DesktopModuleId] = m.[DesktopModuleID]
+     WHERE b.[PortalId] = @PortalId
+END
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_GetBadgeActivitiesByBadge]
+    @BadgeId int
+AS
+BEGIN
+    SELECT b.*,
+           a.[DesktopModuleId],
+           m.[FriendlyName] AS [DesktopModuleName],
+           a.[Name]
+      FROM {databaseOwner}[{objectQualifier}DNNGamification_BadgeActivities] AS b
+INNER JOIN {databaseOwner}[{objectQualifier}DNNGamification_Activities] AS a ON b.[ActivityId] = a.[ActivityId]
+INNER JOIN {databaseOwner}[{objectQualifier}DesktopModules] AS m ON a.[DesktopModuleId] = m.[DesktopModuleID]
+     WHERE b.[BadgeId] = @BadgeId
+END
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_GetBadgeActivityById]
+    @Id int
+AS
+BEGIN
+    SELECT b.*,
+           a.[DesktopModuleId],
+           m.[FriendlyName] AS [DesktopModuleName],
+           a.[Name]
+      FROM {databaseOwner}[{objectQualifier}DNNGamification_BadgeActivities] AS b
+INNER JOIN {databaseOwner}[{objectQualifier}DNNGamification_Activities] AS a ON b.[ActivityId] = a.[ActivityId]
+INNER JOIN {databaseOwner}[{objectQualifier}DesktopModules] AS m ON a.[DesktopModuleId] = m.[DesktopModuleID]
+     WHERE b.[BadgeActivityId] = @Id
+END
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_GetBadgeById]
+    @Id int
+AS
+BEGIN
+    SELECT *
+      FROM {databaseOwner}[{objectQualifier}DNNGamification_Badges]
+     WHERE [BadgeId] = @Id
+END
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_GetBadges]
+	@PortalId int
+AS
+BEGIN
+    SELECT * FROM {databaseOwner}[{objectQualifier}DNNGamification_Badges]
+     WHERE [PortalId] = @PortalId
+END
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_GetBadgesView]
+    @PortalId int, @StartIndex int, @Length int, @OrderBy nvarchar(128), @OrderByDirection nvarchar(32)
+AS
+BEGIN
+    SELECT COUNT(*) AS TotalCount
+      FROM {databaseOwner}[{objectQualifier}DNNGamification_Badges]
+
+    SELECT *
+      FROM (SELECT ROW_NUMBER() OVER (
+  ORDER BY CASE WHEN @OrderBy='Name' AND @OrderByDirection='ASC'  THEN b.[Name] END ASC,
+           CASE WHEN @OrderBy='Name' AND @OrderByDirection='DESC' THEN b.[Name] END DESC) AS [Row],
+           b.*
+      FROM {databaseOwner}[{objectQualifier}DNNGamification_Badges] AS b
+     WHERE b.[PortalId] = @PortalId) AS q
+     WHERE q.[Row] > @StartIndex AND q.[Row] <= @StartIndex + @Length
+  ORDER BY q.[Row]
+END
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_GetScoringChart]
+    @UserId int, @PortalId int, @Start datetime, @End datetime
+AS
+BEGIN
+    SELECT l.*,
+           a.[DesktopModuleId],
+           m.[FriendlyName] AS [DesktopModuleName],
+           a.[Name]
+      FROM {databaseOwner}[{objectQualifier}DNNGamification_UserActivitiesLog] AS l
+INNER JOIN {databaseOwner}[{objectQualifier}DNNGamification_Activities] AS a ON l.[ActivityId] = a.[ActivityId]
+INNER JOIN {databaseOwner}[{objectQualifier}DesktopModules] AS m ON a.[DesktopModuleId] = m.[DesktopModuleID]
+     WHERE l.[CreateDate] >= @Start AND l.[CreateDate] <= @End
+       AND l.[UserId] = @UserId AND l.[PortalId] = @PortalId
+END
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_GetScoringLeaderboard]
+    @PortalId int, @UserId int, @GroupId int, @FriendsOfId int, @StartIndex int, @Length int
+AS
+BEGIN
+    SELECT COUNT(*) AS TotalCount
+      FROM
+   (SELECT u.[UserId]
+      FROM {databaseOwner}[{objectQualifier}Users] AS u
+ LEFT JOIN {databaseOwner}[{objectQualifier}DNNGamification_UserActivities] AS a ON u.[UserId] = a.[UserId] AND a.[PortalId] = @PortalId
+     WHERE u.[UserId] = COALESCE(@UserId, u.[UserId])
+       AND ((@FriendsOfId IS NULL
+        OR (@FriendsOfId IS NOT NULL AND u.[UserId] IN
+   (SELECT [RelatedUserID] AS Id FROM {databaseOwner}[{objectQualifier}UserRelationships]
+     WHERE [UserID] = @FriendsOfId AND [RelationshipID] = 1 AND [Status] = 2))
+        OR (@FriendsOfId IS NOT NULL AND u.[UserId] IN
+   (SELECT [UserID] AS Id FROM {databaseOwner}[{objectQualifier}UserRelationships]
+     WHERE [RelatedUserID] = @FriendsOfId AND [RelationshipID] = 1 AND [Status] = 2))))
+       AND (@GroupId IS NULL OR (@GroupId IS NOT NULL AND @GroupId IN
+   (SELECT [RoleID] AS Id FROM {databaseOwner}[{objectQualifier}UserRoles]
+     WHERE [UserID] = u.[UserId])))
+  GROUP BY u.[UserId]) AS q
+
+    SELECT q.*
+      FROM
+   (SELECT DENSE_RANK() OVER (
+  ORDER BY a.[ActivityPoints] DESC) AS [Rank],
+           ROW_NUMBER() OVER (
+  ORDER BY COALESCE(a.[ActivityPoints], 0) DESC) AS [Row],
+           u.[UserId],
+           COALESCE(a.[ActivityPoints], 0) AS [ActivityPoints],
+           u.[FirstName],
+           u.[DisplayName],
+           u.[LastName]
+      FROM {databaseOwner}[{objectQualifier}Users] AS u
+ LEFT JOIN {databaseOwner}[{objectQualifier}DNNGamification_UserActivities] AS a ON u.[UserId] = a.[UserId] AND a.[PortalId] = @PortalId
+     WHERE u.[UserId] = COALESCE(@UserId, u.[UserId])
+       AND ((@FriendsOfId IS NULL
+        OR (@FriendsOfId IS NOT NULL AND u.[UserId] IN
+   (SELECT [RelatedUserID] AS Id FROM {databaseOwner}[{objectQualifier}UserRelationships]
+     WHERE [UserID] = @FriendsOfId AND [RelationshipID] = 1 AND [Status] = 2))
+        OR (@FriendsOfId IS NOT NULL AND u.[UserId] IN
+   (SELECT [UserID] AS Id FROM {databaseOwner}[{objectQualifier}UserRelationships]
+     WHERE [RelatedUserID] = @FriendsOfId AND [RelationshipID] = 1 AND [Status] = 2))))
+       AND (@GroupId IS NULL OR (@GroupId IS NOT NULL AND @GroupId IN
+   (SELECT [RoleID] as Id FROM {databaseOwner}[{objectQualifier}UserRoles] WHERE [UserID] = u.[UserId])))) AS q
+     WHERE (q.[Row] > @StartIndex AND q.[Row] <= @StartIndex + @Length)
+  ORDER BY q.[Row]
+END
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_GetScoringUsers]
+    @PortalId int, @Term nvarchar(256), @StartIndex int, @Length int, @OrderBy nvarchar(128), @OrderByDirection nvarchar(32)
+AS
+BEGIN
+    SELECT COUNT(*) AS TotalCount
+      FROM {databaseOwner}[{objectQualifier}Users] AS u
+     INNER JOIN {databaseOwner}[{objectQualifier}UserPortals] AS p
+        ON u.[UserId] = p.[UserId] AND p.[PortalId] = @PortalId
+LEFT OUTER JOIN {databaseOwner}[{objectQualifier}DNNGamification_UserActivities] AS a
+        ON u.[UserId] = a.[UserId] AND a.[PortalId] = @PortalId
+     WHERE u.[DisplayName] LIKE @Term
+
+    SELECT q.*
+      FROM
+   (SELECT ROW_NUMBER() OVER (
+  ORDER BY CASE WHEN @OrderBy='DisplayName' AND @OrderByDirection='ASC'  THEN u.[DisplayName] END ASC,
+           CASE WHEN @OrderBy='DisplayName' AND @OrderByDirection='DESC' THEN u.[DisplayName] END DESC,
+           CASE WHEN @OrderBy='ActivityPoints' AND @OrderByDirection='ASC'  THEN COALESCE(a.[ActivityPoints], 0) END ASC,
+           CASE WHEN @OrderBy='ActivityPoints' AND @OrderByDirection='DESC' THEN COALESCE(a.[ActivityPoints], 0) END DESC) AS [Row],
+           u.[UserId],
+           COALESCE(a.[ActivityPoints], 0) AS [ActivityPoints],
+           u.[LastName],
+           u.[DisplayName],
+           u.[FirstName]
+      FROM {databaseOwner}[{objectQualifier}Users] AS u
+     INNER JOIN {databaseOwner}[{objectQualifier}UserPortals] AS p
+        ON u.[UserId] = p.[UserId] AND p.[PortalId] = @PortalId
+LEFT OUTER JOIN {databaseOwner}[{objectQualifier}DNNGamification_UserActivities] AS a
+        ON u.[UserId] = a.[UserId] AND a.[PortalId] = @PortalId
+     WHERE u.[DisplayName] LIKE @Term) AS q
+     WHERE q.[Row] > @StartIndex AND q.[Row] <= @StartIndex + @Length
+  ORDER BY q.[Row]
+END
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_GetUserActivityByUser]
+    @UserId int, @PortalId int
+AS
+BEGIN
+    SELECT TOP(1) * FROM {databaseOwner}[{objectQualifier}DNNGamification_UserActivities]
+     WHERE [UserId] = @UserId AND [PortalId] = @PortalId
+END
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_GetUserActivityLogById]
+    @Id int
+AS
+BEGIN
+    SELECT l.*,
+           d.[DesktopModuleId],
+           m.[FriendlyName] AS [DesktopModuleName],
+           d.[Name]
+      FROM {databaseOwner}[{objectQualifier}DNNGamification_UserActivitiesLog] AS l
+INNER JOIN {databaseOwner}[{objectQualifier}DNNGamification_Activities] AS d ON l.[ActivityId] = d.[ActivityId]
+INNER JOIN {databaseOwner}[{objectQualifier}DesktopModules] AS m ON d.[DesktopModuleId] = m.[DesktopModuleID]
+     WHERE l.[UserActivityLogId] = @Id
+END
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_GetUserActivityLogByUser]
+    @UserId int, @PortalId int
+AS
+BEGIN
+    SELECT l.*,
+           d.[DesktopModuleId],
+           m.[FriendlyName] AS [DesktopModuleName],
+           d.[Name]
+      FROM {databaseOwner}[{objectQualifier}DNNGamification_UserActivitiesLog] AS l
+INNER JOIN {databaseOwner}[{objectQualifier}DNNGamification_Activities] AS d ON l.[ActivityId] = d.[ActivityId]
+INNER JOIN {databaseOwner}[{objectQualifier}DesktopModules] AS m ON d.[DesktopModuleId] = m.[DesktopModuleID]
+     WHERE l.[UserId] = @UserId AND l.[PortalId] = @PortalId
+END
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_GetUserActivityLogByUserAndDefinition]
+    @UserId int, @PortalId int, @ActivityId int
+AS
+BEGIN
+    SELECT l.*,
+           d.[DesktopModuleId],
+           m.[FriendlyName] AS [DesktopModuleName],
+           d.[Name]
+      FROM {databaseOwner}[{objectQualifier}DNNGamification_UserActivitiesLog] AS l
+INNER JOIN {databaseOwner}[{objectQualifier}DNNGamification_Activities] AS d ON l.[ActivityId] = d.[ActivityId]
+INNER JOIN {databaseOwner}[{objectQualifier}DesktopModules] AS m ON d.[DesktopModuleId] = m.[DesktopModuleID]
+     WHERE l.[ActivityId] = @ActivityId
+       AND l.[UserId] = @UserId
+       AND l.[PortalId] = @PortalId
+END
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_GetUserBadgeById]
+    @UserBadgeId int
+AS
+BEGIN
+    SELECT u.*,
+           b.[ImageFileId],
+           b.[Name],
+           b.[Description],
+           b.[ExpirationUnit],
+           b.[ExpirationQuantity],
+           b.[Expirable]
+      FROM {databaseOwner}[{objectQualifier}DNNGamification_UserBadges] AS u
+INNER JOIN {databaseOwner}[{objectQualifier}DNNGamification_Badges] AS b ON u.[BadgeId] = b.[BadgeId]
+     WHERE u.[UserBadgeId] = @UserBadgeId
+END
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_GetUserBadgesByUser]
+    @UserId int, @PortalId int, @Actual bit, @Top int
+AS
+BEGIN
+       SET @Top = COALESCE(@Top,
+   (SELECT COUNT(*) FROM {databaseOwner}[{objectQualifier}DNNGamification_UserBadges]))
+
+   DECLARE @_UtcNow datetime = getutcdate()
+
+    SELECT TOP(@Top)
+           u.*,
+           b.[ImageFileId],
+           b.[Name],
+           b.[Description],
+           b.[ExpirationUnit],
+           b.[ExpirationQuantity],
+           b.[Expirable]
+      FROM {databaseOwner}[{objectQualifier}DNNGamification_UserBadges] AS u
+INNER JOIN {databaseOwner}[{objectQualifier}DNNGamification_Badges] AS b ON u.[BadgeId] = b.[BadgeId]
+     WHERE (@Actual = 0 OR (@Actual = 1 AND (u.[Expire] IS NULL OR u.[Expire] > @_UtcNow)))
+       AND u.[UserId] = @UserId AND u.[PortalId] = @PortalId
+     ORDER BY u.[BadgeId]
+END
+GO
+
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_UpdateActivity]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_UpdateActivity]
+GO
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_UpdateBadgeActivity]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_UpdateBadgeActivity]
+GO
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_UpdateBadge]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_UpdateBadge]
+GO
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_UpdateUserActivity]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_UpdateUserActivity]
+GO
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_UpdateUserActivityLog]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_UpdateUserActivityLog]
+GO
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_UpdateUserBadge]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_UpdateUserBadge]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_UpdateActivity]
+    @Id int, @DesktopModuleId int, @Name nvarchar(100), @Description nvarchar(512), @Synonym nvarchar(128), @ActivityPoints int, @Once bit
+AS
+BEGIN
+    UPDATE {databaseOwner}[{objectQualifier}DNNGamification_Activities]
+       SET [DesktopModuleId] = COALESCE(@DesktopModuleId, [DesktopModuleId]),
+           [Name] = COALESCE(@Name, [Name]),
+           [Description] = COALESCE(@Description, [Description]),
+           [Synonym] = COALESCE(@Synonym, [Synonym]),
+           [ActivityPoints] = COALESCE(@ActivityPoints, [ActivityPoints]),
+           [Once] = COALESCE(@Once, [Once])
+     WHERE [ActivityId] = @Id
+END
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_UpdateBadgeActivity]
+    @Id int, @PortalId int, @ActivityId int, @BadgeId int, @ActivityPoints int
+AS
+BEGIN
+    UPDATE {databaseOwner}[{objectQualifier}DNNGamification_BadgeActivities]
+       SET [PortalId] = COALESCE(@PortalId, [PortalId]),
+           [ActivityId] = COALESCE(@ActivityId, [ActivityId]),
+           [BadgeId] = COALESCE(@BadgeId, [BadgeId]),
+           [ActivityPoints] = COALESCE(@ActivityPoints, [ActivityPoints])
+     WHERE [BadgeActivityId] = @Id
+END
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_UpdateBadge]
+    @Id int, @ImageFileId int, @PortalId int, @Name nvarchar(100), @Description nvarchar(512), @ExpirationUnit int, @ExpirationQuantity int, @Expirable bit
+AS
+BEGIN
+    UPDATE {databaseOwner}[{objectQualifier}DNNGamification_Badges]
+       SET [ImageFileId] = COALESCE(@ImageFileId, [ImageFileId]),
+           [PortalId] = COALESCE(@PortalId, [PortalId]),
+           [Name] = COALESCE(@Name, [Name]),
+           [Description] = @Description,
+           [ExpirationUnit] = @ExpirationUnit,
+           [ExpirationQuantity] = @ExpirationQuantity,
+           [Expirable] = @Expirable
+     WHERE [BadgeId] = @Id
+END
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_UpdateUserActivity]
+    @Id int, @UserId int, @PortalId int, @ActivityPoints int
+AS
+BEGIN
+    UPDATE {databaseOwner}[{objectQualifier}DNNGamification_UserActivities]
+       SET [ActivityPoints] = COALESCE(@ActivityPoints, [ActivityPoints]),
+           [UserId] = COALESCE(@UserId, [UserId]),
+           [PortalId] = COALESCE(@PortalId, [PortalId])
+     WHERE [UserActivityId] = @Id
+END
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_UpdateUserActivityLog]
+    @Id int, @ActivityId int, @UserId int, @ActivityPoints int
+AS
+BEGIN
+    UPDATE {databaseOwner}[{objectQualifier}DNNGamification_UserActivitiesLog]
+       SET [ActivityId] = COALESCE(@ActivityId, [ActivityId]),
+           [UserId] = COALESCE(@UserId, [UserId]),
+           [ActivityPoints] = COALESCE(@ActivityPoints, [ActivityPoints])
+     WHERE [UserActivityLogId] = @Id
+END
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_UpdateUserBadge]
+    @Id int, @BadgeId int, @UserId int, @PortalId int
+AS
+BEGIN
+    UPDATE {databaseOwner}[{objectQualifier}DNNGamification_UserBadges]
+       SET [BadgeId] = COALESCE(@BadgeId, [BadgeId]),
+           [UserId] = COALESCE(@UserId, [UserId]),
+           [PortalId] = COALESCE(@PortalId, [PortalId])
+     WHERE [UserBadgeId] = @Id
+END
+GO

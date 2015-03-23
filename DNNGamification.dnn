@@ -1,0 +1,238 @@
+<dotnetnuke type="Package" version="5.0">
+	<packages>
+		<package name="DNNGamification.Mechanics" type="Module" version="01.00.03">
+			<description>Gamification mechanics module</description>
+			<iconFile>~/DesktopModules/DNNGamification/Images/logo.png</iconFile>
+			<friendlyName>DNNGamification Mechanics</friendlyName>
+			<owner>
+				<name>DNNGamification</name>
+				<url>http://www.dnngamification.com</url>
+				<organization>DNNGamification</organization>
+				<email>hello@dnngamification.com</email>
+			</owner>
+			<license src="License.txt"></license>
+			<releaseNotes src="Notes.txt"></releaseNotes>
+			<dependencies>
+				<dependency type="CoreVersion">07.03.00</dependency>
+			</dependencies>
+			<components>
+				<component type="Module">
+					<desktopModule>
+						<moduleName>DNNGamification Mechanics</moduleName>
+						<foldername>DNNGamification</foldername>
+						<businessControllerClass>DNNGamification.Components.Controllers.BusinessController</businessControllerClass>
+						<supportedFeatures>
+							<supportedFeature type="Upgradable" />
+						</supportedFeatures>
+						<moduleDefinitions>
+							<moduleDefinition>
+								<friendlyName>DNNGamification Mechanics</friendlyName>
+								<defaultCacheTime>0</defaultCacheTime>
+								<moduleControls>
+									<moduleControl>
+										<controlKey />
+										<controlSrc>DesktopModules/DNNGamification/Mechanics.ascx</controlSrc>
+										<supportsPartialRendering>False</supportsPartialRendering>
+										<controlTitle />
+										<controlType>View</controlType>
+										<iconFile />
+										<helpUrl />
+										<viewOrder>0</viewOrder>
+									</moduleControl>
+									<moduleControl>
+										<controlKey>EditBadge</controlKey>
+										<controlSrc>DesktopModules/DNNGamification/EditBadge.ascx</controlSrc>
+										<supportsPartialRendering>False</supportsPartialRendering>
+										<controlTitle />
+										<controlType>Edit</controlType>
+										<iconFile/>
+										<helpUrl/>
+										<supportsPopUps>True</supportsPopUps>
+										<viewOrder>0</viewOrder>
+									</moduleControl>
+									<moduleControl>
+										<controlKey>EditDefinition</controlKey>
+										<controlSrc>DesktopModules/DNNGamification/EditDefinition.ascx</controlSrc>
+										<supportsPartialRendering>False</supportsPartialRendering>
+										<controlTitle />
+										<controlType>Edit</controlType>
+										<iconFile/>
+										<helpUrl/>
+										<supportsPopUps>True</supportsPopUps>
+										<viewOrder>0</viewOrder>
+									</moduleControl>
+									<moduleControl>
+										<controlKey>EditUser</controlKey>
+										<controlSrc>DesktopModules/DNNGamification/EditUser.ascx</controlSrc>
+										<supportsPartialRendering>False</supportsPartialRendering>
+										<controlTitle />
+										<controlType>Edit</controlType>
+										<iconFile/>
+										<helpUrl/>
+										<supportsPopUps>True</supportsPopUps>
+										<viewOrder>0</viewOrder>
+									</moduleControl>
+								</moduleControls>
+							</moduleDefinition>
+						</moduleDefinitions>
+					</desktopModule>
+				</component>
+				<component type="Assembly">
+					<assemblies>
+						<assembly>
+							<name>DNNGamification.dll</name>
+							<sourceFileName>DNNGamification.dll</sourceFileName>
+							<version>01.00.03</version>
+						</assembly>
+					</assemblies>
+				</component>
+				<component type="Script">
+					<scripts>
+						<basePath>DesktopModules\DNNGamification\Providers\Data\SqlDataProvider</basePath>
+						<script type="Install">
+							<name>01.00.00.SqlDataProvider</name><version>01.00.00</version>
+						</script>
+						<script type="Install">
+							<name>01.00.01.SqlDataProvider</name><version>01.00.01</version>
+						</script>
+						<script type="Install">
+							<name>01.00.02.SqlDataProvider</name><version>01.00.02</version>
+						</script>
+						<script type="Install">
+							<name>01.00.03.SqlDataProvider</name><version>01.00.03</version>
+						</script>
+						<script type="UnInstall">
+							<name>Uninstall.SqlDataProvider</name>
+						</script>
+					</scripts>
+				</component>
+				<component type="ResourceFile">
+					<resourceFiles>
+						<basePath>DesktopModules\DNNGamification</basePath>
+						<resourceFile>
+							<name>Resources.zip</name>
+						</resourceFile>
+					</resourceFiles>
+				</component>
+			</components>
+			<eventMessage>
+				<processorType>DotNetNuke.Entities.Modules.EventMessageProcessor, DotNetNuke</processorType>
+				<processorCommand>UpgradeModule</processorCommand>
+				<attributes>
+					<businessControllerClass>DNNGamification.Components.Controllers.BusinessController</businessControllerClass>
+					<upgradeVersionsList>01.00.03</upgradeVersionsList>
+				</attributes>
+			</eventMessage>
+		</package>
+		<package name="DNNGamification.Leaderboard" type="Module" version="01.00.03">
+			<description>Gamification leaderboard module</description>
+			<iconFile>~/DesktopModules/DNNGamification/Images/logo.png</iconFile>
+			<friendlyName>DNNGamification Leaderboard</friendlyName>
+			<owner>
+				<name>DNNGamification</name>
+				<url>http://www.dnngamification.com</url>
+				<organization>DNNGamification</organization>
+				<email>hello@dnngamification.com</email>
+			</owner>
+			<license src="License.txt"></license>
+			<releaseNotes src="Notes.txt"></releaseNotes>
+			<dependencies>
+				<dependency type="CoreVersion">07.03.00</dependency>
+			</dependencies>
+			<components>
+				<component type="Module">
+					<desktopModule>
+						<moduleName>DNNGamification Leaderboard</moduleName>
+						<foldername>DNNGamification</foldername>
+						<businessControllerClass />
+						<supportedFeatures />
+						<moduleDefinitions>
+							<moduleDefinition>
+								<friendlyName>DNNGamification Leaderboard</friendlyName>
+								<defaultCacheTime>0</defaultCacheTime>
+								<moduleControls>
+									<moduleControl>
+										<controlKey />
+										<controlSrc>DesktopModules/DNNGamification/Leaderboard.ascx</controlSrc>
+										<supportsPartialRendering>False</supportsPartialRendering>
+										<controlTitle />
+										<controlType>View</controlType>
+										<iconFile />
+										<helpUrl />
+										<viewOrder>0</viewOrder>
+									</moduleControl>
+									<moduleControl>
+										<controlKey>Settings</controlKey>
+										<controlSrc>DesktopModules/DNNGamification/LeaderboardSettings.ascx</controlSrc>
+										<supportsPartialRendering>False</supportsPartialRendering>
+										<controlTitle />
+										<controlType>Edit</controlType>
+										<iconFile />
+										<helpUrl />
+										<supportsPopUps>False</supportsPopUps>
+										<viewOrder>0</viewOrder>
+									</moduleControl>
+								</moduleControls>
+							</moduleDefinition>
+						</moduleDefinitions>
+					</desktopModule>
+				</component>
+			</components>
+		</package>
+		<package name="DNNGamification.Profile" type="Module" version="01.00.03">
+			<description>Gamification profile module</description>
+			<iconFile>~/DesktopModules/DNNGamification/Images/logo.png</iconFile>
+			<friendlyName>DNNGamification Profile</friendlyName>
+			<owner>
+				<name>DNNGamification</name>
+				<url>http://www.dnngamification.com</url>
+				<organization>DNNGamification</organization>
+				<email>hello@dnngamification.com</email>
+			</owner>
+			<license src="License.txt"></license>
+			<releaseNotes src="Notes.txt"></releaseNotes>
+			<dependencies>
+				<dependency type="CoreVersion">07.03.00</dependency>
+			</dependencies>
+			<components>
+				<component type="Module">
+					<desktopModule>
+						<moduleName>DNNGamification Profile</moduleName>
+						<foldername>DNNGamification</foldername>
+						<businessControllerClass />
+						<supportedFeatures />
+						<moduleDefinitions>
+							<moduleDefinition>
+								<friendlyName>DNNGamification Profile</friendlyName>
+								<defaultCacheTime>0</defaultCacheTime>
+								<moduleControls>
+									<moduleControl>
+										<controlKey />
+										<controlSrc>DesktopModules/DNNGamification/Profile.ascx</controlSrc>
+										<supportsPartialRendering>False</supportsPartialRendering>
+										<controlTitle />
+										<controlType>View</controlType>
+										<iconFile />
+										<helpUrl />
+										<viewOrder>0</viewOrder>
+									</moduleControl>
+									<moduleControl>
+										<controlKey>Settings</controlKey>
+										<controlSrc>DesktopModules/DNNGamification/ProfileSettings.ascx</controlSrc>
+										<supportsPartialRendering>False</supportsPartialRendering>
+										<controlTitle />
+										<controlType>Edit</controlType>
+										<iconFile />
+										<helpUrl />
+										<supportsPopUps>False</supportsPopUps>
+										<viewOrder>0</viewOrder>
+									</moduleControl>
+								</moduleControls>
+							</moduleDefinition>
+						</moduleDefinitions>
+					</desktopModule>
+				</component>
+			</components>
+		</package>
+	</packages>
+</dotnetnuke>

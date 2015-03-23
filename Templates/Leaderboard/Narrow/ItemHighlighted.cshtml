@@ -1,0 +1,12 @@
+﻿@using DotNetNuke.Web.Razor;
+
+@using DNNGamification;
+@using DNNGamification.Components.Entities;
+@using DNNGamification.Components;
+
+@inherits LeaderboardWebPage
+
+<tr class="dnnGridItem gmfGridItemHighlighted">
+	<td style="text-align: left;">@Model.DisplayName</td>
+	<td>@Model.ActivityPoints</td>
+</tr>

@@ -1,0 +1,6 @@
+﻿<h3>License</h3>
+<div class="License">
+	<a href="http://www.dnngamification.com/license" target="_blank">
+		http://www.dnngamification.com/license
+	</a>
+</div>

@@ -1,0 +1,28 @@
+﻿.gmfLeaderboardSettings * { box-sizing: border-box; }
+
+.gmfLeaderboardSettings input[type="text"], .gmfEditBadge textarea { width: 382px; }
+
+@media (min-width: 768px) {
+    .gmfLeaderboardSettings input[type="text"], .gmfEditBadge textarea { width: 382px; }
+}
+@media (min-width: 992px) {
+    .gmfLeaderboardSettings input[type="text"], .gmfEditBadge textarea { width: 424px; }
+}
+@media (min-width: 1200px) {
+    .gmfLeaderboardSettings input[type="text"], .gmfEditBadge textarea { width: 445px; }
+}
+
+.gmfLeaderboardSettings .dnnCheckbox { margin: 6px 5px 25px 0 !important; }
+
+.gmfLeaderboardSettings { margin: 25px 0; }
+    .gmfLeaderboardSettings .gmfCombobox { width: 382px; }
+
+@media (min-width: 768px) {
+    .gmfLeaderboardSettings .gmfCombobox { width: 382px; }
+}
+@media (min-width: 992px) {
+    .gmfLeaderboardSettings .gmfCombobox { width: 424px; }
+}
+@media (min-width: 1200px) {
+    .gmfLeaderboardSettings .gmfCombobox { width: 445px; }
+}

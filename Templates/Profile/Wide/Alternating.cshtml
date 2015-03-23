@@ -1,0 +1,20 @@
+@using DotNetNuke.Web.Razor;
+
+@using DNNGamification;
+@using DNNGamification.Components.Entities;
+@using DNNGamification.Components;
+
+@inherits ProfileWebPage
+
+<div class="gmfBadge" data-awarded="@Model.CreateDateISO" data-expires="@Model.ExpireISO">
+	<img class="gmfBadgeThumbnail" src="@Model.ImageFileUrl" />
+</div>
+<div class="gmfTooltip">
+	<span class="gmfName">@Model.Name</span><br /><br />
+	<div class="gmfAwarded">
+		@Html.GetLocalizedString("Awarded"): <span>@* date *@</span>
+	</div>
+	<div class="gmfExpires@(!Model.Expire.HasValue ? " gmfHidden" : "")">
+		@Html.GetLocalizedString("Expires"): <span>@* date *@</span>
+	</div>
+</div>

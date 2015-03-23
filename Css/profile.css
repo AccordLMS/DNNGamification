@@ -1,0 +1,14 @@
+﻿.gmfInline { display: inline-block; }
+
+.gmfTooltip * { font-family: "Courier New", Courier, monospace !important; }
+
+.gmfTooltip { display: none; text-align: left; }
+    .gmfTooltip .gmfName { font-weight: bold; font-size: 13pt; }
+
+.gmfProfile * { box-sizing: border-box; }
+
+.gmfProfile { margin: 5px 0 15px; overflow: auto; }
+    .gmfProfile .gmfAchievements { }
+    .gmfProfile .gmfChart { float: left; margin: 0 20px 0 0; }
+
+.gmfHidden { display: none; }

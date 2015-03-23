@@ -1,0 +1,34 @@
+﻿IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_GetScoringUsers]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_GetScoringUsers]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_GetScoringUsers]
+    @PortalId int, @Term nvarchar(256), @StartIndex int, @Length int, @OrderBy nvarchar(128), @OrderByDirection nvarchar(32)
+AS
+BEGIN
+    SELECT COUNT(*) AS TotalCount
+      FROM {databaseOwner}[{objectQualifier}Users] AS u
+     INNER JOIN {databaseOwner}[{objectQualifier}UserPortals] AS p
+        ON u.[UserId] = p.[UserId] AND p.[PortalId] = @PortalId
+LEFT OUTER JOIN {databaseOwner}[{objectQualifier}DNNGamification_UserActivities] AS a
+        ON u.[UserId] = a.[UserId] AND a.[PortalId] = @PortalId
+     WHERE u.[UserName] LIKE @Term
+
+    SELECT q.*
+      FROM
+   (SELECT ROW_NUMBER() OVER (
+  ORDER BY CASE WHEN @OrderBy='UserName' AND @OrderByDirection='ASC'  THEN u.[UserName] END ASC,
+           CASE WHEN @OrderBy='UserName' AND @OrderByDirection='DESC' THEN u.[UserName] END DESC,
+           CASE WHEN @OrderBy='ActivityPoints' AND @OrderByDirection='ASC'  THEN COALESCE(a.[ActivityPoints], 0) END ASC,
+           CASE WHEN @OrderBy='ActivityPoints' AND @OrderByDirection='DESC' THEN COALESCE(a.[ActivityPoints], 0) END DESC) AS [Row],
+           u.[UserId], u.[UserName], COALESCE(a.[ActivityPoints], 0) AS [ActivityPoints]
+      FROM {databaseOwner}[{objectQualifier}Users] AS u
+     INNER JOIN {databaseOwner}[{objectQualifier}UserPortals] AS p
+        ON u.[UserId] = p.[UserId] AND p.[PortalId] = @PortalId
+LEFT OUTER JOIN {databaseOwner}[{objectQualifier}DNNGamification_UserActivities] AS a
+        ON u.[UserId] = a.[UserId] AND a.[PortalId] = @PortalId
+     WHERE u.[UserName] LIKE @Term) AS q 
+     WHERE q.[Row] > @StartIndex AND q.[Row] <= @StartIndex + @Length
+  ORDER BY q.[Row]
+END
+GO

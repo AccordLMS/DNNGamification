@@ -1,0 +1,7 @@
+﻿.gmfLeaderboard * { box-sizing: border-box; }
+
+.gmfLeaderboard { margin: 5px 0 15px; }
+    .gmfLeaderboard .gmfPagination { width: 100%; }
+        .gmfLeaderboard .gmfPagination .gmfNavigation { float: right; }
+            .gmfLeaderboard .gmfPagination .gmfNavigation > div { display: inline-block; }
+        .gmfLeaderboard .gmfPagination .gmfTotal { float: left; }

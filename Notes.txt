@@ -1,0 +1,29 @@
+﻿<h3>DNNGamification module</h3>
+<p class="Contributor">
+    DNNGamification (hello@dnngamification.com)<br/>
+    <a href=http://www.dnngamification.com>http://www.dnngamification.com</a>
+</p>
+<hr/>
+<div class="License">
+    <h3>About the DNNGamification module</h3>
+    <b>Version 01.00.00</b>
+    <ul>
+        <li>Initial package release</li>
+    </ul>
+    <b>Version 01.00.01</b>
+    <ul>
+        <li>Portal filtering is fixed for leaderboard and badge award process</li>
+    </ul>
+    <b>Version 01.00.02</b>
+    <ul>
+        <li>Ad Hoc filter now searching by username</li>
+    </ul>
+    <b>Version 01.00.03</b>
+    <ul>
+        <li>Most recent user badges go first</li>
+        <li>Badge and profile photo thumbnail size increased</li>
+        <li>Profile activity chart improved</li>
+        <li>Some required field notices location fixed</li>
+        <li>Modules spacing reduced</li>
+    </ul>
+</div>

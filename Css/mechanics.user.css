@@ -1,0 +1,43 @@
+﻿.gmfEditUser * { box-sizing: border-box; }
+
+.gmfEditUser input[type="text"], .gmfEditUser textarea { width: 250px; }
+
+@media (min-width: 768px) {
+    .gmfEditUser input[type="text"], .gmfEditUser textarea { width: 250px; }
+}
+@media (min-width: 992px) {
+    .gmfEditUser input[type="text"], .gmfEditUser textarea { width: 424px; }
+}
+@media (min-width: 1200px) {
+    .gmfEditUser input[type="text"], .gmfEditUser textarea { width: 445px; }
+}
+
+.gmfEditUser .gmfBadgeThumbnail, .gmfEditUser .gmfPhotoThumbnail { height: 32px; }
+
+.gmfEditUser { margin: 25px 0; }
+    .gmfEditUser .dnnLabel { width: 28% !important; }
+
+.gmfUserBadges { display: block; width: 500px; overflow: auto; }
+    .gmfUserBadges .gmfTable { margin: 5px 0 0 0; }
+        .gmfUserBadges .gmfTable table { width: 100%; table-layout: fixed; display: table; }
+            .gmfUserBadges .gmfTable table th:last-child { border-right: 0; }
+    .gmfUserBadges .gmfBadges { float: left; margin: 0 15px 18px 0; overflow: hidden; width: 252px; }
+        .gmfUserBadges .gmfBadges .gmfCombobox { width: 252px; }
+
+@media (min-width: 768px) {
+    .gmfUserBadges { width: 520px; }
+        .gmfUserBadges .gmfBadges { width: 250px; }
+            .gmfUserBadges .gmfBadges .gmfCombobox { width: 250px; }
+}
+@media (min-width: 992px) {
+    .gmfUserBadges { width: 550px; }
+
+        .gmfUserBadges .gmfBadges { width: 424px; }
+            .gmfUserBadges .gmfBadges .gmfCombobox { width: 424px; }
+}
+@media (min-width: 1200px) {
+    .gmfUserBadges { width: 600px; }
+
+        .gmfUserBadges .gmfBadges { width: 445px; }
+            .gmfUserBadges .gmfBadges .gmfCombobox { width: 445px; }
+}

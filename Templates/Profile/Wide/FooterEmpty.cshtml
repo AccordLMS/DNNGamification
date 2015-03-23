@@ -1,0 +1,18 @@
+@using DotNetNuke.Web.Razor;
+
+@using DNNGamification;
+@using DNNGamification.Components.Entities;
+@using DNNGamification.Components;
+
+@inherits ProfileWebPage
+
+	@Html.GetLocalizedString("NoBadges.Label")
+</div>
+<h3>@Html.GetLocalizedString("ActivityPoints.Header")</h3>
+@* Activity points section *@
+<div class="gmfActivityPoints dnnClear">
+	<span>@ActivityPoints</span>
+</div>
+<script type="text/javascript">
+	$(document).ready(function () { profile.template.init(); })
+</script>

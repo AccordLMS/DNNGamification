@@ -1,0 +1,28 @@
+﻿.gmfProfileSettings * { box-sizing: border-box; }
+
+.gmfProfileSettings input[type="text"], .gmfEditBadge textarea { width: 382px; }
+
+@media (min-width: 768px) {
+    .gmfProfileSettings input[type="text"], .gmfEditBadge textarea { width: 382px; }
+}
+@media (min-width: 992px) {
+    .gmfProfileSettings input[type="text"], .gmfEditBadge textarea { width: 424px; }
+}
+@media (min-width: 1200px) {
+    .gmfProfileSettings input[type="text"], .gmfEditBadge textarea { width: 445px; }
+}
+
+.gmfProfileSettings .dnnCheckbox { margin: 6px 5px 25px 0 !important; }
+
+.gmfProfileSettings { margin: 25px 0; }
+    .gmfProfileSettings .gmfCombobox { width: 382px; }
+
+@media (min-width: 768px) {
+    .gmfProfileSettings .gmfCombobox { width: 382px; }
+}
+@media (min-width: 992px) {
+    .gmfProfileSettings .gmfCombobox { width: 424px; }
+}
+@media (min-width: 1200px) {
+    .gmfProfileSettings .gmfCombobox { width: 445px; }
+}

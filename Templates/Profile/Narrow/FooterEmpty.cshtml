@@ -1,0 +1,14 @@
+@using DotNetNuke.Web.Razor;
+
+@using DNNGamification;
+@using DNNGamification.Components.Entities;
+@using DNNGamification.Components;
+
+@inherits ProfileWebPage
+
+	@Html.GetLocalizedString("NoBadges.Label")
+</div>
+@* Init script *@
+<script type="text/javascript">
+	$(document).ready(function () { profile.template.init(); })
+</script>

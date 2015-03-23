@@ -1,0 +1,15 @@
+﻿.gmfEditDefinition * { box-sizing: border-box; }
+
+.gmfEditDefinition input[type="text"], .gmfEditDefinition textarea { width: 382px; }
+
+@media (min-width: 768px) {
+    .gmfEditDefinition input[type="text"], .gmfEditDefinition textarea { width: 382px; }
+}
+@media (min-width: 992px) {
+    .gmfEditDefinition input[type="text"], .gmfEditDefinition textarea { width: 424px; }
+}
+@media (min-width: 1200px) {
+    .gmfEditDefinition input[type="text"], .gmfEditDefinition textarea { width: 445px; }
+}
+
+.gmfEditDefinition { margin: 25px 0; }

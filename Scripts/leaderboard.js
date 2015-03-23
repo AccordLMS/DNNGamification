@@ -1,0 +1,4 @@
+﻿var leaderboard =
+{
+    init: function () { }
+}

@@ -1,0 +1,4 @@
+﻿var profile =
+{
+    init: function () { }
+}

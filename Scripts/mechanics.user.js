@@ -1,0 +1,4 @@
+﻿var editUser =
+{
+    init: function () { }
+}

@@ -1,0 +1,28 @@
+﻿IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_GetUserBadgesByUser]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_GetUserBadgesByUser]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_GetUserBadgesByUser]
+    @UserId int, @PortalId int, @Actual bit, @Top int
+AS
+BEGIN
+       SET @Top = COALESCE(@Top,
+   (SELECT COUNT(*) FROM {databaseOwner}[{objectQualifier}DNNGamification_UserBadges]))
+
+   DECLARE @_UtcNow datetime = getutcdate()
+
+    SELECT TOP(@Top)
+           u.*,
+           b.[ImageFileId],
+           b.[Name],
+           b.[Description],
+           b.[ExpirationUnit],
+           b.[ExpirationQuantity],
+           b.[Expirable]
+      FROM {databaseOwner}[{objectQualifier}DNNGamification_UserBadges] AS u
+INNER JOIN {databaseOwner}[{objectQualifier}DNNGamification_Badges] AS b ON u.[BadgeId] = b.[BadgeId]
+     WHERE (@Actual = 0 OR (@Actual = 1 AND (u.[Expire] IS NULL OR u.[Expire] > @_UtcNow)))
+       AND u.[UserId] = @UserId AND u.[PortalId] = @PortalId
+     ORDER BY u.[CreateDate] DESC
+END
+GO
