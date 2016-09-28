@@ -96,6 +96,11 @@ namespace DNNGamification.Components.Controllers
         /// <summary>
         /// Logs user activity (uses transaction).
         /// </summary>
+        void LogUserActivity(string synonym, int desktopModuleId, int userId, int portalId, int portalActivityId);
+
+        /// <summary>
+        /// Logs user activity (uses transaction).
+        /// </summary>
         void LogUserActivity(string synonym, int desktopModuleId, int userId, int portalId);
 
         #endregion

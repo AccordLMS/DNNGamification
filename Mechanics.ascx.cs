@@ -1,4 +1,9 @@
-﻿namespace DNNGamification
+﻿using DotNetNuke.Entities.Modules;
+using DotNetNuke.Services.Localization;
+using DotNetNuke.UI.Skins;
+using DotNetNuke.UI.Skins.Controls;
+
+namespace DNNGamification
 {
     using DNNGamification.Components;
     using DNNGamification.Components.Repositories;

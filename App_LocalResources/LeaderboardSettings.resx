@@ -147,6 +147,12 @@
   <data name="PageSize.Required" xml:space="preserve">
     <value>Page size is required</value>
   </data>
+  <data name="PortalId.Label" xml:space="preserve">
+    <value>Portal</value>
+  </data>
+  <data name="PortalId.Label.Help" xml:space="preserve">
+    <value>Master portal</value>
+  </data>
   <data name="Settings.Title" xml:space="preserve">
     <value>Leaderboard Settings</value>
   </data>

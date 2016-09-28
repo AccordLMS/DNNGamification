@@ -1,4 +1,7 @@
-﻿namespace DNNGamification
+﻿using System.Web;
+using DotNetNuke.Services.Localization;
+
+namespace DNNGamification
 {
     using DNNGamification.Models;
 
@@ -115,7 +118,8 @@
                     friendsOfId = UserInfo.UserID;
                 }
 
-                int total = -1, portalId = PortalId;// define leaderboard total records
+                int total = -1; // define leaderboard total records
+                int portalId = (_settings.PortalId <0 ? PortalId : _settings.PortalId);
 
                 List<ScoringLeaderboard> dataSource = UnitOfWork.UserActivitiesLog.GetLeaderboard
                 (
@@ -177,9 +181,9 @@
             {
                 string[] patterns = { "*.js", "*.css", "*.cshtml" };
 
-                LocalResourceFile = TemplateSourceDirectory + "/App_LocalResources/Leaderboard.resx";
+                LocalResourceFile = TemplateSourceDirectory + "/App_LocalResources/Leaderboard.resx";                
                 {
-                    _settings = Infrastructure.LeaderboardModuleSettings.Load(TabModuleId);
+                    _settings = Infrastructure.LeaderboardModuleSettings.Load(ModuleId);
                 }
 
                 ClientResourceManager.RegisterScript(Page, TemplateSourceDirectory + "/Scripts/leaderboard.js", FileOrder.Js.DefaultPriority + 1);

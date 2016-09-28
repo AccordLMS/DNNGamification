@@ -105,7 +105,8 @@
         {
             try // try to handle LoadSettings
             {
-                _settings = Infrastructure.ProfileModuleSettings.Load(TabModuleId);
+                _settings = Infrastructure.ProfileModuleSettings.Load(ModuleId);
+                SetupPortalsList(cbPortalId, _settings.PortalId);
             }
             catch (Exception ex) // catch exceptions
             {
@@ -122,17 +123,21 @@
             {
                 if (!Page.IsValid) return;
 
-                _settings = Infrastructure.ProfileModuleSettings.Load(TabModuleId);
+                _settings = Infrastructure.ProfileModuleSettings.Load(ModuleId);
                 {
+                    if (cbPortalId.SelectedIndex >= 0)
+                    {
+                        _settings.PortalId = Convert.ToInt32(cbPortalId.SelectedValue);
+                    }
+
                     if (cbTemplateDirectory.SelectedIndex >= 0)
                     {
                         _settings.TemplateDirectory = cbTemplateDirectory.SelectedValue;
                     }
 
                     _settings.ShowChart = chbShowChart.Checked;
-                    {
-                        _settings.Update();
-                    }
+                    
+                    _settings.Update();                    
                 }
             }
             catch (Exception ex) // catch exceptions

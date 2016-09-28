@@ -21,6 +21,10 @@
 
 <div class="dnnForm dnnClear gmfProfileSettings gmfScope">
 	<div class="dnnFormItem">
+		<dnn:Label ResourceKey="PortalId.Label" runat="server" />
+		<dnn:DnnComboBox ID="cbPortalId" CssClass="gmfCombobox" runat="server" />
+	</div>    
+	<div class="dnnFormItem">
 		<dnn:Label ResourceKey="TemplateDirectory.Label" runat="server" />
 		<%-- Control --%>
 		<dnn:DnnComboBox ID="cbTemplateDirectory" CssClass="gmfCombobox" runat="server">

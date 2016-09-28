@@ -1,4 +1,13 @@
-﻿namespace DNNGamification
+﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using DotNetNuke.Entities.Modules;
+using DotNetNuke.Entities.Portals;
+using DotNetNuke.Entities.Users;
+using DotNetNuke.Common;
+using DotNetNuke.Common.Utilities;
+
+
+namespace DNNGamification
 {
     using DotNetNuke.Common;
 
@@ -112,7 +121,8 @@
         {
             try // try to handle LoadSettings
             {
-                _settings = Infrastructure.LeaderboardModuleSettings.Load(TabModuleId);
+                _settings = Infrastructure.LeaderboardModuleSettings.Load(ModuleId);
+                SetupPortalsList(cbPortalId, _settings.PortalId);     
             }
             catch (Exception ex) // catch exceptions
             {
@@ -129,8 +139,14 @@
             {
                 if (!Page.IsValid) return;
 
-                _settings = Infrastructure.LeaderboardModuleSettings.Load(TabModuleId);
+                _settings = Infrastructure.LeaderboardModuleSettings.Load(ModuleId);
                 {
+
+                    if (cbPortalId.SelectedIndex >= 0)
+                    {
+                        _settings.PortalId = Convert.ToInt32(cbPortalId.SelectedValue);
+                    }
+
                     if (cbTemplateDirectory.SelectedIndex >= 0)
                     {
                         _settings.TemplateDirectory = cbTemplateDirectory.SelectedValue;

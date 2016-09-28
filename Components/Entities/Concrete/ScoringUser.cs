@@ -28,12 +28,12 @@ namespace DNNGamification.Components.Entities
         /// <summary>
         /// 
         /// </summary>
-        private List<UserBadge> _userBadges = null;
+        //private List<UserBadge> _userBadges = null;
 
         /// <summary>
         /// 
         /// </summary>
-        private List<Badge> _badges = null;
+        //private List<Badge> _badges = null;
 
         #endregion
 

@@ -1,3 +1,7 @@
+using System.IO;
+using System.Web;
+using DotNetNuke.Services.Localization;
+
 namespace DNNGamification.Components.Controllers
 {
     using DNNGamification.Components;
@@ -47,6 +51,12 @@ namespace DNNGamification.Components.Controllers
 
         #region Private Methods
 
+        private string LocalResourceFile 
+        {
+            get { return HttpRuntime.AppDomainAppVirtualPath + "/DesktopModules/DNNGamification/App_LocalResources/Mechanics.resx"; }
+        }
+       
+
         /// <summary>
         /// Send badge notification.
         /// </summary>
@@ -62,35 +72,35 @@ namespace DNNGamification.Components.Controllers
                 notification.NotificationTypeID = badgeAwarded.NotificationTypeId;
             }
 
-            int portalAdminId = new PortalController().GetPortal(portalId).AdministratorId;
+            var portalAdminId = new PortalController().GetPortal(portalId).AdministratorId;
             {
                 notification.SenderUserID = portalAdminId;
             }
 
-            UserInfo recipient = UserController.GetUserById(portalId, userId);
-
+            var recipient = UserController.GetUserById(portalId, userId);  
             if (recipient == null) // check portal user exists
             {
-                throw new NullReferenceException(String.Format("User with ID \"{0}\" is not found", userId));
+                throw new NullReferenceException(String.Format(Localization.GetString("UserNotFound.Error", LocalResourceFile), userId));
+                //"User with ID \"{0}\" is not found", userId));
             }
 
-            string subject = "Badge awarded"; string body = String.Format("Congratulations! {0} badge awarded.", badgeName);
-            {
-                notification.Subject = subject; notification.Body = body;
-            }
+            var subject = Localization.GetString("NotificationSubject.Text", LocalResourceFile); //"Badge awarded"; 
+            var body = String.Format(Localization.GetString("NotificationBody.Text", LocalResourceFile), badgeName); //"Congratulations! {0} badge awarded.", badgeName);
+            
+            notification.Subject = subject; notification.Body = body;
 
             NotificationsController.Instance.SendNotification
             (
                 notification, portalId, null, new List<UserInfo>() { recipient }
             );
-
+            
             return this;
         }
 
         /// <summary>
         /// 
         /// </summary>
-        private MechanicsController Log(string synonym, int desktopModuleId, int userId, int portalId)
+        private MechanicsController Log(string synonym, int desktopModuleId, int userId, int portalId, int portalActivityId)
         {
             int result = -1;
 
@@ -101,7 +111,7 @@ namespace DNNGamification.Components.Controllers
 
             if (!(activity.Once && _uow.UserActivitiesLog.GetManyBy(userId, portalId).Any(l => l.ActivityId == activity.ActivityId)))
             {
-                result = _uow.UserActivitiesLog.Add(activity.ActivityId, userId, portalId, activity.ActivityPoints);
+                result = _uow.UserActivitiesLog.Add(activity.ActivityId, userId, portalId, portalActivityId, activity.ActivityPoints);
             }
 
             return this;
@@ -110,7 +120,7 @@ namespace DNNGamification.Components.Controllers
         /// <summary>
         /// 
         /// </summary>
-        private MechanicsController Award(int userId, int portalId)
+        private MechanicsController Award(int userId, int portalId, int portalActivityId)
         {
             int result = -1;
 
@@ -146,7 +156,7 @@ namespace DNNGamification.Components.Controllers
                 {
                     result = _uow.UserBadges.Add(badge.BadgeId, userId, portalId);
                     {
-                        Notify(userId, portalId, badge.Name);
+                        Notify(userId, portalActivityId, badge.Name);
                     }
                 }
             }
@@ -275,7 +285,15 @@ namespace DNNGamification.Components.Controllers
         /// </summary>
         public void LogUserActivity(string synonym, int desktopModuleId, int userId, int portalId)
         {
-            Log(synonym, desktopModuleId, userId, portalId).Award(userId, portalId);
+            LogUserActivity(synonym, desktopModuleId, userId, portalId, portalId);
+        }
+
+        /// <summary>
+        /// Logs user activity (uses transaction).
+        /// </summary>
+        public void LogUserActivity(string synonym, int desktopModuleId, int userId, int portalId, int portalActivityId)
+        {
+            Log(synonym, desktopModuleId, userId, portalId, portalActivityId).Award(userId, portalId, portalActivityId);
         }
 
         #endregion

@@ -46,14 +46,14 @@ namespace DNNGamification.Components.Entities
             {
                 using (var uow = new UnitOfWork())
                 {
-                    PortalSettings portal = PortalSettings.Current;
+                    //PortalSettings portal = PortalSettings.Current;
 
-                    if (portal != null) // chek settings
-                    {
-                        return uow.UserBadges.GetManyBy(UserId, portal.PortalId, false);
-                    }
+                    //if (portal != null) // check settings
+                    //{
+                        return uow.UserBadges.GetManyBy(UserId, PortalId, false);
+                    //}
 
-                    return new List<UserBadge>();
+                    //return new List<UserBadge>();
                 }
             }
         }
@@ -72,6 +72,12 @@ namespace DNNGamification.Components.Entities
         /// </summary>
         [DataMember]
         public int UserId { get; set; }
+
+        /// <summary>
+        /// Gets or sets portal ID.
+        /// </summary>
+        [DataMember]
+        public int PortalId { get; set; }
 
         /// <summary>
         /// Gets user profile absolute URL.
@@ -138,6 +144,7 @@ namespace DNNGamification.Components.Entities
             Rank           = Utils.ConvertTo<int>(r["Rank"]);
             Row            = Utils.ConvertTo<int>(r["Row"]);
             UserId         = Utils.ConvertTo<int>(r["UserId"]);
+            PortalId       = Utils.ConvertTo<int>(r["PortalId"]);
             ActivityPoints = Utils.ConvertTo<int>(r["ActivityPoints"]);
             FirstName      = Utils.ConvertTo<string>(r["FirstName"]);
             DisplayName    = Utils.ConvertTo<string>(r["DisplayName"]);

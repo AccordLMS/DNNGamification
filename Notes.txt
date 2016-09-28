@@ -26,4 +26,13 @@
         <li>Some required field notices location fixed</li>
         <li>Modules spacing reduced</li>
     </ul>
+	<b>Version 01.00.04</b>
+	<ul>
+		<li>Leaderbord and Profile: Module Settings instead of TabModuleSettings</li>
+        <li>IPortable for Leaderbord and Profile</li>
+		<li>Leaderbord and Profile: New setting to attach a Portal (Mechanics module)</li>
+		<li>Localized notification message</li>
+		<li>Notification generated for the portals where the user is</li>
+		<li>New PortalActivityId column in the UserActivitiesLog table</li>
+    </ul>
 </div>

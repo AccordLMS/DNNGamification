@@ -1,6 +1,6 @@
 <dotnetnuke type="Package" version="5.0">
 	<packages>
-		<package name="DNNGamification.Mechanics" type="Module" version="01.00.03">
+		<package name="DNNGamification.Mechanics" type="Module" version="01.00.04">
 			<description>Gamification mechanics module</description>
 			<iconFile>~/DesktopModules/DNNGamification/Images/logo.png</iconFile>
 			<friendlyName>DNNGamification Mechanics</friendlyName>
@@ -82,7 +82,7 @@
 						<assembly>
 							<name>DNNGamification.dll</name>
 							<sourceFileName>DNNGamification.dll</sourceFileName>
-							<version>01.00.03</version>
+							<version>01.00.04</version>
 						</assembly>
 					</assemblies>
 				</component>
@@ -120,11 +120,11 @@
 				<processorCommand>UpgradeModule</processorCommand>
 				<attributes>
 					<businessControllerClass>DNNGamification.Components.Controllers.BusinessController</businessControllerClass>
-					<upgradeVersionsList>01.00.03</upgradeVersionsList>
+					<upgradeVersionsList>01.00.04</upgradeVersionsList>
 				</attributes>
 			</eventMessage>
 		</package>
-		<package name="DNNGamification.Leaderboard" type="Module" version="01.00.03">
+		<package name="DNNGamification.Leaderboard" type="Module" version="01.00.04">
 			<description>Gamification leaderboard module</description>
 			<iconFile>~/DesktopModules/DNNGamification/Images/logo.png</iconFile>
 			<friendlyName>DNNGamification Leaderboard</friendlyName>
@@ -144,7 +144,7 @@
 					<desktopModule>
 						<moduleName>DNNGamification Leaderboard</moduleName>
 						<foldername>DNNGamification</foldername>
-						<businessControllerClass />
+            <businessControllerClass>DNNGamification.Components.Controllers.LeaderboardController</businessControllerClass>
 						<supportedFeatures />
 						<moduleDefinitions>
 							<moduleDefinition>
@@ -179,7 +179,7 @@
 				</component>
 			</components>
 		</package>
-		<package name="DNNGamification.Profile" type="Module" version="01.00.03">
+		<package name="DNNGamification.Profile" type="Module" version="01.00.04">
 			<description>Gamification profile module</description>
 			<iconFile>~/DesktopModules/DNNGamification/Images/logo.png</iconFile>
 			<friendlyName>DNNGamification Profile</friendlyName>
@@ -199,7 +199,7 @@
 					<desktopModule>
 						<moduleName>DNNGamification Profile</moduleName>
 						<foldername>DNNGamification</foldername>
-						<businessControllerClass />
+            <businessControllerClass>DNNGamification.Components.Controllers.ProfileController</businessControllerClass>
 						<supportedFeatures />
 						<moduleDefinitions>
 							<moduleDefinition>

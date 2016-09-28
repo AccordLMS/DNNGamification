@@ -159,6 +159,12 @@
   <data name="Image.Header" xml:space="preserve">
     <value>Image</value>
   </data>
+  <data name="NotificationBody.Text" xml:space="preserve">
+    <value>Congratulations! {0} badge awarded.</value>
+  </data>
+  <data name="NotificationSubject.Text" xml:space="preserve">
+    <value>Badge awarded</value>
+  </data>
   <data name="Once.Header" xml:space="preserve">
     <value>Once</value>
   </data>
@@ -170,5 +176,8 @@
   </data>
   <data name="UserName.Header" xml:space="preserve">
     <value>Username</value>
+  </data>
+  <data name="UserNotFound.Error" xml:space="preserve">
+    <value>User with ID '{0}' is not found</value>
   </data>
 </root>

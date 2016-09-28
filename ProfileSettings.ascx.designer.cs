@@ -13,6 +13,15 @@ namespace DNNGamification {
     public partial class ProfileSettings {
         
         /// <summary>
+        /// cbPortalId control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DotNetNuke.Web.UI.WebControls.DnnComboBox cbPortalId;
+        
+        /// <summary>
         /// cbTemplateDirectory control.
         /// </summary>
         /// <remarks>

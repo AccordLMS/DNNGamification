@@ -1,4 +1,6 @@
-﻿namespace DNNGamification.Infrastructure
+﻿using DotNetNuke.Common.Utilities;
+
+namespace DNNGamification.Infrastructure
 {
     using DotNetNuke.Entities.Modules;
 
@@ -27,9 +29,23 @@
         /// </summary>
         private int _moduleId = -1;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        private int _portalId = -1;
+
         #endregion
 
         #region Public Properties
+
+        /// <summary>
+        /// Gets or sets the mapped Portal ID.
+        /// </summary>
+        public int PortalId
+        {
+            get { return _portalId; }
+            set { _portalId = value; }
+        }
 
         /// <summary>
         /// Gets or sets show activity chart.
@@ -66,7 +82,7 @@
         {
             var controller = new ModuleController();
             {
-                return new ProfileModuleSettings(moduleId, controller.GetTabModule(moduleId).TabModuleSettings);
+                return new ProfileModuleSettings(moduleId, controller.GetModule(moduleId, Null.NullInteger, true).ModuleSettings); // GetTabModule(moduleId).TabModuleSettings);
             }
         }
 
@@ -77,14 +93,16 @@
         {
             var controller = new ModuleController();
             {
+                controller.UpdateModuleSetting(_moduleId, "PortalId", PortalId.ToString());
+
                 if (!String.IsNullOrEmpty(TemplateDirectory))
                 {
-                    controller.UpdateTabModuleSetting(_moduleId, "TemplateDirectory", TemplateDirectory.ToString());
+                    controller.UpdateModuleSetting(_moduleId, "TemplateDirectory", TemplateDirectory.ToString());
                 }
 
                 string showChart = ShowChart.ToString();
                 {
-                    controller.UpdateTabModuleSetting(_moduleId, "ShowChart", showChart);
+                    controller.UpdateModuleSetting(_moduleId, "ShowChart", showChart);
                 }
             }
         }
@@ -99,7 +117,12 @@
         protected ProfileModuleSettings(int moduleId, Hashtable settings)
         {
             _moduleId = moduleId; bool showChart = false;
-            
+
+            if (settings.ContainsKey("PortalId"))
+            {
+                PortalId = Convert.ToInt32(settings["PortalId"]);
+            }
+
             if (settings.ContainsKey("ShowChart")) // check show activity chart
             {
                 if (Boolean.TryParse(settings["ShowChart"].ToString(), out showChart)) ShowChart = showChart;
@@ -129,6 +152,11 @@
         /// <summary>
         /// 
         /// </summary>
+        private int _portalId = -1;
+
+        /// <summary>
+        /// 
+        /// </summary>
         private bool _showPaging = false;
 
         /// <summary>
@@ -149,6 +177,15 @@
         #endregion
 
         #region Public Properties
+
+        /// <summary>
+        /// Gets or sets the mapped Portal ID.
+        /// </summary>
+        public int PortalId
+        {
+            get { return _portalId; }
+            set { _portalId = value; }
+        }
 
         /// <summary>
         /// Gets or sets leaderboard mode.
@@ -193,7 +230,7 @@
         {
             var controller = new ModuleController();
             {
-                return new LeaderboardModuleSettings(moduleId, controller.GetTabModule(moduleId).TabModuleSettings);
+                return new LeaderboardModuleSettings(moduleId, controller.GetModule(moduleId, Null.NullInteger, true).ModuleSettings); //controller.GetTabModule(moduleId).TabModuleSettings);
             }
         }
 
@@ -204,24 +241,27 @@
         {
             var controller = new ModuleController();
             {
+
+                controller.UpdateModuleSetting(_moduleId, "PortalId", PortalId.ToString());
+
                 int mode = (int)LeaderboardMode;
                 {
-                    controller.UpdateTabModuleSetting(_moduleId, "LeaderboardMode", mode.ToString());
+                    controller.UpdateModuleSetting(_moduleId, "LeaderboardMode", mode.ToString());
                 }
 
                 string showPaging = ShowPaging.ToString();
                 {
-                    controller.UpdateTabModuleSetting(_moduleId, "ShowPaging", showPaging);
+                    controller.UpdateModuleSetting(_moduleId, "ShowPaging", showPaging);
                 }
 
                 if (!String.IsNullOrEmpty(TemplateDirectory))
                 {
-                    controller.UpdateTabModuleSetting(_moduleId, "TemplateDirectory", TemplateDirectory.ToString());
+                    controller.UpdateModuleSetting(_moduleId, "TemplateDirectory", TemplateDirectory.ToString());
                 }
 
                 string pageSize = PageSize.ToString();
                 {
-                    controller.UpdateTabModuleSetting(_moduleId, "PageSize", pageSize);
+                    controller.UpdateModuleSetting(_moduleId, "PageSize", pageSize);
                 }
             }
         }
@@ -240,6 +280,11 @@
             int pageSize = 0; int leaderboardMode = 0;
 
             bool showPaging = false;
+
+            if (settings.ContainsKey("PortalId"))
+            {
+                PortalId = Convert.ToInt32(settings["PortalId"]);
+            }
 
             if (settings.ContainsKey("TemplateDirectory"))
             {

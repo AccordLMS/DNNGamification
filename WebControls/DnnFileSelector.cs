@@ -61,8 +61,8 @@
         private Panel _pnlFolder;
         private Label _lblFolder;
         private DnnComboBox _cboFolders;
-        private Panel _pnlMessage;
-        private Label _lblMessage;
+        //private Panel _pnlMessage;
+        //private Label _lblMessage;
         private Panel _pnlFile;
         private Label _lblFile;
         private DnnComboBox _cboFiles;

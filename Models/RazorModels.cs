@@ -34,14 +34,14 @@
             {
                 using (var uow = new UnitOfWork())
                 {
-                    PortalSettings portal = PortalSettings.Current;
+                    //PortalSettings portal = PortalSettings.Current;
 
-                    if (portal != null) // chek settings
-                    {
-                        return uow.UserBadges.GetManyBy(UserId, portal.PortalId, false);
-                    }
+                    //if (portal != null) // chek settings
+                    //{
+                        return uow.UserBadges.GetManyBy(UserId, PortalId, false);
+                    //}
 
-                    return new List<UserBadge>();
+                    //return new List<UserBadge>();
                 }
             }
         }
@@ -50,6 +50,11 @@
         /// Gets or sets user ID.
         /// </summary>
         public int UserId { get; set; }
+
+        /// <summary>
+        /// Gets or sets portal ID.
+        /// </summary>
+        public int PortalId { get; set; }
 
         /// <summary>
         /// Gets user profile absolute URL.
@@ -115,6 +120,7 @@
             Rank           = source.Rank;
             Row            = source.Row;
             UserId         = source.UserId;
+            PortalId       = source.PortalId;
             ActivityPoints = source.ActivityPoints;
             FirstName      = source.FirstName;
             DisplayName    = source.DisplayName;

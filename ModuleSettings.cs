@@ -1,4 +1,9 @@
-﻿namespace DNNGamification
+﻿using System.Collections.Generic;
+using DotNetNuke.Entities.Portals;
+using DotNetNuke.Web.UI.WebControls;
+using DotNetNuke.Common.Utilities;
+
+namespace DNNGamification
 {
     using DotNetNuke.Entities;
     using DotNetNuke.Entities.Modules;
@@ -42,6 +47,51 @@
         #endregion
 
         #region Protected Methods
+
+        protected void SetupPortalsList(DnnComboBox cbPortalId, int savedPortalId)
+        {
+            var isHostUser = UserInfo.IsSuperUser;
+            const string cacheKey = "DNNGamificationPortalsCache";
+            List<PortalInfo> portals;
+            var p = DataCache.GetCache(cacheKey);
+            if (p != null)
+                portals = (List<PortalInfo>)p;
+            else
+            {
+                portals = new List<PortalInfo>();
+                var portalController = new PortalController();
+                var moduleController = new ModuleController();
+                var allPortals = portalController.GetPortals();
+                foreach (PortalInfo portal in allPortals)
+                {
+                    // Does the portal have a Mechanics module?
+                    var allMechanicsModules = moduleController.GetModulesByDefinition(portal.PortalID, "DNNGamification Mechanics");
+                    if (allMechanicsModules.Count <= 0) continue;
+                    portals.Add(portal);
+                }
+                DataCache.SetCache(cacheKey, portals, TimeSpan.FromMinutes(20));
+            }
+
+            foreach (var portal in portals)
+            {
+                cbPortalId.Items.Add(new DnnComboBoxItem(string.Format("{0} - {1}", portal.PortalID, portal.PortalName), portal.PortalID.ToString()));
+            }
+
+            // Defaults to the current portal
+            var currentPortal = cbPortalId.Items.FindItemByValue(PortalId.ToString());
+            if (currentPortal != null) currentPortal.Selected = true;
+
+            // Select the saved portal
+            if (savedPortalId >= 0)
+            {
+                var savedPortal = cbPortalId.Items.FindItemByValue(savedPortalId.ToString());
+                if (savedPortal != null) savedPortal.Selected = true;
+            }
+
+            // Disables the portal selection 
+            if (!isHostUser) cbPortalId.Enabled = false;
+        }
+
 
         /// <summary>
         /// OnInit handler.

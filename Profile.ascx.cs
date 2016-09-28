@@ -84,7 +84,7 @@
 
                 LocalResourceFile = TemplateSourceDirectory + "/App_LocalResources/Profile.resx";
                 {
-                    _settings = Infrastructure.ProfileModuleSettings.Load(TabModuleId);
+                    _settings = Infrastructure.ProfileModuleSettings.Load(ModuleId);
                 }
 
                 ClientResourceManager.RegisterScript(Page, TemplateSourceDirectory + "/Scripts/profile.js", FileOrder.Js.DefaultPriority + 1);
@@ -135,7 +135,8 @@
             {
                 if (!IsPostBack)
                 {
-                    int userId = -1, portalId = PortalId;
+                    int userId = -1;
+                    int portalId = (_settings.PortalId < 0 ? PortalId : _settings.PortalId);
 
                     if (!Int32.TryParse(Request.QueryString["UserId"], out userId))
                     {
