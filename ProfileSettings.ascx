@@ -11,25 +11,19 @@
 <%--Register--%>
 <%@ Register TagPrefix="dnn" TagName="Label" Src="~/Controls/LabelControl.ascx" %>
 
-<%--Import--%>
-<%@ Import Namespace="DNNGamification" %>
-<%--Import--%>
-<%@ Import Namespace="DotNetNuke.Services" %>
-<%@ Import Namespace="DotNetNuke.Services.Localization" %>
-<%--Import--%>
-<%@ Import Namespace="System.Data" %>
+
 
 <div class="dnnForm dnnClear gmfProfileSettings gmfScope">
 	<div class="dnnFormItem">
 		<dnn:Label ResourceKey="PortalId.Label" runat="server" />
-		<dnn:DnnComboBox ID="cbPortalId" CssClass="gmfCombobox" runat="server" />
+		<asp:DropDownList ID="ddrPortalId" CssClass="gmfCombobox" runat="server" />
 	</div>    
 	<div class="dnnFormItem">
 		<dnn:Label ResourceKey="TemplateDirectory.Label" runat="server" />
 		<%-- Control --%>
-		<dnn:DnnComboBox ID="cbTemplateDirectory" CssClass="gmfCombobox" runat="server">
+		<asp:DropDownList ID="ddrTemplateDirectory" CssClass="gmfCombobox" runat="server">
 			<%-- Here will be template directories --%>
-		</dnn:DnnComboBox>
+		</asp:DropDownList>
 	</div>
 	<div class="dnnFormItem">
 		<dnn:Label ResourceKey="ShowChart.Label" Visible="true" runat="server" />

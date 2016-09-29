@@ -13,22 +13,22 @@ namespace DNNGamification {
     public partial class ProfileSettings {
         
         /// <summary>
-        /// cbPortalId control.
+        /// ddrPortalId control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DotNetNuke.Web.UI.WebControls.DnnComboBox cbPortalId;
+        protected global::System.Web.UI.WebControls.DropDownList ddrPortalId;
         
         /// <summary>
-        /// cbTemplateDirectory control.
+        /// ddrTemplateDirectory control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DotNetNuke.Web.UI.WebControls.DnnComboBox cbTemplateDirectory;
+        protected global::System.Web.UI.WebControls.DropDownList ddrTemplateDirectory;
         
         /// <summary>
         /// chbShowChart control.

@@ -6,45 +6,34 @@
 <%--Register--%>
 <%@ Register TagPrefix="tlr" Assembly="Telerik.Web.UI" Namespace="Telerik.Web.UI" %>
 <%--Register--%>
-<%@ Register TagPrefix="dnn" Assembly="DotNetNuke" Namespace="DotNetNuke.UI" %>
-<%@ Register TagPrefix="dnn" Assembly="DotNetNuke.Web" Namespace="DotNetNuke.Web.UI.WebControls" %>
-<%--Register--%>
 <%@ Register TagPrefix="dnn" TagName="Label" Src="~/Controls/LabelControl.ascx" %>
-
-<%--Import--%>
-<%@ Import Namespace="DNNGamification" %>
-<%--Import--%>
-<%@ Import Namespace="DotNetNuke.Services" %>
-<%@ Import Namespace="DotNetNuke.Services.Localization" %>
-<%--Import--%>
-<%@ Import Namespace="System.Data" %>
 
 <div class="dnnForm dnnClear gmfLeaderboardSettings gmfScope">
 	<div class="dnnFormItem">
 		<dnn:Label ResourceKey="PortalId.Label" runat="server" />
-		<dnn:DnnComboBox ID="cbPortalId" CssClass="gmfCombobox" Visible="true" runat="server"></dnn:DnnComboBox>
+		<asp:DropDownList ID="ddrPortalId" CssClass="gmfCombobox" Visible="true" runat="server"></asp:DropDownList>
 	</div>      
 	<div class="dnnFormItem">
 		<dnn:Label ResourceKey="TemplateDirectory.Label" runat="server" />
 		<%-- Control --%>
-		<dnn:DnnComboBox ID="cbTemplateDirectory" CssClass="gmfCombobox" Visible="true" runat="server">
+		<asp:DropDownList ID="cbTemplateDirectory" CssClass="gmfCombobox" Visible="true" runat="server">
 			<%-- Here will be template directories --%>
-		</dnn:DnnComboBox>
+		</asp:DropDownList>
 	</div>
 	<div class="dnnFormItem">
 		<dnn:Label ResourceKey="Mode.Label" runat="server" />
 		<%-- Control --%>
-		<dnn:DnnComboBox ID="cbLeaderboardMode" CssClass="gmfCombobox" runat="server">
+		<asp:DropDownList ID="cbLeaderboardMode" CssClass="gmfCombobox" runat="server">
 			<%-- Here will be modes --%>
 			<Items>
-				<dnn:DnnComboBoxItem Value="0" ResourceKey="All.Mode" />
-				<dnn:DnnComboBoxItem Value="1" ResourceKey="GroupMembers.Mode" />
-				<dnn:DnnComboBoxItem Value="2" ResourceKey="UserCurrent.Mode" />
-				<dnn:DnnComboBoxItem Value="3" ResourceKey="UserProfile.Mode" />
-				<dnn:DnnComboBoxItem Value="4" ResourceKey="FriendsCurrent.Mode" />
-				<dnn:DnnComboBoxItem Value="5" ResourceKey="FriendsProfile.Mode" />
+				<asp:ListItem Value="0" ResourceKey="All.Mode" />
+				<asp:ListItem Value="1" ResourceKey="GroupMembers.Mode" />
+				<asp:ListItem Value="2" ResourceKey="UserCurrent.Mode" />
+				<asp:ListItem Value="3" ResourceKey="UserProfile.Mode" />
+				<asp:ListItem Value="4" ResourceKey="FriendsCurrent.Mode" />
+				<asp:ListItem Value="5" ResourceKey="FriendsProfile.Mode" />
 			</Items>
-		</dnn:DnnComboBox>
+		</asp:DropDownList>
 	</div>
 	<div class="dnnFormItem">
 		<dnn:Label ResourceKey="ShowPaging.Label" Visible="true" runat="server" />

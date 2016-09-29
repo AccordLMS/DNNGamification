@@ -48,7 +48,7 @@ namespace DNNGamification
 
         #region Protected Methods
 
-        protected void SetupPortalsList(DnnComboBox cbPortalId, int savedPortalId)
+        protected void SetupPortalsList(DropDownList cbPortalId, int savedPortalId)
         {
             var isHostUser = UserInfo.IsSuperUser;
             const string cacheKey = "DNNGamificationPortalsCache";
@@ -74,17 +74,17 @@ namespace DNNGamification
 
             foreach (var portal in portals)
             {
-                cbPortalId.Items.Add(new DnnComboBoxItem(string.Format("{0} - {1}", portal.PortalID, portal.PortalName), portal.PortalID.ToString()));
+                cbPortalId.Items.Add(new ListItem(string.Format("{0} - {1}", portal.PortalID, portal.PortalName), portal.PortalID.ToString()));
             }
 
             // Defaults to the current portal
-            var currentPortal = cbPortalId.Items.FindItemByValue(PortalId.ToString());
+            var currentPortal = cbPortalId.Items.FindByValue(PortalId.ToString());
             if (currentPortal != null) currentPortal.Selected = true;
 
             // Select the saved portal
             if (savedPortalId >= 0)
             {
-                var savedPortal = cbPortalId.Items.FindItemByValue(savedPortalId.ToString());
+                var savedPortal = cbPortalId.Items.FindByValue(savedPortalId.ToString());
                 if (savedPortal != null) savedPortal.Selected = true;
             }
 

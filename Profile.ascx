@@ -5,19 +5,8 @@
 <%@ Register TagPrefix="gmf" Assembly="DNNGamification" Namespace="DNNGamification.WebControls" %>
 <%--Register--%>
 <%@ Register TagPrefix="tlr" Assembly="Telerik.Web.UI" Namespace="Telerik.Web.UI" %>
-<%--Register--%>
-<%@ Register TagPrefix="dnn" Assembly="DotNetNuke" Namespace="DotNetNuke.UI" %>
-<%@ Register TagPrefix="dnn" Assembly="DotNetNuke.Web" Namespace="DotNetNuke.Web.UI.WebControls" %>
-<%--Register--%>
 <%@ Register TagPrefix="dnn" TagName="Label" Src="~/Controls/LabelControl.ascx" %>
 
-<%--Import--%>
-<%@ Import Namespace="DNNGamification" %>
-<%--Import--%>
-<%@ Import Namespace="DotNetNuke.Services" %>
-<%@ Import Namespace="DotNetNuke.Services.Localization" %>
-<%--Import--%>
-<%@ Import Namespace="System.Data" %>
 
 <div class="gmfProfile gmfScope">
 	<asp:Panel ID="pnlChart" CssClass="gmfChart" runat="server">

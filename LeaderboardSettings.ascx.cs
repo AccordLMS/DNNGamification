@@ -85,7 +85,7 @@ namespace DNNGamification
                     {
                         var info = new DirectoryInfo(directory);
                         {
-                            cbTemplateDirectory.Items.Add(new DnnComboBoxItem(info.Name, info.Name));
+                            cbTemplateDirectory.Items.Add(new ListItem(info.Name, info.Name));
                         }
                     }
 
@@ -122,7 +122,7 @@ namespace DNNGamification
             try // try to handle LoadSettings
             {
                 _settings = Infrastructure.LeaderboardModuleSettings.Load(ModuleId);
-                SetupPortalsList(cbPortalId, _settings.PortalId);     
+                SetupPortalsList(ddrPortalId, _settings.PortalId);     
             }
             catch (Exception ex) // catch exceptions
             {
@@ -142,9 +142,9 @@ namespace DNNGamification
                 _settings = Infrastructure.LeaderboardModuleSettings.Load(ModuleId);
                 {
 
-                    if (cbPortalId.SelectedIndex >= 0)
+                    if (ddrPortalId.SelectedIndex >= 0)
                     {
-                        _settings.PortalId = Convert.ToInt32(cbPortalId.SelectedValue);
+                        _settings.PortalId = Convert.ToInt32(ddrPortalId.SelectedValue);
                     }
 
                     if (cbTemplateDirectory.SelectedIndex >= 0)

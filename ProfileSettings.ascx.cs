@@ -76,13 +76,13 @@
                     {
                         var info = new DirectoryInfo(directory);
                         {
-                            cbTemplateDirectory.Items.Add(new DnnComboBoxItem(info.Name, info.Name));
+                            ddrTemplateDirectory.Items.Add(new ListItem(info.Name, info.Name));
                         }
                     }
 
                     if (!String.IsNullOrEmpty(_settings.TemplateDirectory))
                     {
-                        cbTemplateDirectory.SelectedValue = _settings.TemplateDirectory;
+                        ddrTemplateDirectory.SelectedItem.Value = _settings.TemplateDirectory;
                     }
 
                     chbShowChart.Checked = _settings.ShowChart;
@@ -106,7 +106,7 @@
             try // try to handle LoadSettings
             {
                 _settings = Infrastructure.ProfileModuleSettings.Load(ModuleId);
-                SetupPortalsList(cbPortalId, _settings.PortalId);
+                SetupPortalsList(ddrPortalId, _settings.PortalId);
             }
             catch (Exception ex) // catch exceptions
             {
@@ -125,14 +125,14 @@
 
                 _settings = Infrastructure.ProfileModuleSettings.Load(ModuleId);
                 {
-                    if (cbPortalId.SelectedIndex >= 0)
+                    if (ddrPortalId.SelectedIndex >= 0)
                     {
-                        _settings.PortalId = Convert.ToInt32(cbPortalId.SelectedValue);
+                        _settings.PortalId = Convert.ToInt32(ddrPortalId.SelectedValue);
                     }
 
-                    if (cbTemplateDirectory.SelectedIndex >= 0)
+                    if (ddrTemplateDirectory.SelectedIndex >= 0)
                     {
-                        _settings.TemplateDirectory = cbTemplateDirectory.SelectedValue;
+                        _settings.TemplateDirectory = ddrTemplateDirectory.SelectedValue;
                     }
 
                     _settings.ShowChart = chbShowChart.Checked;
