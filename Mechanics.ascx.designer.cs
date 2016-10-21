@@ -31,13 +31,13 @@ namespace DNNGamification {
         protected global::System.Web.UI.WebControls.PlaceHolder plhAjaxManager;
         
         /// <summary>
-        /// grdActivities control.
+        /// grActivities control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DotNetNuke.Web.UI.WebControls.DnnGrid grdActivities;
+        protected global::System.Web.UI.WebControls.GridView grActivities;
         
         /// <summary>
         /// sbActivities control.
@@ -58,13 +58,13 @@ namespace DNNGamification {
         protected global::System.Web.UI.WebControls.HyperLink hlAddBadge;
         
         /// <summary>
-        /// grdBadges control.
+        /// grBadges control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DotNetNuke.Web.UI.WebControls.DnnGrid grdBadges;
+        protected global::System.Web.UI.WebControls.GridView grBadges;
         
         /// <summary>
         /// sbBadges control.
@@ -112,13 +112,13 @@ namespace DNNGamification {
         protected global::Telerik.Web.UI.RadScriptBlock sbSearch;
         
         /// <summary>
-        /// grdAssignment control.
+        /// grAssignment control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DotNetNuke.Web.UI.WebControls.DnnGrid grdAssignment;
+        protected global::System.Web.UI.WebControls.GridView grAssignment;
         
         /// <summary>
         /// sbAssignment control.

@@ -94,11 +94,11 @@
 					</asp:Repeater>
 				</div>
 				<div class="gmfBadges">
-					<dnn:DnnComboBox ID="cbBadges" CssClass="gmfCombobox" RenderingMode="Full"
-						DataValueField="BadgeId" DataTextField="Name" OnItemDataBound="cbBadges_OnItemDataBound"
+					<asp:DropDownList ID="ddlBadges" CssClass="gmfCombobox" RenderingMode="Full"
+						DataValueField="BadgeId" DataTextField="Name" OnItemDataBound="ddlBadges_OnItemDataBound"
 						runat="server" />
 					<asp:RequiredFieldValidator ID="rqvBadges" Display="Dynamic" Enabled="true"
-						ControlToValidate="cbBadges" ValidationGroup="grpUserBadges" CssClass="dnnFormMessage dnnFormError"
+						ControlToValidate="ddlBadges" ValidationGroup="grpUserBadges" CssClass="dnnFormMessage dnnFormError"
 						ResourceKey="Badges.Required" runat="server" />
 				</div>
 				<div class="dnnClear">

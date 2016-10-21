@@ -139,13 +139,13 @@ namespace DNNGamification {
         protected global::Telerik.Web.UI.RadScriptBlock sbQuantity;
         
         /// <summary>
-        /// cbUnit control.
+        /// ddlUnit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DotNetNuke.Web.UI.WebControls.DnnComboBox cbUnit;
+        protected global::System.Web.UI.WebControls.DropDownList ddlUnit;
         
         /// <summary>
         /// sbUnit control.
@@ -229,13 +229,13 @@ namespace DNNGamification {
         protected global::System.Web.UI.WebControls.Repeater rptBadgeActivities;
         
         /// <summary>
-        /// cbActivities control.
+        /// ddlActivities control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DotNetNuke.Web.UI.WebControls.DnnComboBox cbActivities;
+        protected global::System.Web.UI.WebControls.DropDownList ddlActivities;
         
         /// <summary>
         /// rqvScroingActions control.

@@ -72,19 +72,19 @@
 					</tlr:RadScriptBlock>
 				</div>
 				<div class="gmfUnit">
-					<dnn:DnnComboBox ID="cbUnit" CssClass="gmfCombobox"
+					<asp:DropDownList ID="ddlUnit" CssClass="gmfCombobox"
 						RenderingMode="Full" OnClientSelectedIndexChanged="editBadge.onUnitChanged"
 						runat="server">
 						<Items>
-							<dnn:DnnComboBoxItem Value="0" ResourceKey="ExpirationUnit.Days" />
-							<dnn:DnnComboBoxItem Value="1" ResourceKey="ExpirationUnit.Months" />
-							<dnn:DnnComboBoxItem Value="2" ResourceKey="ExpirationUnit.Years" />
+							<asp:ListItem Value="0" ResourceKey="ExpirationUnit.Days" />
+							<asp:ListItem Value="1" ResourceKey="ExpirationUnit.Months" />
+							<asp:ListItem Value="2" ResourceKey="ExpirationUnit.Years" />
 						</Items>
-					</dnn:DnnComboBox>
+					</asp:DropDownList>
 					<!-- Client ID -->
 					<tlr:RadScriptBlock ID="sbUnit" runat="server">
 						<script type="text/javascript">
-							var cbUnitCID = '<%= cbUnit.ClientID %>';
+							var cbUnitCID = '<%= ddlUnit.ClientID %>';
 						</script>
 					</tlr:RadScriptBlock>
 				</div>
@@ -115,7 +115,7 @@
 		</div>
 		<tlr:RadAjaxPanel ID="apActivities" CssClass="gmfActivities" runat="server">
 			<div class="dnnFormItem">
-				<dnn:Label AssociatedControlID="cbActivities" ResourceKey="Activities.Label" runat="server" />
+				<dnn:Label AssociatedControlID="ddlActivities" ResourceKey="Activities.Label" runat="server" />
 				<!-- Controls and validators -->
 				<div class="gmfEnclose gmfOverflow">
 					<div class="gmfTable">
@@ -164,14 +164,14 @@
 				</div>
 			</div>
 			<div class="dnnFormItem">
-				<dnn:Label AssociatedControlID="cbActivities" runat="server" />
+				<dnn:Label AssociatedControlID="ddlActivities" runat="server" />
 				<!-- Controls and validators -->
 				<div class="gmfEnclose gmfOverflow">
 					<div class="gmfSelector">
-						<dnn:DnnComboBox ID="cbActivities" CssClass="gmfCombobox"
+						<asp:DropDownList ID="ddlActivities" CssClass="gmfCombobox"
 							RenderingMode="Full" DataValueField="ActivityId" DataTextField="DisplayName"
 							runat="server" />
-						<asp:RequiredFieldValidator ID="rqvScroingActions" ControlToValidate="cbActivities"
+						<asp:RequiredFieldValidator ID="rqvScroingActions" ControlToValidate="ddlActivities"
 							ValidationGroup="grpActivities" CssClass="dnnFormMessage dnnFormError" Display="Dynamic" Enabled="true"
 							ResourceKey="Activities.Required" runat="server" />
 					</div>

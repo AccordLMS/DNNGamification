@@ -85,13 +85,13 @@ namespace DNNGamification {
         protected global::System.Web.UI.WebControls.Repeater rptUserBadges;
         
         /// <summary>
-        /// cbBadges control.
+        /// ddlBadges control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DotNetNuke.Web.UI.WebControls.DnnComboBox cbBadges;
+        protected global::System.Web.UI.WebControls.DropDownList ddlBadges;
         
         /// <summary>
         /// rqvBadges control.

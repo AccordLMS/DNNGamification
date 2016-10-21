@@ -47,33 +47,30 @@
 			</li>
 		</ul>
 		<div id="tab-1" class="dnnClear">
-			<dnn:DnnGrid ID="grdActivities" CssClass="dnnGrid" AutoGenerateColumns="false"
-				OnNeedDataSource="grdActivities_OnNeedDataSource" OnItemDataBound="grdActivities_OnItemDataBound"
+			<asp:GridView ID="grActivities" CssClass="dnnGrid" AutoGenerateColumns="false"
+				OnRowDataBound="grActivities_OnDataBound" 
 				AllowSorting="True" AllowPaging="True" AllowCustomPaging="True"
 				PageSize="10" runat="server">
-				<MasterTableView>
+
 					<HeaderStyle HorizontalAlign="Center" Font-Bold="true" />
-					<SortExpressions>
-						<tlr:GridSortExpression FieldName="Name" SortOrder="Ascending" />
-					</SortExpressions>
 					<Columns>
-						<dnn:DnnGridBoundColumn DataField="DesktopModuleName" HeaderText="DesktopModuleName" SortExpression="DesktopModuleName">
+						<asp:BoundField DataField="DesktopModuleName" HeaderText="DesktopModuleName" SortExpression="DesktopModuleName">
 							<ItemStyle HorizontalAlign="Center" />
-						</dnn:DnnGridBoundColumn>
-						<dnn:DnnGridBoundColumn DataField="Name" HeaderText="ActivityName" SortExpression="Name">
+						</asp:BoundField>
+						<asp:BoundField DataField="Name" HeaderText="ActivityName" SortExpression="Name">
 							<ItemStyle HorizontalAlign="Center" />
 							<HeaderStyle Width="50%" />
-						</dnn:DnnGridBoundColumn>
-						<dnn:DnnGridBoundColumn DataField="ActivityPoints" HeaderText="ActivityPoints" SortExpression="ActivityPoints">
+						</asp:BoundField>
+						<asp:BoundField DataField="ActivityPoints" HeaderText="ActivityPoints" SortExpression="ActivityPoints">
 							<ItemStyle HorizontalAlign="Center" />
-						</dnn:DnnGridBoundColumn>
-						<dnn:DnnGridTemplateColumn DataField="Once" HeaderText="Once" SortExpression="Once">
+						</asp:BoundField>
+						<asp:TemplateField HeaderText="Once" SortExpression="Once">
 							<ItemStyle HorizontalAlign="Center" />
 							<ItemTemplate>
 								<%# Utils.ConvertTo<bool>(Eval("Once")) == true ? "Yes" : "No" %>
 							</ItemTemplate>
-						</dnn:DnnGridTemplateColumn>
-						<dnn:DnnGridTemplateColumn HeaderText="Actions">
+						</asp:TemplateField>
+						<asp:TemplateField HeaderText="Actions">
 							<ItemStyle HorizontalAlign="Center" />
 							<HeaderStyle Width="50" />
 							<ItemTemplate>
@@ -81,15 +78,14 @@
 									<dnn:DnnImage IconKey="Edit" AlternateText="Edit" ResourceKey="EditDefinition" runat="server" />
 								</asp:HyperLink>
 							</ItemTemplate>
-						</dnn:DnnGridTemplateColumn>
+						</asp:TemplateField>
 					</Columns>
-				</MasterTableView>
-				<SortingSettings EnableSkinSortStyles="false" />
-			</dnn:DnnGrid>
+
+			</asp:GridView>
 			<!-- Client ID -->
 			<tlr:RadScriptBlock ID="sbActivities" runat="server">
 				<script type="text/javascript">
-					var grdActivitiesCID = '<%= grdActivities.ClientID %>';
+					var grdActivitiesCID = '<%= grActivities.ClientID %>';
 				</script>
 			</tlr:RadScriptBlock>
 		</div>
@@ -99,27 +95,24 @@
 					ResourceKey="AddBadge" runat="server" />
 			</div>
 			<div class="dnnClear">
-				<dnn:DnnGrid ID="grdBadges" CssClass="dnnGrid" AutoGenerateColumns="false"
-					OnNeedDataSource="grdBadges_OnNeedDataSource" OnItemCommand="grdBadges_OnItemCommand" OnItemDataBound="grdBadges_OnItemDataBound"
+				<asp:GridView ID="grBadges" CssClass="dnnGrid" AutoGenerateColumns="false"
+					OnRowDataBound="grBadges_OnItemDataBound" OnRowCommand="grBadges_OnRowCommand"
 					AllowSorting="True" AllowPaging="True" AllowCustomPaging="True"
 					PageSize="10" runat="server">
-					<MasterTableView>
+					
 						<HeaderStyle HorizontalAlign="Center" Font-Bold="true" />
-						<SortExpressions>
-							<tlr:GridSortExpression FieldName="Name" SortOrder="Ascending" />
-						</SortExpressions>
 						<Columns>
-							<dnn:DnnGridTemplateColumn HeaderText="Image">
+							<asp:TemplateField HeaderText="Image">
 								<ItemStyle HorizontalAlign="Center" />
 								<ItemTemplate>
 									<img class="gmfBadgeThumbnail" src="<%# Eval("ImageFileUrl") %>" />
 								</ItemTemplate>
-							</dnn:DnnGridTemplateColumn>
-							<dnn:DnnGridBoundColumn DataField="Name" HeaderText="BadgeName" SortExpression="Name">
+							</asp:TemplateField>
+							<asp:BoundField DataField="Name" HeaderText="BadgeName" SortExpression="Name">
 								<ItemStyle HorizontalAlign="Center" />
 								<HeaderStyle Width="80%" />
-							</dnn:DnnGridBoundColumn>
-							<dnn:DnnGridTemplateColumn HeaderText="Actions">
+							</asp:BoundField>
+							<asp:TemplateField HeaderText="Actions">
 								<ItemStyle HorizontalAlign="Center" />
 								<HeaderStyle Width="50px" />
 								<ItemTemplate>
@@ -127,8 +120,8 @@
 										<dnn:DnnImage IconKey="Edit" AlternateText="Edit" ResourceKey="EditBadge" runat="server" />
 									</asp:HyperLink>
 								</ItemTemplate>
-							</dnn:DnnGridTemplateColumn>
-							<dnn:DnnGridTemplateColumn HeaderText="Actions">
+							</asp:TemplateField>
+							<asp:TemplateField HeaderText="Actions">
 								<ItemStyle HorizontalAlign="Center" />
 								<HeaderStyle Width="50px" />
 								<ItemTemplate>
@@ -138,15 +131,14 @@
 										<dnn:DnnImage IconKey="Delete" AlternateText="Delete" ResourceKey="DeleteBadge" runat="server" />
 									</asp:LinkButton>
 								</ItemTemplate>
-							</dnn:DnnGridTemplateColumn>
+							</asp:TemplateField>
 						</Columns>
-					</MasterTableView>
-					<SortingSettings EnableSkinSortStyles="false" />
-				</dnn:DnnGrid>
+					
+				</asp:GridView>
 				<!-- Client ID -->
 				<tlr:RadScriptBlock ID="sbBadges" runat="server">
 					<script type="text/javascript">
-						var grdBadgesCID = '<%= grdBadges.ClientID %>';
+						var grdBadgesCID = '<%= grBadges.ClientID %>';
 					</script>
 				</tlr:RadScriptBlock>
 			</div>
@@ -167,31 +159,29 @@
 						</tlr:RadScriptBlock>
 					</div>
 					<div class="dnnClear">
-						<dnn:DnnGrid ID="grdAssignment" CssClass="dnnGrid" AutoGenerateColumns="false"
-							PageSize="10" OnNeedDataSource="grdAssignment_OnNeedDataSource" OnItemDataBound="grdAssignment_OnItemDataBound"
+						<asp:GridView ID="grAssignment" CssClass="dnnGrid" AutoGenerateColumns="false"
+							PageSize="10" OnRowDataBound="grdAssignment_OnItemDataBound"
 							AllowSorting="True" AllowPaging="True" AllowCustomPaging="True"
 							Visible="false" runat="server">
-							<MasterTableView>
+
 								<HeaderStyle HorizontalAlign="Center" Font-Bold="true" />
-								<SortExpressions>
-									<tlr:GridSortExpression FieldName="UserName" SortOrder="Ascending" />
-								</SortExpressions>
+
 								<Columns>
-									<dnn:DnnGridTemplateColumn HeaderText="ProfilePhoto">
+									<asp:TemplateField HeaderText="ProfilePhoto">
 										<ItemStyle HorizontalAlign="Center" />
 										<ItemTemplate>
 											<img class="gmfPhotoThumbnail" src="<%# Eval("ProfilePhotoUrl") %>" />
 										</ItemTemplate>
-									</dnn:DnnGridTemplateColumn>
-									<dnn:DnnGridBoundColumn DataField="UserName" HeaderText="UserName" SortExpression="UserName">
+									</asp:TemplateField>
+									<asp:BoundField DataField="UserName" HeaderText="UserName" SortExpression="UserName">
 										<ItemStyle HorizontalAlign="Center" />
 										<HeaderStyle Width="60%" />
-									</dnn:DnnGridBoundColumn>
-									<dnn:DnnGridBoundColumn DataField="ActivityPoints" HeaderText="ActivityPoints" SortExpression="ActivityPoints">
+									</asp:BoundField>
+									<asp:BoundField DataField="ActivityPoints" HeaderText="ActivityPoints" SortExpression="ActivityPoints">
 										<ItemStyle HorizontalAlign="Center" />
 										<HeaderStyle Width="20%" />
-									</dnn:DnnGridBoundColumn>
-									<dnn:DnnGridTemplateColumn HeaderText="Actions">
+									</asp:BoundField>
+									<asp:TemplateField HeaderText="Actions">
 										<ItemStyle HorizontalAlign="Center" />
 										<HeaderStyle Width="50" />
 										<ItemTemplate>
@@ -199,18 +189,17 @@
 												<dnn:DnnImage IconKey="Edit" AlternateText="Edit" ResourceKey="EditUser" runat="server" />
 											</asp:HyperLink>
 										</ItemTemplate>
-									</dnn:DnnGridTemplateColumn>
+									</asp:TemplateField>
 								</Columns>
-							</MasterTableView>
-							<SortingSettings EnableSkinSortStyles="false" />
-						</dnn:DnnGrid>
+
+						</asp:GridView>
 					</div>
 				</div>
 			</tlr:RadAjaxPanel>
 			<!-- Client ID -->
 			<tlr:RadScriptBlock ID="sbAssignment" runat="server">
 				<script type="text/javascript">
-					var grdAssignmentCID = '<%= grdAssignment.ClientID %>';
+					var grdAssignmentCID = '<%= grAssignment.ClientID %>';
 				</script>
 			</tlr:RadScriptBlock>
 		</div>

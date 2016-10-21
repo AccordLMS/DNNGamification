@@ -208,16 +208,16 @@
                 {
                     int badgeId = -1; Badge badge = null;
 
-                    cbUnit.Items.Insert(0, new RadComboBoxItem("Not expire", "-1"));
+                    ddlUnit.Items.Insert(0, new ListItem("Not expire", "-1"));
                     {
                         Session[ROWS_OBJECT] = new List<BadgeActivityRow>();
                     }
 
                     var activities = UnitOfWork.Activities.GetAll();
                     {
-                        cbActivities.DataSource = activities.OrderBy(d => d.DisplayName);
+                        ddlActivities.DataSource = activities.OrderBy(d => d.DisplayName);
                         {
-                            cbActivities.DataBind();
+                            ddlActivities.DataBind();
                         }
                     }
 
@@ -244,7 +244,7 @@
                         {
                             tbQuantity.Text = badge.ExpirationQuantity.ToString();
                             {
-                                int unit = badge.ExpirationUnit.Value; cbUnit.SelectedValue = unit.ToString();
+                                int unit = badge.ExpirationUnit.Value; ddlUnit.SelectedValue = unit.ToString();
                             }
                         }
 
@@ -276,7 +276,7 @@
         /// </summary>
         protected void csvQuantity_ServerValidate(object source, ServerValidateEventArgs args)
         {
-            args.IsValid = cbUnit.SelectedValue == "-1" || (cbUnit.SelectedValue != "-1" && args.Value != "");
+            args.IsValid = ddlUnit.SelectedValue == "-1" || (ddlUnit.SelectedValue != "-1" && args.Value != "");
         }
 
         /// <summary>
@@ -319,7 +319,7 @@
 
                 int id = -1; int activityPoints = 0;
 
-                if (!Int32.TryParse(cbActivities.SelectedValue, out id))
+                if (!Int32.TryParse(ddlActivities.SelectedValue, out id))
                 {
                     throw new Exception(String.Format("{0} value can't be parsed", "cbActivities"));
                 }
@@ -381,7 +381,7 @@
 
                     bool expirable = false;
 
-                    if (Int32.TryParse(tbQuantity.Text, out _quantity) && Int32.TryParse(cbUnit.SelectedValue, out _unit))
+                    if (Int32.TryParse(tbQuantity.Text, out _quantity) && Int32.TryParse(ddlUnit.SelectedValue, out _unit))
                     {
                         quantity = _quantity; unit = _unit == -1 ? null : (int?)_unit;
                         {

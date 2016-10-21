@@ -65,9 +65,9 @@
 
             List<Badge> badges = UnitOfWork.Badges.GetAll(portalId);
             {
-                cbBadges.DataSource = badges.Where(b => !exclude.Contains(b.BadgeId)).OrderBy(d => d.Name);
+                ddlBadges.DataSource = badges.Where(b => !exclude.Contains(b.BadgeId)).OrderBy(d => d.Name);
                 {
-                    cbBadges.DataBind();
+                    ddlBadges.DataBind();
                 }
             }
         }
@@ -257,7 +257,7 @@
         /// </summary>
         protected void rptUserBadges_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-            try // try to handle grdBadges_OnItemDataBound
+            try // try to handle ddlBadges_OnItemDataBound
             {
                 if (e.Item.DataItem == null) return;
 
@@ -273,11 +273,11 @@
         }
 
         /// <summary>
-        /// cbBadges_OnItemDataBound handler.
+        /// ddlBadges_OnItemDataBound handler.
         /// </summary>
-        protected void cbBadges_OnItemDataBound(object sender, RadComboBoxItemEventArgs e)
+        protected void ddlBadges_OnItemDataBound(object sender, RadComboBoxItemEventArgs e)
         {
-            try // try to handle cbBadges_OnItemDataBound
+            try // try to handle ddlBadges_OnItemDataBound
             {
                 e.Item.ImageUrl = (e.Item.DataItem as Badge).ImageFileUrl;
             }
@@ -304,9 +304,9 @@
                 {
                     throw new Exception(String.Format("{0} value can't be parsed", hfId.Value));
                 }
-                if (!Int32.TryParse(cbBadges.SelectedValue, out badgeId))
+                if (!Int32.TryParse(ddlBadges.SelectedValue, out badgeId))
                 {
-                    throw new Exception(String.Format("{0} value can't be parsed", cbBadges.SelectedValue));
+                    throw new Exception(String.Format("{0} value can't be parsed", ddlBadges.SelectedValue));
                 }
 
                 UnitOfWork.UserBadges.Add(badgeId, userId, portalId);

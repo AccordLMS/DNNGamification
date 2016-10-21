@@ -60,12 +60,12 @@
         private Panel _pnlLeftDiv;
         private Panel _pnlFolder;
         private Label _lblFolder;
-        private DnnComboBox _cboFolders;
+        private DropDownList _cboFolders;
         //private Panel _pnlMessage;
         //private Label _lblMessage;
         private Panel _pnlFile;
         private Label _lblFile;
-        private DnnComboBox _cboFiles;
+        private DropDownList _cboFiles;
         private Panel _pnlUpload;
         private HtmlInputFile _txtFile;
         private Panel _pnlButtons;
@@ -313,7 +313,7 @@
                 _pnlFile.Controls.Add(_lblFile);
             }
 
-            _cboFiles = new DnnComboBox { ID = "cboFile", CssClass = "gmfCombobox", DataTextField = "Text", DataValueField = "Value", AutoPostBack = true };
+            _cboFiles = new DropDownList { ID = "cboFile", CssClass = "gmfCombobox", DataTextField = "Text", DataValueField = "Value", AutoPostBack = true };
             {
                 _cboFiles.SelectedIndexChanged += FileChanged;
             }
@@ -342,7 +342,7 @@
                 _pnlFolder.Controls.Add(_lblFolder);
             }
 
-            _cboFolders = new DnnComboBox { ID = "cboFolder", CssClass = "gmfCombobox", AutoPostBack = true };
+            _cboFolders = new DropDownList { ID = "cboFolder", CssClass = "gmfCombobox", AutoPostBack = true };
             {
                 _cboFolders.SelectedIndexChanged += FolderChanged;
             }
@@ -387,7 +387,7 @@
             {
                 string text = (folder.FolderPath == Null.NullString) ? Utilities.GetLocalizedString("PortalRoot") : folder.DisplayPath;
 
-                var folderItem = new RadComboBoxItem { Text = text, Value = folder.FolderPath };
+                var folderItem = new ListItem { Text = text, Value = folder.FolderPath };
                 {
                     _cboFolders.Items.Add(folderItem);
                 }
@@ -631,19 +631,19 @@
                 fileName = FilePath; folderPath = String.Empty;
             }
 
-            if (_cboFolders.Items.FindItemByValue(folderPath) != null)
+            if (_cboFolders.Items.FindByValue(folderPath) != null)
             {
                 _cboFolders.SelectedIndex = -1;
                 {
-                    _cboFolders.Items.FindItemByValue(folderPath).Selected = true;
+                    _cboFolders.Items.FindByValue(folderPath).Selected = true;
                 }
             }
 
             LoadFiles(); _pnlFolder.Visible = (_cboFolders.Items.Count > 1 && ShowFolders);
 
-            if (_cboFiles.Items.FindItemByText(fileName) != null)
+            if (_cboFiles.Items.FindByText(fileName) != null)
             {
-                _cboFiles.Items.FindItemByText(fileName).Selected = true;
+                _cboFiles.Items.FindByText(fileName).Selected = true;
             }
 
             if (_cboFiles.SelectedItem == null || String.IsNullOrEmpty(_cboFiles.SelectedItem.Value))

@@ -100,38 +100,41 @@ namespace DNNGamification
                     }
                 }
 
-                var apAssignment = new AjaxSetting("apAssignment");
+                var apAssignmentas = new AjaxSetting("apAssignment");
                 {
-                    apAssignment.UpdatedControls.Add(new AjaxUpdatedControl("apAssignment", "alpMechanics"));
+                    apAssignmentas.UpdatedControls.Add(new AjaxUpdatedControl("apAssignment", "alpMechanics"));
                     {
-                        _ajaxManager.AjaxSettings.Add(apAssignment);
+                        _ajaxManager.AjaxSettings.Add(apAssignmentas);
                     }
                 }
 
-                var grdActivities = new AjaxSetting("grdActivities");
+                var grActivitiesas = new AjaxSetting("grActivities");
                 {
-                    grdActivities.UpdatedControls.Add(new AjaxUpdatedControl("grdActivities", "alpMechanics"));
+                    grActivitiesas.UpdatedControls.Add(new AjaxUpdatedControl("grActivities", "alpMechanics"));
                     {
-                        _ajaxManager.AjaxSettings.Add(grdActivities);
+                        _ajaxManager.AjaxSettings.Add(grActivitiesas);
                     }
                 }
-                var grdBadges = new AjaxSetting("grdBadges");
+                var grBadgesas = new AjaxSetting("grBadges");
                 {
-                    grdBadges.UpdatedControls.Add(new AjaxUpdatedControl("grdBadges", "alpMechanics"));
+                    grBadgesas.UpdatedControls.Add(new AjaxUpdatedControl("grBadges", "alpMechanics"));
                     {
-                        _ajaxManager.AjaxSettings.Add(grdBadges);
+                        _ajaxManager.AjaxSettings.Add(grBadgesas);
                     }
                 }
-                var grdAssignment = new AjaxSetting("grdAssignment");
+                var grAssignmentas = new AjaxSetting("grAssignment");
                 {
-                    grdAssignment.UpdatedControls.Add(new AjaxUpdatedControl("grdAssignment", "alpMechanics"));
+                    grAssignmentas.UpdatedControls.Add(new AjaxUpdatedControl("grAssignment", "alpMechanics"));
                     {
-                        _ajaxManager.AjaxSettings.Add(grdAssignment);
+                        _ajaxManager.AjaxSettings.Add(grAssignmentas);
                     }
                 }
 
                 if (!IsPostBack)
                 {
+                    LoadgrActivities();
+                    loadgrBadges();
+                    loadgrdAssignment();
                     string returnUrl = HttpContext.Current.Request.RawUrl;
                     {
                         hlAddBadge.NavigateUrl = GetControlUrl("EditBadge", "mid=" + ModuleId, "returnUrl=" + returnUrl);
@@ -147,30 +150,31 @@ namespace DNNGamification
         /// <summary>
         /// grdActivities_OnNeedDataSource handler.
         /// </summary>
-        protected void grdActivities_OnNeedDataSource(object sender, GridNeedDataSourceEventArgs e)
+        protected void LoadgrActivities()
         {
             try // try to handle grdActivities_OnNeedDataSource
             {
                 string orderBy = "Name"; string orderByDirection = "ASC";
 
-                if (grdActivities.MasterTableView != null && grdActivities.MasterTableView.SortExpressions.Count > 0)
-                {
-                    GridSortExpression expression = grdActivities.MasterTableView.SortExpressions[0];
+                //if (grdActivities.MasterTableView != null && grdActivities.MasterTableView.SortExpressions.Count > 0)
+                //{
+                //    GridSortExpression expression = grdActivities.MasterTableView.SortExpressions[0];
 
-                    orderBy = expression.FieldName; // define order by options
-                    {
-                        orderByDirection = expression.SortOrder == GridSortOrder.Descending ? "DESC" : "ASC"; // define sorting
-                    }
-                }
+                //    orderBy = expression.FieldName; // define order by options
+                //    {
+                //        orderByDirection = expression.SortOrder == GridSortOrder.Descending ? "DESC" : "ASC"; // define sorting
+                //    }
+                //}
 
-                int totalCount = -1, start = grdActivities.CurrentPageIndex * grdActivities.PageSize;
+                int totalCount = -1, start = grActivities.PageIndex * grActivities.PageSize;
 
-                grdActivities.DataSource = UnitOfWork.Activities.GetView
+                grActivities.DataSource = UnitOfWork.Activities.GetView
                 (
-                    start, grdActivities.PageSize, orderBy, orderByDirection, out totalCount // get paged view
+                    start, grActivities.PageSize, orderBy, orderByDirection, out totalCount // get paged view
                 );
 
-                grdActivities.VirtualItemCount = totalCount; // bind total count
+                grActivities.VirtualItemCount = totalCount; // bind total count
+                grActivities.DataBind();
             }
             catch (Exception ex) // catch exceptions
             {
@@ -181,15 +185,15 @@ namespace DNNGamification
         /// <summary>
         /// grdActivities_OnItemDataBound handler.
         /// </summary>
-        protected void grdActivities_OnItemDataBound(object sender, GridItemEventArgs e)
+        protected void grActivities_OnDataBound(object sender, GridViewRowEventArgs e)
         {
             try // try to handle grdActivities_OnItemDataBound
             {
-                if (e.Item.GetType() == typeof(GridDataItem))
+                if (e.Row.RowType == DataControlRowType.DataRow)
                 {
-                    HyperLink hlEditDefinition = (e.Item.FindControl("hlEditDefinition") as HyperLink);
+                    HyperLink hlEditDefinition = (e.Row.FindControl("hlEditDefinition") as HyperLink);
 
-                    var definition = (e.Item.DataItem as Activity); string id = definition.KeyID.ToString();
+                    var definition = (e.Row.DataItem as Activity); string id = definition.KeyID.ToString();
 
                     string returnUrl = HttpContext.Current.Request.RawUrl;
                     {
@@ -204,34 +208,35 @@ namespace DNNGamification
         }
 
         /// <summary>
-        /// grdBadges_OnNeedDataSource handler.
+        /// grBadges_OnNeedDataSource handler.
         /// </summary>
-        protected void grdBadges_OnNeedDataSource(object sender, GridNeedDataSourceEventArgs e)
+        protected void loadgrBadges()
         {
-            try // try to handle grdBadges_OnNeedDataSource
+            try // try to handle grBadges_OnNeedDataSource
             {
                 int portalId = PortalId; // define portal ID to get badges
 
                 string orderBy = "Name", orderByDirection = "ASC";
 
-                if (grdBadges.MasterTableView != null && grdBadges.MasterTableView.SortExpressions.Count > 0)
-                {
-                    GridSortExpression expression = grdBadges.MasterTableView.SortExpressions[0];
+                //if (grBadges.MasterTableView != null && grBadges.MasterTableView.SortExpressions.Count > 0)
+                //{
+                //    GridSortExpression expression = grBadges.MasterTableView.SortExpressions[0];
 
-                    orderBy = expression.FieldName; // define order by options
-                    {
-                        orderByDirection = expression.SortOrder == GridSortOrder.Descending ? "DESC" : "ASC";
-                    }
-                }
+                //    orderBy = expression.FieldName; // define order by options
+                //    {
+                //        orderByDirection = expression.SortOrder == GridSortOrder.Descending ? "DESC" : "ASC";
+                //    }
+                //}
 
-                int totalCount = -1, start = grdBadges.CurrentPageIndex * grdBadges.PageSize;
+                int totalCount = -1, start = grBadges.PageIndex * grBadges.PageSize;
 
-                grdBadges.DataSource = UnitOfWork.Badges.GetView
+                grBadges.DataSource = UnitOfWork.Badges.GetView
                 (
-                    portalId, start, grdBadges.PageSize, orderBy, orderByDirection, out totalCount // get paged view
+                    portalId, start, grBadges.PageSize, orderBy, orderByDirection, out totalCount // get paged view
                 );
 
-                grdBadges.VirtualItemCount = totalCount; // bind total count
+                grBadges.VirtualItemCount = totalCount; // bind total count
+                grBadges.DataBind();
             }
             catch (Exception ex) // catch exceptions
             {
@@ -240,17 +245,17 @@ namespace DNNGamification
         }
 
         /// <summary>
-        /// grdBadges_OnItemDataBound handler.
+        /// grBadges_OnItemDataBound handler.
         /// </summary>
-        protected void grdBadges_OnItemDataBound(object sender, GridItemEventArgs e)
+        protected void grBadges_OnItemDataBound(object sender, GridViewRowEventArgs e)
         {
-            try // try to handle grdBadges_OnItemDataBound
+            try // try to handle grBadges_OnItemDataBound
             {
-                if (e.Item.GetType() != typeof(GridDataItem)) return;
+                if (e.Row.RowType != DataControlRowType.DataRow) return;
 
-                HyperLink hlEditBadge = (e.Item.FindControl("hlEditBadge") as HyperLink);
+                HyperLink hlEditBadge = (e.Row.FindControl("hlEditBadge") as HyperLink);
 
-                var badge = (e.Item.DataItem as Badge); string id = badge.KeyID.ToString();
+                var badge = (e.Row.DataItem as Badge); string id = badge.KeyID.ToString();
 
                 string returnUrl = HttpContext.Current.Request.RawUrl;
                 {
@@ -259,7 +264,7 @@ namespace DNNGamification
 
                 string confirm = LocalizeString("Delete.Confirm"); // define text
 
-                LinkButton hlDeleteBadge = (e.Item.FindControl("hlDeleteBadge") as LinkButton);
+                LinkButton hlDeleteBadge = (e.Row.FindControl("hlDeleteBadge") as LinkButton);
                 {
                     ClientAPI.AddButtonConfirm(hlDeleteBadge, confirm);
                 }
@@ -271,17 +276,17 @@ namespace DNNGamification
         }
 
         /// <summary>
-        /// grdBadges_OnItemCommand handler.
+        /// grBadges_OnItemCommand handler.
         /// </summary>
-        protected void grdBadges_OnItemCommand(object sender, GridCommandEventArgs e)
+        protected void grBadges_OnRowCommand(object sender, GridViewCommandEventArgs e)
         {
-            try // try to handle grdBadges_OnItemCommand
+            try // try to handle grBadges_OnItemCommand
             {
                 int badgeId = -1;
 
                 if (Int32.TryParse(e.CommandArgument.ToString(), out badgeId))
                 {
-                    UnitOfWork.Badges.Delete(badgeId); grdBadges.MasterTableView.Rebind(); // rebind grid
+                    UnitOfWork.Badges.Delete(badgeId); grBadges.DataBind(); // rebind grid
                 }
             }
             catch (Exception ex) // catch exceptions
@@ -293,7 +298,7 @@ namespace DNNGamification
         /// <summary>
         /// grdAssignment_OnNeedDataSource handler.
         /// </summary>
-        protected void grdAssignment_OnNeedDataSource(object sender, GridNeedDataSourceEventArgs e)
+        protected void loadgrdAssignment()
         {
             try // try to handle grdAssignment_OnNeedDataSource
             {
@@ -301,24 +306,25 @@ namespace DNNGamification
 
                 string orderBy = "UserName"; string orderByDirection = "ASC";
 
-                if (grdAssignment.MasterTableView != null && grdAssignment.MasterTableView.SortExpressions.Count > 0)
-                {
-                    GridSortExpression expression = grdAssignment.MasterTableView.SortExpressions[0];
+                //if (grdAssignment.MasterTableView != null && grdAssignment.MasterTableView.SortExpressions.Count > 0)
+                //{
+                //    GridSortExpression expression = grdAssignment.MasterTableView.SortExpressions[0];
 
-                    orderBy = expression.FieldName; // define order by options
-                    {
-                        orderByDirection = expression.SortOrder == GridSortOrder.Descending ? "DESC" : "ASC";
-                    }
-                }
+                //    orderBy = expression.FieldName; // define order by options
+                //    {
+                //        orderByDirection = expression.SortOrder == GridSortOrder.Descending ? "DESC" : "ASC";
+                //    }
+                //}
 
-                int totalCount = -1, start = grdAssignment.CurrentPageIndex * grdAssignment.PageSize;
+                int totalCount = -1, start = grAssignment.PageIndex * grAssignment.PageSize;
 
-                grdAssignment.DataSource = UnitOfWork.UserActivitiesLog.GetUsers
+                grAssignment.DataSource = UnitOfWork.UserActivitiesLog.GetUsers
                 (
-                    portalId, txtUserSearch.Text + "%", start, grdAssignment.PageSize, orderBy, orderByDirection, out totalCount
+                    portalId, txtUserSearch.Text + "%", start, grAssignment.PageSize, orderBy, orderByDirection, out totalCount
                 );
 
-                grdAssignment.VirtualItemCount = totalCount; // bind total count
+                grAssignment.VirtualItemCount = totalCount; // bind total count
+                grAssignment.DataBind();
             }
             catch (Exception ex) // catch exceptions
             {
@@ -329,15 +335,15 @@ namespace DNNGamification
         /// <summary>
         /// grdAssignment_OnItemDataBound handler.
         /// </summary>
-        protected void grdAssignment_OnItemDataBound(object sender, GridItemEventArgs e)
+        protected void grdAssignment_OnItemDataBound(object sender, GridViewRowEventArgs e)
         {
             try // try to handle grdAssignment_OnItemDataBound
             {
-                if (e.Item.GetType() == typeof(GridDataItem))
+                if (e.Row.GetType() == typeof(GridDataItem))
                 {
-                    HyperLink hlEditUser = (e.Item.FindControl("hlEditUser") as HyperLink);
+                    HyperLink hlEditUser = (e.Row.FindControl("hlEditUser") as HyperLink);
 
-                    var user = (e.Item.DataItem as ScoringUser); string id = user.KeyID.ToString();
+                    var user = (e.Row.DataItem as ScoringUser); string id = user.KeyID.ToString();
 
                     string returnUrl = HttpContext.Current.Request.RawUrl;
                     {
@@ -352,13 +358,13 @@ namespace DNNGamification
         }
 
         /// <summary>
-        /// btnSearch_Click handler.
+        /// btnSearch_Click handler.g
         /// </summary>
         protected void btnSearch_Click(object sender, EventArgs e)
         {
-            grdAssignment.MasterTableView.Visible = true; grdAssignment.Visible = true;
+            grAssignment.Visible = true; grAssignment.Visible = true;
             {
-                grdAssignment.Rebind(); grdAssignment.MasterTableView.Rebind(); // rebind with term
+                grAssignment.DataBind(); grAssignment.DataBind(); // rebind with term
             }
         }
 
