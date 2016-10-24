@@ -7,3 +7,25 @@
         .gmfMechanics .gmfAssignment .gmfSearchBox { }
             .gmfMechanics .gmfAssignment .gmfSearchBox input[type="text"] { float: left; margin-right: 10px; width: 200px; }
     .gmfMechanics .gmfAddBadge { margin-bottom: 25px; }
+
+    .gmfMechanics table .withOutBorderLeft {
+        width:100%; 
+    }
+    
+    .gmfMechanics table .withOutBorderLeft {
+        border-left:none; 
+    }
+
+    .gmfMechanics table th a {
+        color:#333; 
+        text-decoration:none; 
+    }
+
+    .gmfMechanics table th {
+        text-align:center;
+    }
+
+    .gmfMechanics .dnnSecondaryAction {
+        color:inherit;
+        text-decoration:none; 
+    }

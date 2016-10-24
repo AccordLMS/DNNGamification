@@ -100,7 +100,9 @@
 					AllowSorting="True" AllowPaging="True" AllowCustomPaging="True"
 					PageSize="10" runat="server">
 					
-						<HeaderStyle HorizontalAlign="Center" Font-Bold="true" />
+					<HeaderStyle CssClass="dnnGridHeader" HorizontalAlign="Center" Font-Bold="true" />
+                    <rowstyle CssClass="dnnGridItem" />
+                    <alternatingrowstyle CssClass="dnnGridAltItem" />
 						<Columns>
 							<asp:TemplateField HeaderText="Image">
 								<ItemStyle HorizontalAlign="Center" />
@@ -109,11 +111,11 @@
 								</ItemTemplate>
 							</asp:TemplateField>
 							<asp:BoundField DataField="Name" HeaderText="BadgeName" SortExpression="Name">
-								<ItemStyle HorizontalAlign="Center" />
+								<ItemStyle HorizontalAlign="Center" CssClass="withOutBorderLeft" />
 								<HeaderStyle Width="80%" />
 							</asp:BoundField>
 							<asp:TemplateField HeaderText="Actions">
-								<ItemStyle HorizontalAlign="Center" />
+								<ItemStyle HorizontalAlign="Center" CssClass="withOutBorderLeft" />
 								<HeaderStyle Width="50px" />
 								<ItemTemplate>
 									<asp:HyperLink ID="hlEditBadge" runat="server">
@@ -122,8 +124,8 @@
 								</ItemTemplate>
 							</asp:TemplateField>
 							<asp:TemplateField HeaderText="Actions">
-								<ItemStyle HorizontalAlign="Center" />
-								<HeaderStyle Width="50px" />
+								<ItemStyle HorizontalAlign="Center" CssClass="withOutBorderLeft"/>
+								<HeaderStyle Width="50px"  />
 								<ItemTemplate>
 									<asp:LinkButton ID="hlDeleteBadge" CommandName="DeleteBadge"
 										CommandArgument='<%# Eval("KeyID").ToString() %>' EnableViewState="true"
