@@ -51,7 +51,7 @@
     .gmfFileSelector span { display: block; float: left; text-align: left; margin: 8px 10px 0 0; width: 40px; }
         .gmfFileSelector span.dnnInputFileWrapper { margin: 0 0 25px 50px; max-width: 283px; overflow: hidden; padding: 6px 5px; text-align: center; text-overflow: ellipsis; white-space: nowrap; }
     .gmfFileSelector .gmfButtons { margin: 0 0 0 50px; width: auto; height: 34px; }
-        .gmfFileSelector .gmfButtons .dnnSecondaryAction { margin-right: 10px; }
+        .gmfFileSelector .gmfButtons .dnnSecondaryAction { margin-right: 10px;color:inherit;text-decoration:none;  }
             .gmfFileSelector .gmfButtons .dnnSecondaryAction:last-child { margin-right: 0; }
 
 @media (min-width: 768px) {

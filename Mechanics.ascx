@@ -52,7 +52,9 @@
 				AllowSorting="True" AllowPaging="True" AllowCustomPaging="True"
 				PageSize="10" runat="server">
 
-					<HeaderStyle HorizontalAlign="Center" Font-Bold="true" />
+					<HeaderStyle CssClass="dnnGridHeader" HorizontalAlign="Center" Font-Bold="true" />
+                    <rowstyle CssClass="dnnGridItem" />
+                    <alternatingrowstyle CssClass="dnnGridAltItem" />
 					<Columns>
 						<asp:BoundField DataField="DesktopModuleName" HeaderText="DesktopModuleName" SortExpression="DesktopModuleName">
 							<ItemStyle HorizontalAlign="Center" />
