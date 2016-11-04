@@ -160,20 +160,20 @@ namespace DNNGamification
                     orderBy = "Name";
                 //string orderBy = "Name"; string orderByDirection = "ASC";
 
-                    //if (grdActivities.MasterTableView != null && grdActivities.MasterTableView.SortExpressions.Count > 0)
-                    //{
-                    //    GridSortExpression expression = grdActivities.MasterTableView.SortExpressions[0];
+                //if (grdActivities.MasterTableView != null && grdActivities.MasterTableView.SortExpressions.Count > 0)
+                //{
+                //    GridSortExpression expression = grdActivities.MasterTableView.SortExpressions[0];
 
-                    //    orderBy = expression.FieldName; // define order by options
-                    //    {
-                    //        orderByDirection = expression.SortOrder == GridSortOrder.Descending ? "DESC" : "ASC"; // define sorting
-                    //    }
-                    //}
+                //    orderBy = expression.FieldName; // define order by options
+                //    {
+                //        orderByDirection = expression.SortOrder == GridSortOrder.Descending ? "DESC" : "ASC"; // define sorting
+                //    }
+                //}
 
                 int totalCount = -1, start = grActivities.PageIndex * grActivities.PageSize;
                 string orderByDirection = (sortDirection == SortDirection.Ascending) ? "ASC" : "DESC";
 
-                System.Collections.Generic.List<Activity> activities =  UnitOfWork.Activities.GetView
+                System.Collections.Generic.List<Activity> activities = UnitOfWork.Activities.GetView
                 (
                     start, grActivities.PageSize, orderBy, orderByDirection, out totalCount // get paged view
                 );
@@ -291,7 +291,7 @@ namespace DNNGamification
                 if (String.IsNullOrEmpty(orderByDirection))
                     orderByDirection = "ASC";
                 int portalId = PortalId; // define portal ID to get badges
-                
+
                 //if (grBadges.MasterTableView != null && grBadges.MasterTableView.SortExpressions.Count > 0)
                 //{
                 //    GridSortExpression expression = grBadges.MasterTableView.SortExpressions[0];
@@ -412,6 +412,7 @@ namespace DNNGamification
 
             loadgrBadges(orderBy, orderByDirection);
         }
+
         /// <summary>
         /// grBadges_OnItemCommand handler.
         /// </summary>
@@ -424,6 +425,7 @@ namespace DNNGamification
                 if (Int32.TryParse(e.CommandArgument.ToString(), out badgeId))
                 {
                     UnitOfWork.Badges.Delete(badgeId); grBadges.DataBind(); // rebind grid
+                    loadgrBadges();
                 }
             }
             catch (Exception ex) // catch exceptions
