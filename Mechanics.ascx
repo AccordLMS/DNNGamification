@@ -48,8 +48,8 @@
 		</ul>
 		<div id="tab-1" class="dnnClear">
 			<asp:GridView ID="grActivities" CssClass="dnnGrid" AutoGenerateColumns="false"
-				OnRowDataBound="grActivities_OnDataBound" 
-				AllowSorting="True" AllowPaging="True" AllowCustomPaging="True"
+				OnRowDataBound="grActivities_OnDataBound"  OnSorting="grActivities_Onsorting" OnPageIndexChanging ="grActivities_OnPageIndexChanging"
+                OnRowCreated="grActivities_RowCreated" AllowSorting="True" AllowPaging="True" AllowCustomPaging="True"
 				PageSize="10" runat="server">
 
 					<HeaderStyle CssClass="dnnGridHeader" HorizontalAlign="Center" Font-Bold="true" />
@@ -82,6 +82,11 @@
 							</ItemTemplate>
 						</asp:TemplateField>
 					</Columns>
+                
+                    <pagerstyle 
+                        CssClass="gmffooter"
+                        verticalalign="Bottom"
+                        horizontalalign="Center"/>
 
 			</asp:GridView>
 			<!-- Client ID -->
@@ -98,7 +103,8 @@
 			</div>
 			<div class="dnnClear">
 				<asp:GridView ID="grBadges" CssClass="dnnGrid" AutoGenerateColumns="false"
-					OnRowDataBound="grBadges_OnItemDataBound" OnRowCommand="grBadges_OnRowCommand"
+					OnRowDataBound="grBadges_OnItemDataBound" OnRowCommand="grBadges_OnRowCommand"  OnPageIndexChanging ="grBadges_OnPageIndexChanging"
+                    OnRowCreated="grBadges_RowCreated"   OnSorting="grBadges_Onsorting"
 					AllowSorting="True" AllowPaging="True" AllowCustomPaging="True"
 					PageSize="10" runat="server">
 					
@@ -137,6 +143,10 @@
 								</ItemTemplate>
 							</asp:TemplateField>
 						</Columns>
+                    <pagerstyle 
+                        CssClass="gmffooter"
+                        verticalalign="Bottom"
+                        horizontalalign="Center"/>
 					
 				</asp:GridView>
 				<!-- Client ID -->
@@ -195,6 +205,10 @@
 										</ItemTemplate>
 									</asp:TemplateField>
 								</Columns>
+                        <pagerstyle 
+                            CssClass="gmffooter"
+                            verticalalign="Bottom"
+                            horizontalalign="Center"/>
 
 						</asp:GridView>
 					</div>

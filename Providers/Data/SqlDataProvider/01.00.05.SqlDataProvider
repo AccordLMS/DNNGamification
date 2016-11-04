@@ -1,0 +1,104 @@
+﻿
+
+if Not exists (select * from sys.columns 
+                where Name = N'PortalActivityId' 
+				  and Object_ID = Object_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_UserActivitiesLog]'))
+BEGIN
+	ALTER TABLE {databaseOwner}{objectQualifier}DNNGamification_UserActivitiesLog
+  	        ADD PortalActivityId int NULL
+END
+GO
+
+
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_AddUserActivityLog]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_AddUserActivityLog]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_AddUserActivityLog]
+    @ActivityId int, @UserId int, @PortalId int, @PortalActivityId int, @ActivityPoints int
+AS
+BEGIN
+    DECLARE @_Id int = -1
+
+    DECLARE @_UserActivityId int = (SELECT TOP(1) [UserActivityId]
+       FROM {databaseOwner}[{objectQualifier}DNNGamification_UserActivities]
+      WHERE [UserId] = @UserId AND [PortalId] = @PortalId)
+
+     INSERT INTO {databaseOwner}[{objectQualifier}DNNGamification_UserActivitiesLog] ([ActivityId], [UserId], [PortalId], [PortalActivityId], [ActivityPoints])
+          VALUES (@ActivityId, @UserId, @PortalId, @PortalActivityId, @ActivityPoints)
+
+        SET @_Id = SCOPE_IDENTITY()
+
+IF (@_UserActivityId IS NOT NULL) BEGIN
+     UPDATE {databaseOwner}[{objectQualifier}DNNGamification_UserActivities]
+        SET [ActivityPoints] = ([ActivityPoints] + @ActivityPoints),
+            [LastModifiedDate] = getutcdate()
+      WHERE [UserId] = @UserId AND [PortalId] = @PortalId
+END ELSE BEGIN
+     INSERT INTO {databaseOwner}[{objectQualifier}DNNGamification_UserActivities] ([UserId], [PortalId], [ActivityPoints])
+          VALUES (@UserId, @PortalId, @ActivityPoints)
+END
+
+     SELECT @_Id
+
+END
+GO
+
+
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_GetScoringLeaderboard]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_GetScoringLeaderboard]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_GetScoringLeaderboard]
+    @PortalId int, @UserId int, @GroupId int, @FriendsOfId int, @StartIndex int, @Length int
+AS
+BEGIN
+    SELECT COUNT(*) AS TotalCount
+      FROM
+   (SELECT u.[UserId]
+      FROM {databaseOwner}[{objectQualifier}Users] AS u
+     INNER JOIN {databaseOwner}[{objectQualifier}UserPortals] AS p
+        ON (u.[UserId] = p.[UserId] AND p.[PortalId] = @PortalId)
+LEFT OUTER JOIN {databaseOwner}[{objectQualifier}DNNGamification_UserActivities] AS a
+        ON (u.[UserId] = a.[UserId] AND a.[PortalId] = @PortalId)
+     WHERE (u.[UserId] = COALESCE(@UserId, u.[UserId]))
+       AND ((@FriendsOfId IS NULL OR (@FriendsOfId IS NOT NULL AND u.[UserId] IN
+   (SELECT [RelatedUserID] AS Id FROM {databaseOwner}[{objectQualifier}UserRelationships]
+     WHERE [UserID] = @FriendsOfId AND [RelationshipID] = 1 AND [Status] = 2))
+        OR (@FriendsOfId IS NOT NULL AND u.[UserId] IN
+   (SELECT [UserID] AS Id FROM {databaseOwner}[{objectQualifier}UserRelationships]
+     WHERE [RelatedUserID] = @FriendsOfId AND [RelationshipID] = 1 AND [Status] = 2))))
+       AND (@GroupId IS NULL OR (@GroupId IS NOT NULL AND @GroupId IN
+   (SELECT [RoleID] AS Id FROM {databaseOwner}[{objectQualifier}UserRoles] WHERE [UserID] = u.[UserId])))
+  GROUP BY u.[UserId]) AS q
+
+    SELECT q.*
+      FROM
+   (SELECT DENSE_RANK() OVER (
+  ORDER BY a.[ActivityPoints] DESC) AS [Rank],
+           ROW_NUMBER() OVER (
+  ORDER BY COALESCE(a.[ActivityPoints], 0) DESC) AS [Row],
+           u.[UserId],
+		   @PortalId as [PortalId],
+           COALESCE(a.[ActivityPoints], 0) AS [ActivityPoints],
+           u.[FirstName],
+           u.[DisplayName],
+           u.[LastName]
+      FROM {databaseOwner}[{objectQualifier}Users] AS u
+     INNER JOIN {databaseOwner}[{objectQualifier}UserPortals] AS p
+        ON (u.[UserId] = p.[UserId] AND p.[PortalId] = @PortalId)
+LEFT OUTER JOIN {databaseOwner}[{objectQualifier}DNNGamification_UserActivities] AS a
+        ON (u.[UserId] = a.[UserId] AND a.[PortalId] = @PortalId)
+     WHERE (u.[UserId] = COALESCE(@UserId, u.[UserId]))
+       AND ((@FriendsOfId IS NULL OR (@FriendsOfId IS NOT NULL AND u.[UserId] IN
+   (SELECT [RelatedUserID] AS Id FROM {databaseOwner}[{objectQualifier}UserRelationships]
+     WHERE [UserID] = @FriendsOfId AND [RelationshipID] = 1 AND [Status] = 2))
+        OR (@FriendsOfId IS NOT NULL AND u.[UserId] IN
+   (SELECT [UserID] AS Id FROM {databaseOwner}[{objectQualifier}UserRelationships]
+     WHERE [RelatedUserID] = @FriendsOfId AND [RelationshipID] = 1 AND [Status] = 2))))
+       AND (@GroupId IS NULL OR (@GroupId IS NOT NULL AND @GroupId IN
+   (SELECT [RoleID] as Id FROM {databaseOwner}[{objectQualifier}UserRoles] WHERE [UserID] = u.[UserId])))) AS q
+     WHERE (q.[Row] > @StartIndex AND q.[Row] <= @StartIndex + @Length)
+  ORDER BY q.[Row]
+END
+GO

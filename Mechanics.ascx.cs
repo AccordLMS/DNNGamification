@@ -25,6 +25,8 @@ namespace DNNGamification
     using System.Web.UI.WebControls;
 
     using Telerik.Web.UI;
+    using System.Linq;
+    using System.Linq.Expressions;
 
     /// <summary>
     /// Module view control.
@@ -132,7 +134,7 @@ namespace DNNGamification
 
                 if (!IsPostBack)
                 {
-                    LoadgrActivities();
+                    LoadgrActivities("Name", SortDirection.Ascending);
                     loadgrBadges();
                     loadgrdAssignment();
                     string returnUrl = HttpContext.Current.Request.RawUrl;
@@ -150,28 +152,35 @@ namespace DNNGamification
         /// <summary>
         /// grdActivities_OnNeedDataSource handler.
         /// </summary>
-        protected void LoadgrActivities()
+        protected void LoadgrActivities(string orderBy, SortDirection sortDirection)
         {
             try // try to handle grdActivities_OnNeedDataSource
             {
-                string orderBy = "Name"; string orderByDirection = "ASC";
+                if (String.IsNullOrEmpty(orderBy))
+                    orderBy = "Name";
+                //string orderBy = "Name"; string orderByDirection = "ASC";
 
-                //if (grdActivities.MasterTableView != null && grdActivities.MasterTableView.SortExpressions.Count > 0)
-                //{
-                //    GridSortExpression expression = grdActivities.MasterTableView.SortExpressions[0];
+                    //if (grdActivities.MasterTableView != null && grdActivities.MasterTableView.SortExpressions.Count > 0)
+                    //{
+                    //    GridSortExpression expression = grdActivities.MasterTableView.SortExpressions[0];
 
-                //    orderBy = expression.FieldName; // define order by options
-                //    {
-                //        orderByDirection = expression.SortOrder == GridSortOrder.Descending ? "DESC" : "ASC"; // define sorting
-                //    }
-                //}
+                    //    orderBy = expression.FieldName; // define order by options
+                    //    {
+                    //        orderByDirection = expression.SortOrder == GridSortOrder.Descending ? "DESC" : "ASC"; // define sorting
+                    //    }
+                    //}
 
                 int totalCount = -1, start = grActivities.PageIndex * grActivities.PageSize;
+                string orderByDirection = (sortDirection == SortDirection.Ascending) ? "ASC" : "DESC";
 
-                grActivities.DataSource = UnitOfWork.Activities.GetView
+                System.Collections.Generic.List<Activity> activities =  UnitOfWork.Activities.GetView
                 (
                     start, grActivities.PageSize, orderBy, orderByDirection, out totalCount // get paged view
                 );
+
+                var param = Expression.Parameter(typeof(Activity), orderBy);
+                var sortExpression = Expression.Lambda<Func<Activity, object>>(Expression.Convert(Expression.Property(param, orderBy), typeof(object)), param);
+                grActivities.DataSource = activities;
 
                 grActivities.VirtualItemCount = totalCount; // bind total count
                 grActivities.DataBind();
@@ -179,6 +188,42 @@ namespace DNNGamification
             catch (Exception ex) // catch exceptions
             {
                 Exceptions.ProcessModuleLoadException(this, ex);
+            }
+        }
+
+        protected void grActivities_RowCreated(object sender, GridViewRowEventArgs e)
+        {
+            if (ViewState["CurrentSortFieldActivities" + ModuleId] != null && ViewState["CurrentSortDirectionActivities" + ModuleId] != null)
+            {
+                if (e.Row.RowType == DataControlRowType.Header)
+                {
+                    foreach (TableCell tableCell in e.Row.Cells)
+                    {
+                        if (tableCell.HasControls())
+                        {
+                            LinkButton sortLinkButton = null;
+                            if (tableCell.Controls[0] is LinkButton)
+                            {
+                                sortLinkButton = (LinkButton)tableCell.Controls[0];
+                            }
+
+                            if (sortLinkButton != null && (string)ViewState["CurrentSortFieldActivities" + ModuleId] == sortLinkButton.CommandArgument)
+                            {
+                                Image image = new Image();
+                                if ((string)ViewState["CurrentSortDirectionActivities" + ModuleId] == "ASC")
+                                {
+                                    image.ImageUrl = "./Images/up-icn.png";
+                                }
+                                else
+                                {
+                                    image.ImageUrl = "./Images/down-icn.png";
+                                }
+                                tableCell.Controls.Add(new System.Web.UI.LiteralControl("&nbsp;"));
+                                tableCell.Controls.Add(image);
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -207,17 +252,46 @@ namespace DNNGamification
             }
         }
 
+        protected void grActivities_Onsorting(object sender, GridViewSortEventArgs e)
+        {
+            grActivities.PageIndex = 0;
+            if (e.SortExpression == (string)ViewState["CurrentSortFieldActivities" + ModuleId])
+            {
+                // We are resorting the same column, so flip the sort direction
+                e.SortDirection =
+                    ((string)ViewState["CurrentSortDirectionActivities" + ModuleId] == "ASC") ?
+                    SortDirection.Descending : SortDirection.Ascending;
+            }
+
+            string orderBy = (e.SortExpression.Length == 0) ? "Name" : e.SortExpression;
+            string orderByDirection = (e.SortDirection == SortDirection.Ascending) ? "ASC" : "DESC";
+
+            ViewState["CurrentSortFieldActivities" + ModuleId] = e.SortExpression;
+            ViewState["CurrentSortDirectionActivities" + ModuleId] = orderByDirection;
+
+            LoadgrActivities(orderBy, e.SortDirection);
+        }
+
+        protected void grActivities_OnPageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            grActivities.PageIndex = e.NewPageIndex;
+
+            LoadgrActivities((string)ViewState["CurrentSortFieldActivities" + ModuleId], (((string)ViewState["CurrentSortDirectionActivities" + ModuleId] == "ASC") ? SortDirection.Descending : SortDirection.Ascending));
+        }
+
         /// <summary>
         /// grBadges_OnNeedDataSource handler.
         /// </summary>
-        protected void loadgrBadges()
+        protected void loadgrBadges(string orderBy = "Name", string orderByDirection = "ASC")
         {
             try // try to handle grBadges_OnNeedDataSource
             {
+                if (String.IsNullOrEmpty(orderBy))
+                    orderBy = "Name";
+                if (String.IsNullOrEmpty(orderByDirection))
+                    orderByDirection = "ASC";
                 int portalId = PortalId; // define portal ID to get badges
-
-                string orderBy = "Name", orderByDirection = "ASC";
-
+                
                 //if (grBadges.MasterTableView != null && grBadges.MasterTableView.SortExpressions.Count > 0)
                 //{
                 //    GridSortExpression expression = grBadges.MasterTableView.SortExpressions[0];
@@ -275,6 +349,69 @@ namespace DNNGamification
             }
         }
 
+
+        protected void grBadges_RowCreated(object sender, GridViewRowEventArgs e)
+        {
+            if (ViewState["CurrentSortFieldBadges" + ModuleId] != null && ViewState["CurrentSortDirectionBadges" + ModuleId] != null)
+            {
+                if (e.Row.RowType == DataControlRowType.Header)
+                {
+                    foreach (TableCell tableCell in e.Row.Cells)
+                    {
+                        if (tableCell.HasControls())
+                        {
+                            LinkButton sortLinkButton = null;
+                            if (tableCell.Controls[0] is LinkButton)
+                            {
+                                sortLinkButton = (LinkButton)tableCell.Controls[0];
+                            }
+
+                            if (sortLinkButton != null && (string)ViewState["CurrentSortFieldBadges" + ModuleId] == sortLinkButton.CommandArgument)
+                            {
+                                Image image = new Image();
+                                if ((string)ViewState["CurrentSortDirectionBadges" + ModuleId] == "ASC")
+                                {
+                                    image.ImageUrl = "./Images/up-icn.png";
+                                }
+                                else
+                                {
+                                    image.ImageUrl = "./Images/down-icn.png";
+                                }
+                                tableCell.Controls.Add(new System.Web.UI.LiteralControl("&nbsp;"));
+                                tableCell.Controls.Add(image);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        protected void grBadges_OnPageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            grBadges.PageIndex = e.NewPageIndex;
+
+            loadgrBadges((string)ViewState["CurrentSortFieldActivities" + ModuleId], (string)ViewState["CurrentSortDirectionActivities" + ModuleId]);
+        }
+
+        protected void grBadges_Onsorting(object sender, GridViewSortEventArgs e)
+        {
+            grBadges.PageIndex = 0;
+            if (e.SortExpression == (string)ViewState["CurrentSortFieldBadges" + ModuleId])
+            {
+                // We are resorting the same column, so flip the sort direction
+                e.SortDirection =
+                    ((string)ViewState["CurrentSortDirectionBadges" + ModuleId] == "ASC") ?
+                    SortDirection.Descending : SortDirection.Ascending;
+            }
+
+            string orderBy = (e.SortExpression.Length == 0) ? "Name" : e.SortExpression;
+            string orderByDirection = (e.SortDirection == SortDirection.Ascending) ? "ASC" : "DESC";
+
+            ViewState["CurrentSortFieldBadges" + ModuleId] = e.SortExpression;
+            ViewState["CurrentSortDirectionBadges" + ModuleId] = orderByDirection;
+
+            loadgrBadges(orderBy, orderByDirection);
+        }
         /// <summary>
         /// grBadges_OnItemCommand handler.
         /// </summary>

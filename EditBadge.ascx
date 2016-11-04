@@ -27,11 +27,12 @@
 
 <tlr:RadScriptBlock ID="sbLocals" runat="server">
 	<script type="text/javascript">
-		var locals = ['<%= LocalizeString("Delete.Confirm") %>'];
+	    var locals = ['<%= LocalizeString("Delete.Confirm") %>'];
+
 	</script>
 </tlr:RadScriptBlock>
 
-<tlr:RadAjaxPanel ID="apMain" runat="server">
+<tlr:RadAjaxPanel ID="apMain" runat="server" ClientEvents-OnRequestStart="requestStart" >
 	<div class="dnnForm dnnClear gmfEditBadge gmfScope">
 		<div class="dnnFormItem">
 			<dnn:Label ID="lblName" AssociatedControlID="tbName" ResourceKey="Name.Label" runat="server" />
@@ -98,7 +99,7 @@
 		<div class="dnnFormItem">
 			<dnn:Label ID="lblSelector" AssociatedControlID="fsBadgeThumbnail" ResourceKey="Image.Label" runat="server" />
 			<!-- Controls and validators -->
-			<tlr:RadAjaxPanel ID="apSelector" runat="server">
+			<tlr:RadAjaxPanel ID="apSelector" runat="server" ClientEvents-OnRequestStart="requestStart" >
 				<gmf:DnnFileSelector ID="fsBadgeImage" FileFilter="jpg,png,gif" ShowUpload="true"
 					CssClass="gmfFileSelectorScope" runat="server" />
 			</tlr:RadAjaxPanel>
@@ -109,7 +110,14 @@
 			<!-- Client ID -->
 			<tlr:RadScriptBlock ID="sbBadgeImage" runat="server">
 				<script type="text/javascript">
-					var fsBadgeImageCID = '<%= fsBadgeImage.ClientID %>';
+				    var fsBadgeImageCID = '<%= fsBadgeImage.ClientID %>';
+
+				    function requestStart(sender, eventArgs) {
+				        if (eventArgs.get_eventTarget().indexOf("btnSave") > -1) {
+				            eventArgs.set_enableAjax(false);
+                        }
+				    }
+
 				</script>
 			</tlr:RadScriptBlock>
 		</div>

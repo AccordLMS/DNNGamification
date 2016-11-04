@@ -35,4 +35,9 @@
 		<li>Notification generated for the portals where the user is</li>
 		<li>New PortalActivityId column in the UserActivitiesLog table</li>
     </ul>
+	<b>Version 01.00.05</b>
+	<ul>
+		<li>DNN 8 compatibility</li>
+		<li>Bug fixes</li>
+    </ul>
 </div>

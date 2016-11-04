@@ -85,10 +85,6 @@
       <HintPath>..\..\bin\Newtonsoft.Json.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="SchwabenCode.QuickIO, Version=2.6.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\SchwabenCode.QuickIO.dll</HintPath>
-    </Reference>
     <Reference Include="SgmlReaderDll">
       <HintPath>..\..\bin\SgmlReaderDll.dll</HintPath>
       <Private>False</Private>
@@ -241,6 +237,8 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Css\profile.settings.css" />
+    <Content Include="Images\down-icn.png" />
+    <Content Include="Images\up-icn.png" />
     <Content Include="ProfileSettings.ascx" />
     <Content Include="Css\mechanics.user.css" />
     <Content Include="Css\mechanics.definition.css" />
@@ -383,6 +381,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="web.config" />
+    <Content Include="Providers\Data\SqlDataProvider\01.00.05.SqlDataProvider" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
