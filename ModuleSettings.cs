@@ -51,13 +51,13 @@ namespace DNNGamification
         protected void SetupPortalsList(DropDownList cbPortalId, int savedPortalId)
         {
             var isHostUser = UserInfo.IsSuperUser;
-            const string cacheKey = "DNNGamificationPortalsCache";
+            //const string cacheKey = "DNNGamificationPortalsCache";
             List<PortalInfo> portals;
-            var p = DataCache.GetCache(cacheKey);
-            if (p != null)
-                portals = (List<PortalInfo>)p;
-            else
-            {
+            //var p = DataCache.GetCache(cacheKey);
+            //if (p != null)
+            //    portals = (List<PortalInfo>)p;
+            //else
+            //{
                 portals = new List<PortalInfo>();
                 var portalController = new PortalController();
                 var moduleController = new ModuleController();
@@ -69,8 +69,8 @@ namespace DNNGamification
                     if (allMechanicsModules.Count <= 0) continue;
                     portals.Add(portal);
                 }
-                DataCache.SetCache(cacheKey, portals, TimeSpan.FromMinutes(20));
-            }
+                //DataCache.SetCache(cacheKey, portals, TimeSpan.FromMinutes(20));
+            //}
 
             foreach (var portal in portals)
             {
@@ -85,7 +85,11 @@ namespace DNNGamification
             if (savedPortalId >= 0)
             {
                 var savedPortal = cbPortalId.Items.FindByValue(savedPortalId.ToString());
-                if (savedPortal != null) savedPortal.Selected = true;
+                if (savedPortal != null)
+                {
+                    savedPortal.Selected = true;
+                    if (currentPortal != null) currentPortal.Selected = false;
+                }
             }
 
             // Disables the portal selection 
