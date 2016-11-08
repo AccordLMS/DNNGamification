@@ -40,4 +40,8 @@
 		<li>DNN 8 compatibility</li>
 		<li>Bug fixes</li>
     </ul>
+	<b>Version 01.00.06</b>
+	<ul>
+		<li>Fix problems with child portals</li>
+    </ul>
 </div>
