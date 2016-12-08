@@ -21,7 +21,7 @@
 					</LabelsAppearance>
 					<MajorGridLines Color="#DEDEDE" Width="0" />
 					<MinorGridLines Color="#DEDEDE" Width="0" />
-					<TitleAppearance Position="Center" Text="Last 14 Days">
+					<TitleAppearance Position="Center" Text="Last XX Days">
 						<TextStyle FontSize="14" Color="#999999" Italic="false" Bold="false" />
 					</TitleAppearance>
 				</XAxis>
@@ -31,12 +31,12 @@
 					</LabelsAppearance>
 					<MajorGridLines Color="#DEDEDE" Width="1" />
 					<MinorGridLines Color="#DEDEDE" Width="0" />
-					<TitleAppearance Position="Center" Text="Activity Points">
+					<TitleAppearance Position="Center" Text="Activity ">
 						<TextStyle FontSize="14" Color="#999999" Italic="false" Bold="false" />
 					</TitleAppearance>
 				</YAxis>
 				<Series>
-					<tlr:LineSeries Name="Last 14 Days" DataFieldY="YAxis">
+					<tlr:LineSeries Name="Last XX Days" DataFieldY="YAxis">
 						<Appearance><FillStyle BackgroundColor="#5ab7de" /></Appearance>
 						<TooltipsAppearance Visible="false" />
 						<MarkersAppearance MarkersType="Square" BackgroundColor="White" Size="8" BorderColor="#5ab7de" BorderWidth="2" Visible="false" />

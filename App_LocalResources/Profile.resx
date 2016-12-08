@@ -129,6 +129,15 @@
   <data name="Badges.Header" xml:space="preserve">
     <value>Badges</value>
   </data>
+  <data name="ChartActivitiesSerie.Text" xml:space="preserve">
+    <value>Last 14 Days</value>
+  </data>
+  <data name="ChartActivitiesXAxis.Text" xml:space="preserve">
+    <value>Last 14 Days</value>
+  </data>
+  <data name="ChartActivitiesYAxis.Text" xml:space="preserve">
+    <value>Activity Points</value>
+  </data>
   <data name="Expires.Text" xml:space="preserve">
     <value>Expires</value>
   </data>

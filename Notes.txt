@@ -46,7 +46,7 @@
     </ul>
 	<b>Version 01.00.07</b>
 	<ul>
-		<li>Fix problems with resx</li>
 		<li>Fix problems in Ad Hoc Assignment</li>
+		<li>Localize Chart and Grids</li>
     </ul>
 </div>

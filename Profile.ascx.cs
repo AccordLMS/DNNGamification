@@ -16,6 +16,7 @@
     using System;
     using System.Linq;
     using System.IO;
+    using DotNetNuke.Services.Localization;
 
     /// <summary>
     /// Module view control.
@@ -150,8 +151,16 @@
 
                     DateTime now = DateTime.Now.Date;
 
-                    pnlChart.Visible = _settings.ShowChart; if (_settings.ShowChart)
+                    pnlChart.Visible = _settings.ShowChart;
+                    if (_settings.ShowChart)
                     {
+                        if (hcActivities.PlotArea.Series.Count > 0)
+                        { 
+                            hcActivities.PlotArea.Series[0].Name = Localization.GetString("ChartActivitiesSerie.Text", LocalResourceFile);
+                        }
+                        hcActivities.PlotArea.XAxis.TitleAppearance.Text = Localization.GetString("ChartActivitiesXAxis.Text", LocalResourceFile);
+                        hcActivities.PlotArea.YAxis.TitleAppearance.Text = Localization.GetString("ChartActivitiesYAxis.Text", LocalResourceFile);
+
                         pnlAchievements.CssClass += " gmfInline";
 
                         DateTime start = now.AddDays(-13), end = now.AddDays(1).AddTicks(-1);
