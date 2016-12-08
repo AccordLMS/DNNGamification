@@ -67,12 +67,18 @@
 							<ItemStyle HorizontalAlign="Center" />
 						</asp:BoundField>
 						<asp:TemplateField HeaderText="Once" SortExpression="Once">
+                                <HeaderTemplate>
+                                    <asp:Label ID="lblActivitiesOnce" runat="server"></asp:Label>
+                                </HeaderTemplate>
 							<ItemStyle HorizontalAlign="Center" />
 							<ItemTemplate>
 								<%# Utils.ConvertTo<bool>(Eval("Once")) == true ? "Yes" : "No" %>
 							</ItemTemplate>
 						</asp:TemplateField>
 						<asp:TemplateField HeaderText="Actions">
+                                <HeaderTemplate>
+                                    <asp:Label ID="lblActivitiesActions" runat="server"></asp:Label>
+                                </HeaderTemplate>
 							<ItemStyle HorizontalAlign="Center" />
 							<HeaderStyle Width="50" />
 							<ItemTemplate>
@@ -103,7 +109,8 @@
 			</div>
 			<div class="dnnClear">
 				<asp:GridView ID="grBadges" CssClass="dnnGrid" AutoGenerateColumns="false"
-					OnRowDataBound="grBadges_OnItemDataBound" OnRowCommand="grBadges_OnRowCommand"  OnPageIndexChanging ="grBadges_OnPageIndexChanging"
+					OnRowDataBound="grBadges_OnItemDataBound" OnRowCommand="grBadges_OnRowCommand"  
+                    OnPageIndexChanging ="grBadges_OnPageIndexChanging"
                     OnRowCreated="grBadges_RowCreated"   OnSorting="grBadges_Onsorting"
 					AllowSorting="True" AllowPaging="True" AllowCustomPaging="True"
 					PageSize="10" runat="server">
@@ -113,6 +120,9 @@
                     <alternatingrowstyle CssClass="dnnGridAltItem" />
 						<Columns>
 							<asp:TemplateField HeaderText="Image">
+                                <HeaderTemplate>
+                                    <asp:Label ID="lblBadgesImage" runat="server"></asp:Label>
+                                </HeaderTemplate>
 								<ItemStyle HorizontalAlign="Center" />
 								<ItemTemplate>
 									<img class="gmfBadgeThumbnail" src="<%# Eval("ImageFileUrl") %>" />
@@ -123,18 +133,15 @@
 								<HeaderStyle Width="80%" />
 							</asp:BoundField>
 							<asp:TemplateField HeaderText="Actions">
+                                <HeaderTemplate>
+                                    <asp:Label ID="lblBadgesActions1" runat="server"></asp:Label>
+                                </HeaderTemplate>
 								<ItemStyle HorizontalAlign="Center" CssClass="withOutBorderLeft" />
 								<HeaderStyle Width="50px" />
 								<ItemTemplate>
 									<asp:HyperLink ID="hlEditBadge" runat="server">
 										<dnn:DnnImage IconKey="Edit" AlternateText="Edit" ResourceKey="EditBadge" runat="server" />
-									</asp:HyperLink>
-								</ItemTemplate>
-							</asp:TemplateField>
-							<asp:TemplateField HeaderText="Actions">
-								<ItemStyle HorizontalAlign="Center" CssClass="withOutBorderLeft"/>
-								<HeaderStyle Width="50px"  />
-								<ItemTemplate>
+									</asp:HyperLink>	&nbsp;	
 									<asp:LinkButton ID="hlDeleteBadge" CommandName="DeleteBadge"
 										CommandArgument='<%# Eval("KeyID").ToString() %>' EnableViewState="true"
 										runat="server">
@@ -174,15 +181,22 @@
 					</div>
 					<div class="dnnClear">
 						<asp:GridView ID="grAssignment" CssClass="dnnGrid" AutoGenerateColumns="false"
-							PageSize="10" OnRowDataBound="grdAssignment_OnItemDataBound"
-							AllowSorting="True" AllowPaging="True" AllowCustomPaging="True"
-							Visible="false" runat="server">
-
-								<HeaderStyle HorizontalAlign="Center" Font-Bold="true" />
+							OnRowDataBound="grdAssignment_OnItemDataBound"
+                        OnPageIndexChanging ="grdAssignment_OnPageIndexChanging"
+                        OnRowCreated="grdAssignment_RowCreated"   OnSorting="grdAssignment_Onsorting"
+					        AllowSorting="True" AllowPaging="True" AllowCustomPaging="True"
+					        PageSize="10" runat="server">
+					
+					        <HeaderStyle CssClass="dnnGridHeader" HorizontalAlign="Center" Font-Bold="true" />
+                            <rowstyle CssClass="dnnGridItem" />
+                            <alternatingrowstyle CssClass="dnnGridAltItem" />
 
 								<Columns>
 									<asp:TemplateField HeaderText="ProfilePhoto">
 										<ItemStyle HorizontalAlign="Center" />
+                                        <HeaderTemplate>
+                                            <asp:Label ID="lblProfilePhoto" runat="server"></asp:Label>
+                                        </HeaderTemplate>
 										<ItemTemplate>
 											<img class="gmfPhotoThumbnail" src="<%# Eval("ProfilePhotoUrl") %>" />
 										</ItemTemplate>
@@ -196,6 +210,9 @@
 										<HeaderStyle Width="20%" />
 									</asp:BoundField>
 									<asp:TemplateField HeaderText="Actions">
+                                        <HeaderTemplate>
+                                            <asp:Label ID="lblActions" runat="server"></asp:Label>
+                                        </HeaderTemplate>
 										<ItemStyle HorizontalAlign="Center" />
 										<HeaderStyle Width="50" />
 										<ItemTemplate>
@@ -205,10 +222,10 @@
 										</ItemTemplate>
 									</asp:TemplateField>
 								</Columns>
-                        <pagerstyle 
-                            CssClass="gmffooter"
-                            verticalalign="Bottom"
-                            horizontalalign="Center"/>
+                            <pagerstyle 
+                                CssClass="gmffooter"
+                                verticalalign="Bottom"
+                                horizontalalign="Center"/>
 
 						</asp:GridView>
 					</div>

@@ -136,7 +136,7 @@ namespace DNNGamification
                 {
                     LoadgrActivities("Name", SortDirection.Ascending);
                     loadgrBadges();
-                    loadgrdAssignment();
+                    //loadgrdAssignment("UserName", SortDirection.Ascending);
                     string returnUrl = HttpContext.Current.Request.RawUrl;
                     {
                         hlAddBadge.NavigateUrl = GetControlUrl("EditBadge", "mid=" + ModuleId, "returnUrl=" + returnUrl);
@@ -193,20 +193,35 @@ namespace DNNGamification
 
         protected void grActivities_RowCreated(object sender, GridViewRowEventArgs e)
         {
-            if (ViewState["CurrentSortFieldActivities" + ModuleId] != null && ViewState["CurrentSortDirectionActivities" + ModuleId] != null)
+            if (e.Row.RowType == DataControlRowType.Header)
             {
-                if (e.Row.RowType == DataControlRowType.Header)
+                ((Label)e.Row.FindControl("lblActivitiesOnce")).Text = Localization.GetString("Once.Header", LocalResourceFile);
+                ((Label)e.Row.FindControl("lblActivitiesActions")).Text = Localization.GetString("Actions.Header", LocalResourceFile);
+                foreach (TableCell tableCell in e.Row.Cells)
                 {
-                    foreach (TableCell tableCell in e.Row.Cells)
+                    if (tableCell.HasControls())
                     {
-                        if (tableCell.HasControls())
+                        LinkButton sortLinkButton = null;
+                        if (tableCell.Controls[0] is LinkButton)
                         {
-                            LinkButton sortLinkButton = null;
-                            if (tableCell.Controls[0] is LinkButton)
-                            {
-                                sortLinkButton = (LinkButton)tableCell.Controls[0];
-                            }
+                            sortLinkButton = (LinkButton)tableCell.Controls[0];
 
+                            if (sortLinkButton.Text == "DesktopModuleName")
+                            {
+                                sortLinkButton.Text = Localization.GetString("DesktopModuleName.Header", LocalResourceFile);
+                            }
+                            else if (sortLinkButton.Text == "ActivityName")
+                            {
+                                sortLinkButton.Text = Localization.GetString("ActivityName.Header", LocalResourceFile);
+                            }
+                            else if (sortLinkButton.Text == "ActivityPoints")
+                            {
+                                sortLinkButton.Text = Localization.GetString("ActivityPoints.Header", LocalResourceFile);
+                            }
+                        }
+
+                        if (ViewState["CurrentSortFieldActivities" + ModuleId] != null && ViewState["CurrentSortDirectionActivities" + ModuleId] != null)
+                        {
                             if (sortLinkButton != null && (string)ViewState["CurrentSortFieldActivities" + ModuleId] == sortLinkButton.CommandArgument)
                             {
                                 Image image = new Image();
@@ -290,7 +305,6 @@ namespace DNNGamification
                     orderBy = "Name";
                 if (String.IsNullOrEmpty(orderByDirection))
                     orderByDirection = "ASC";
-                int portalId = PortalId; // define portal ID to get badges
 
                 //if (grBadges.MasterTableView != null && grBadges.MasterTableView.SortExpressions.Count > 0)
                 //{
@@ -306,7 +320,7 @@ namespace DNNGamification
 
                 grBadges.DataSource = UnitOfWork.Badges.GetView
                 (
-                    portalId, start, grBadges.PageSize, orderBy, orderByDirection, out totalCount // get paged view
+                    PortalId, start, grBadges.PageSize, orderBy, orderByDirection, out totalCount // get paged view
                 );
 
                 grBadges.VirtualItemCount = totalCount; // bind total count
@@ -352,20 +366,30 @@ namespace DNNGamification
 
         protected void grBadges_RowCreated(object sender, GridViewRowEventArgs e)
         {
-            if (ViewState["CurrentSortFieldBadges" + ModuleId] != null && ViewState["CurrentSortDirectionBadges" + ModuleId] != null)
+            if (e.Row.RowType == DataControlRowType.Header)
             {
-                if (e.Row.RowType == DataControlRowType.Header)
-                {
-                    foreach (TableCell tableCell in e.Row.Cells)
-                    {
-                        if (tableCell.HasControls())
-                        {
-                            LinkButton sortLinkButton = null;
-                            if (tableCell.Controls[0] is LinkButton)
-                            {
-                                sortLinkButton = (LinkButton)tableCell.Controls[0];
-                            }
+                ((Label)e.Row.FindControl("lblBadgesImage")).Text = Localization.GetString("Image.Header", LocalResourceFile);
+                ((Label)e.Row.FindControl("lblBadgesActions1")).Text = Localization.GetString("Actions.Header", LocalResourceFile);
 
+                foreach (TableCell tableCell in e.Row.Cells)
+                {
+                    if (tableCell.HasControls())
+                    {
+                        LinkButton sortLinkButton = null;
+                        if (tableCell.Controls[0] is LinkButton)
+                        {
+                            sortLinkButton = (LinkButton)tableCell.Controls[0];
+
+                            if (sortLinkButton != null)
+                            {
+                                if (sortLinkButton.Text == "BadgeName")
+                                {
+                                    sortLinkButton.Text = Localization.GetString("BadgeName.Header", LocalResourceFile);
+                                }
+                            }
+                        }
+                        if (ViewState["CurrentSortFieldBadges" + ModuleId] != null && ViewState["CurrentSortDirectionBadges" + ModuleId] != null)
+                        {
                             if (sortLinkButton != null && (string)ViewState["CurrentSortFieldBadges" + ModuleId] == sortLinkButton.CommandArgument)
                             {
                                 Image image = new Image();
@@ -437,13 +461,14 @@ namespace DNNGamification
         /// <summary>
         /// grdAssignment_OnNeedDataSource handler.
         /// </summary>
-        protected void loadgrdAssignment()
+        protected void loadgrdAssignment(string orderBy = "UserName", string orderByDirection = "ASC")
         {
             try // try to handle grdAssignment_OnNeedDataSource
             {
-                int portalId = PortalId; // define portal ID to get users
-
-                string orderBy = "UserName"; string orderByDirection = "ASC";
+                if (String.IsNullOrEmpty(orderBy))
+                    orderBy = "UserName";
+                if (String.IsNullOrEmpty(orderByDirection))
+                    orderByDirection = "ASC";
 
                 //if (grdAssignment.MasterTableView != null && grdAssignment.MasterTableView.SortExpressions.Count > 0)
                 //{
@@ -459,7 +484,7 @@ namespace DNNGamification
 
                 grAssignment.DataSource = UnitOfWork.UserActivitiesLog.GetUsers
                 (
-                    portalId, txtUserSearch.Text + "%", start, grAssignment.PageSize, orderBy, orderByDirection, out totalCount
+                    PortalId, txtUserSearch.Text + "%", start, grAssignment.PageSize, orderBy, orderByDirection, out totalCount
                 );
 
                 grAssignment.VirtualItemCount = totalCount; // bind total count
@@ -478,16 +503,15 @@ namespace DNNGamification
         {
             try // try to handle grdAssignment_OnItemDataBound
             {
-                if (e.Row.GetType() == typeof(GridDataItem))
+                if (e.Row.RowType != DataControlRowType.DataRow) return;
+
+                HyperLink hlEditUser = (e.Row.FindControl("hlEditUser") as HyperLink);
+
+                var user = (e.Row.DataItem as ScoringUser); string id = user.KeyID.ToString();
+
+                string returnUrl = HttpContext.Current.Request.RawUrl;
                 {
-                    HyperLink hlEditUser = (e.Row.FindControl("hlEditUser") as HyperLink);
-
-                    var user = (e.Row.DataItem as ScoringUser); string id = user.KeyID.ToString();
-
-                    string returnUrl = HttpContext.Current.Request.RawUrl;
-                    {
-                        hlEditUser.NavigateUrl = GetControlUrl("EditUser", "id=" + id, "mid=" + ModuleId, "returnUrl=" + returnUrl);
-                    }
+                    hlEditUser.NavigateUrl = GetControlUrl("EditUser", "id=" + id, "mid=" + ModuleId, "returnUrl=" + returnUrl);
                 }
             }
             catch (Exception ex) // catch exceptions
@@ -496,15 +520,97 @@ namespace DNNGamification
             }
         }
 
+
+        protected void grdAssignment_RowCreated(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.Header)
+            {
+                ((Label)e.Row.FindControl("lblProfilePhoto")).Text = Localization.GetString("ProfilePhoto.Header", LocalResourceFile);
+                ((Label)e.Row.FindControl("lblActions")).Text = Localization.GetString("Actions.Header", LocalResourceFile);
+
+                foreach (TableCell tableCell in e.Row.Cells)
+                {
+                    if (tableCell.HasControls())
+                    {
+                        LinkButton sortLinkButton = null;
+                        if (tableCell.Controls[0] is LinkButton)
+                        {
+                            sortLinkButton = (LinkButton)tableCell.Controls[0];
+
+                            if (sortLinkButton != null)
+                            {
+                                if (sortLinkButton.Text == "UserName")
+                                {
+                                    sortLinkButton.Text = Localization.GetString("UserName.Header", LocalResourceFile);
+                                }
+                                else if (sortLinkButton.Text == "ActivityPoints")
+                                {
+                                    sortLinkButton.Text = Localization.GetString("ActivityPoints.Header", LocalResourceFile);
+                                }
+                            }
+                        }
+
+                        if (ViewState["CurrentSortFieldAssignment" + ModuleId] != null && ViewState["CurrentSortDirectionAssignment" + ModuleId] != null)
+                        {
+                            if (sortLinkButton != null && (string)ViewState["CurrentSortFieldAssignment" + ModuleId] == sortLinkButton.CommandArgument)
+                            {
+                                Image image = new Image();
+                                if ((string)ViewState["CurrentSortDirectionAssignment" + ModuleId] == "ASC")
+                                {
+                                    image.ImageUrl = "./Images/up-icn.png";
+                                }
+                                else
+                                {
+                                    image.ImageUrl = "./Images/down-icn.png";
+                                }
+                                tableCell.Controls.Add(new System.Web.UI.LiteralControl("&nbsp;"));
+                                tableCell.Controls.Add(image);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        protected void grdAssignment_OnPageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            grAssignment.PageIndex = e.NewPageIndex;
+
+            loadgrdAssignment((string)ViewState["CurrentSortFieldAssignment" + ModuleId], (string)ViewState["CurrentSortDirectionAssignment" + ModuleId]);
+        }
+
+        protected void grdAssignment_Onsorting(object sender, GridViewSortEventArgs e)
+        {
+            grAssignment.PageIndex = 0;
+            if (e.SortExpression == (string)ViewState["CurrentSortFieldAssignment" + ModuleId])
+            {
+                // We are resorting the same column, so flip the sort direction
+                e.SortDirection =
+                    ((string)ViewState["CurrentSortDirectionAssignment" + ModuleId] == "ASC") ?
+                    SortDirection.Descending : SortDirection.Ascending;
+            }
+
+            string orderBy = (e.SortExpression.Length == 0) ? "UserName" : e.SortExpression;
+            string orderByDirection = (e.SortDirection == SortDirection.Ascending) ? "ASC" : "DESC";
+
+            ViewState["CurrentSortFieldAssignment" + ModuleId] = e.SortExpression;
+            ViewState["CurrentSortDirectionAssignment" + ModuleId] = orderByDirection;
+
+            loadgrdAssignment(orderBy, orderByDirection);
+        }
+
+
         /// <summary>
         /// btnSearch_Click handler.g
         /// </summary>
         protected void btnSearch_Click(object sender, EventArgs e)
         {
-            grAssignment.Visible = true; grAssignment.Visible = true;
-            {
-                grAssignment.DataBind(); grAssignment.DataBind(); // rebind with term
-            }
+            grAssignment.Visible = true;
+            //grAssignment.Visible = true;
+            //{
+            //    grAssignment.DataBind(); grAssignment.DataBind(); // rebind with term
+            //}
+            loadgrdAssignment();
         }
 
         #endregion

@@ -44,4 +44,9 @@
 	<ul>
 		<li>Fix problems with child portals</li>
     </ul>
+	<b>Version 01.00.07</b>
+	<ul>
+		<li>Fix problems with resx</li>
+		<li>Fix problems in Ad Hoc Assignment</li>
+    </ul>
 </div>
