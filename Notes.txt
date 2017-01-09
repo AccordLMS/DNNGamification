@@ -49,4 +49,8 @@
 		<li>Fix problems in Ad Hoc Assignment</li>
 		<li>Localize Chart and Grids</li>
     </ul>
+	<b>Version 01.00.08</b>
+	<ul>
+		<li>Remove Unauthorized and Deleted user from Leaderboard</li>
+    </ul>
 </div>

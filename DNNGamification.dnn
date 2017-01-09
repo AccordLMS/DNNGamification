@@ -1,6 +1,6 @@
 <dotnetnuke type="Package" version="5.0">
 	<packages>
-		<package name="DNNGamification.Mechanics" type="Module" version="01.00.07">
+		<package name="DNNGamification.Mechanics" type="Module" version="01.00.08">
 			<description>Gamification mechanics module</description>
 			<iconFile>~/DesktopModules/DNNGamification/Images/logo.png</iconFile>
 			<friendlyName>DNNGamification Mechanics</friendlyName>
@@ -82,7 +82,7 @@
 						<assembly>
 							<name>DNNGamification.dll</name>
 							<sourceFileName>DNNGamification.dll</sourceFileName>
-							<version>01.00.07</version>
+							<version>01.00.08</version>
 						</assembly>
 					</assemblies>
 				</component>
@@ -109,6 +109,10 @@
               <name>01.00.05.SqlDataProvider</name>
               <version>01.00.05</version>
             </script>
+            <script type="Install">
+              <name>01.00.08.SqlDataProvider</name>
+              <version>01.00.08</version>
+            </script>
 						<script type="UnInstall">
 							<name>Uninstall.SqlDataProvider</name>
 						</script>
@@ -132,7 +136,7 @@
 				</attributes>
 			</eventMessage>
 		</package>
-		<package name="DNNGamification.Leaderboard" type="Module" version="01.00.07">
+		<package name="DNNGamification.Leaderboard" type="Module" version="01.00.08">
 			<description>Gamification leaderboard module</description>
 			<iconFile>~/DesktopModules/DNNGamification/Images/logo.png</iconFile>
 			<friendlyName>DNNGamification Leaderboard</friendlyName>
@@ -187,7 +191,7 @@
 				</component>
 			</components>
 		</package>
-		<package name="DNNGamification.Profile" type="Module" version="01.00.07">
+		<package name="DNNGamification.Profile" type="Module" version="01.00.08">
 			<description>Gamification profile module</description>
 			<iconFile>~/DesktopModules/DNNGamification/Images/logo.png</iconFile>
 			<friendlyName>DNNGamification Profile</friendlyName>
