@@ -33,3 +33,7 @@
     .gmfMechanics .gmffooter table {
         width: inherit;
     }
+
+.dnnGridHeader td, thead.dnnGridHeader th, tr.dnnGridHeader th, .dnnGridItem td, .dnnGridAltItem td  {
+    border: 1px solid #c9c9c9 !important;
+}

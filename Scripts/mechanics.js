@@ -38,6 +38,6 @@
         self._clientIds[1] = grdBadgesCID;
         self._clientIds[2] = grdAssignmentCID;
 
-        $('#divTabs').dnnTabs();
+        $('#divTabs').tabs();
     }
 }
