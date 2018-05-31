@@ -103,6 +103,11 @@ namespace DNNGamification.Components.Controllers
         /// </summary>
         void LogUserActivity(string synonym, int desktopModuleId, int userId, int portalId);
 
+        /// <summary>
+        /// Update user activity, adding the addValue to the existing one (addValue could be negavitve, to substract)
+        /// </summary>
+        void UpdateUserActivity(string EAName, int desktopModuleId, int userId, int portalId, decimal addValue);
+
         #endregion
     }
 }

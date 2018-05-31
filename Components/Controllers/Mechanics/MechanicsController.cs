@@ -164,6 +164,25 @@ namespace DNNGamification.Components.Controllers
             return this;
         }
 
+        private void ProcessUpdateUserActivity(string EAName, int desktopModuleId, int userId, int portalId, decimal addValue)
+        {
+            Activity activity = _uow.Activities.GetBy(EAName, desktopModuleId);
+            {
+                if (activity == null) throw new NullReferenceException("Activity is not found");
+            }
+
+            if (!(activity.Once && _uow.UserActivitiesLog.GetManyBy(userId, portalId).Any(l => l.ActivityId == activity.ActivityId)))
+            {
+                UserActivity userActivity = _uow.UserActivities.GetBy(userId, portalId);
+
+                //Update the gamificatio activity value, passing the difference between the old and new values (it could be negative). Updated table: DNNGamification_UserActivities
+                //addValue is "how many times" the Activity-ActivityPoints should be added to UserActivity-ActivityPoints:  (activity.ActivityPoints * decimal.ToInt32(addValue)
+                int newPoints = userActivity.ActivityPoints + (activity.ActivityPoints * decimal.ToInt32(addValue));
+                
+                _uow.UserActivities.Update(userActivity.UserActivityId, userId, portalId, newPoints);
+            }
+        }
+
         #endregion
 
         #region Public Methods : Insert
@@ -294,6 +313,14 @@ namespace DNNGamification.Components.Controllers
         public void LogUserActivity(string synonym, int desktopModuleId, int userId, int portalId, int portalActivityId)
         {
             Log(synonym, desktopModuleId, userId, portalId, portalActivityId).Award(userId, portalId, portalActivityId);
+        }
+
+        /// <summary>
+        /// Update user activity, adding the addValue to the existing one (addValue could be negavitve, to substract)
+        /// </summary>
+        public void UpdateUserActivity(string EAName, int desktopModuleId, int userId, int portalId, decimal addValue)
+        {
+            ProcessUpdateUserActivity(EAName, desktopModuleId, userId, portalId, addValue);
         }
 
         #endregion
