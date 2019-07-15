@@ -39,6 +39,18 @@
     }
 
     /// <summary>
+    /// Leaderboard web page.
+    /// </summary>
+    public abstract class ActivitySummaryWebPage : DotNetNukeWebPage<UserActivitySummary>
+    {
+        #region Public Properties
+
+        // reserved for something awesome
+
+        #endregion
+    }
+
+    /// <summary>
     /// Razor base template evaluator.
     /// </summary>
     public abstract class RazorEvaluator<TEntity> where TEntity : EntityBase
@@ -103,6 +115,23 @@
         /// Constructor with parameters.
         /// </summary>
         public LeaderboardEvaluator(ModuleInstanceContext context, string resource)
+
+            : base(context, resource) { }
+
+        #endregion
+    }
+
+    /// <summary>
+    /// Leaderboard template evaluator.
+    /// </summary>
+    public class ActivitySummaryEvaluator : RazorEvaluator<UserActivitySummary>
+    {
+        #region Constructors
+
+        /// <summary>
+        /// Constructor with parameters.
+        /// </summary>
+        public ActivitySummaryEvaluator(ModuleInstanceContext context, string resource)
 
             : base(context, resource) { }
 

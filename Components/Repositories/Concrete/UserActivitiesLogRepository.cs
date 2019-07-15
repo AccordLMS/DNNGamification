@@ -98,6 +98,19 @@ namespace DNNGamification.Components.Repositories
             }
         }
 
+        /// <summary>
+        /// Gets scoring leaderboard.
+        /// </summary>
+        public List<UserActivitySummary> GetUserActivitySummary(int? userId, int portalId, DateTime start, DateTime end)
+        {
+            IDataReader reader = DataProvider.ExecuteReader("DNNGamification_GetActivitySummary", portalId, userId, start, end);
+
+            reader.Read();
+            {
+                return CBO.FillCollection<UserActivitySummary>(reader);
+            }
+        }
+
         #endregion
 
         #region Public Properties : Update

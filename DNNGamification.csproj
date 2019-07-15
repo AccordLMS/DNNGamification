@@ -21,6 +21,7 @@
     <IISExpressUseClassicPipelineMode />
     <TargetFrameworkProfile />
     <UseGlobalApplicationHostFile />
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -94,9 +95,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data.Linq" />
-    <Reference Include="System.Net.Http, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <Private>False</Private>
-    </Reference>
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\System.Net.Http.Formatting.dll</HintPath>
@@ -133,6 +132,28 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActivitySummary.ascx.cs">
+      <DependentUpon>ActivitySummary.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ActivitySummary.ascx.designer.cs">
+      <DependentUpon>ActivitySummary.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="ActivitySummarySettings.ascx.cs">
+      <DependentUpon>ActivitySummarySettings.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ActivitySummarySettings.ascx.designer.cs">
+      <DependentUpon>ActivitySummarySettings.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="CommonControls\DateRangeSelector.ascx.cs">
+      <DependentUpon>DateRangeSelector.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CommonControls\DateRangeSelector.ascx.designer.cs">
+      <DependentUpon>DateRangeSelector.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Components\Controllers\ActivitySummaryController.cs" />
     <Compile Include="Components\Controllers\ControllerBase.cs" />
     <Compile Include="Components\Controllers\ProfileController.cs" />
     <Compile Include="Components\Controllers\LeaderboardController.cs" />
@@ -147,6 +168,7 @@
     <Compile Include="Components\Entities\Concrete\ScoringUser.cs" />
     <Compile Include="Components\Entities\Concrete\UserActivity.cs" />
     <Compile Include="Components\Entities\Concrete\ScoringLeaderboard.cs" />
+    <Compile Include="Components\Entities\Concrete\UserActivitySummary.cs" />
     <Compile Include="Components\Entities\Concrete\UserBadge.cs" />
     <Compile Include="Components\Mappers\ServiceRouteMapper.cs" />
     <Compile Include="Components\Repositories\Abstract\Repository.cs" />
@@ -230,12 +252,15 @@
     <Compile Include="WebControls\DnnFileSelector.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ActivitySummary.ascx" />
+    <Content Include="ActivitySummarySettings.ascx" />
     <Content Include="BuildScripts\ModulePackage.targets">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="BuildScripts\MSBuild.Community.Tasks.Targets">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="CommonControls\DateRangeSelector.ascx" />
     <Content Include="Css\profile.settings.css" />
     <Content Include="Images\down-icn.png" />
     <Content Include="Images\up-icn.png" />
@@ -264,6 +289,8 @@
     <Content Include="Leaderboard.ascx" />
     <Content Include="Mechanics.ascx" />
     <Content Include="Profile.ascx" />
+    <Content Include="Templates\ActivitySummary\Narrow\template.css" />
+    <Content Include="Templates\ActivitySummary\Wide\template.css" />
     <Content Include="Templates\Leaderboard\Narrow\template.css" />
     <Content Include="Templates\Profile\Narrow\Scripts\jquery.moment.js" />
     <Content Include="Templates\Profile\Wide\Css\jquery.tooltip.css" />
@@ -383,6 +410,21 @@
     <Content Include="web.config" />
     <Content Include="Providers\Data\SqlDataProvider\01.00.05.SqlDataProvider" />
     <Content Include="Providers\Data\SqlDataProvider\01.00.08.SqlDataProvider" />
+    <Content Include="Providers\Data\SqlDataProvider\01.01.00.SqlDataProvider" />
+    <Content Include="Templates\ActivitySummary\Narrow\Alternating.cshtml" />
+    <Content Include="Templates\ActivitySummary\Narrow\AlternatingHighlighted.cshtml" />
+    <Content Include="Templates\ActivitySummary\Narrow\Footer.cshtml" />
+    <Content Include="Templates\ActivitySummary\Narrow\FooterEmpty.cshtml" />
+    <Content Include="Templates\ActivitySummary\Narrow\Header.cshtml" />
+    <Content Include="Templates\ActivitySummary\Narrow\Item.cshtml" />
+    <Content Include="Templates\ActivitySummary\Narrow\ItemHighlighted.cshtml" />
+    <Content Include="Templates\ActivitySummary\Wide\Alternating.cshtml" />
+    <Content Include="Templates\ActivitySummary\Wide\AlternatingHighlighted.cshtml" />
+    <Content Include="Templates\ActivitySummary\Wide\Footer.cshtml" />
+    <Content Include="Templates\ActivitySummary\Wide\FooterEmpty.cshtml" />
+    <Content Include="Templates\ActivitySummary\Wide\Header.cshtml" />
+    <Content Include="Templates\ActivitySummary\Wide\Item.cshtml" />
+    <Content Include="Templates\ActivitySummary\Wide\ItemHighlighted.cshtml" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
@@ -391,6 +433,11 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_LocalResources\ActivitySummary.resx">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_LocalResources\ActivitySummarySettings.resx" />
+    <Content Include="CommonControls\App_LocalResources\DateRangeSelector.ascx.resx" />
     <EmbeddedResource Include="Properties\licenses.licx" />
   </ItemGroup>
   <PropertyGroup>

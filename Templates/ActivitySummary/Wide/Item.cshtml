@@ -1,0 +1,16 @@
+@using System.Data;
+@using System.Data.Linq;
+@using System.Linq;
+
+@using DotNetNuke.Web.Razor;
+
+@using DNNGamification;
+@using DNNGamification.Components.Entities;
+@using DNNGamification.Components;
+
+@inherits ActivitySummaryWebPage
+
+<tr class="dnnGridItem">
+	<td style="text-align: center;">@Model.Name</td>
+	<td>@Model.Points</td>
+</tr>

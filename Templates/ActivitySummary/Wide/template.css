@@ -1,0 +1,10 @@
+.gmfLeaderboard .gmfTable { width: 100%; text-align: center !important; }
+    .gmfLeaderboard .gmfTable th { font-size: 12px; text-align: center !important; }
+        .gmfLeaderboard .gmfTable th:last-child { border-right: 0; }
+    .gmfLeaderboard .gmfTable .gmfGridItemHighlighted { font-weight: bold; }
+
+.gmfLeaderboard .gmfPhotoThumbnail { max-width: 54px; display: normal; margin: 3px; }
+
+.gmfLeaderboard .gmfBadge { display: inline-block; margin: 3px; }
+    .gmfLeaderboard .gmfBadge .gmfBadgeThumbnail { max-width: 54px; outline: none none; }
+    .gmfLeaderboard .gmfBadge .gmfBadgeName { margin: 0 10px; }

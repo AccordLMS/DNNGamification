@@ -1,0 +1,20 @@
+@using DotNetNuke.Web.Razor;
+
+@using DNNGamification;
+@using DNNGamification.Components.Entities;
+@using DNNGamification.Components;
+
+@inherits ActivitySummaryWebPage
+
+<table class="dnnGrid gmfTable" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col style="width: 50%;">
+		<col style="">
+	</colgroup>
+	<thead>
+		<tr class="dnnGridHeader">
+			<th>@Html.GetLocalizedString("Name.Header")</th>
+			<th>@Html.GetLocalizedString("ActivityPoints.Header")</th>
+		</tr>
+	</thead>
+	<tbody>

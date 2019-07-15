@@ -1,0 +1,35 @@
+﻿
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_GetActivitySummary]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_GetActivitySummary]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_GetActivitySummary]
+    @PortalId int, @UserId int, @beginDate DATETIME, @endDate DATETIME
+AS
+BEGIN
+
+	IF (@beginDate IS NULL or @endDate IS NULL)
+	BEGIN
+		SELECT 
+		UA.UserId AS 'UserId', 
+		A.Name AS 'Name', 
+		UA.ActivityPoints AS 'Points'  
+		FROM {databaseOwner}{objectQualifier}DNNGamification_Activities A 
+		inner join {databaseOwner}{objectQualifier}DNNGamification_UserActivitiesLog UA
+		ON A.ActivityId = UA.ActivityId
+		WHERE UA.UserId = @UserId and UA.PortalId = @PortalId
+	END
+	ELSE
+	BEGIN
+		SELECT 
+		UA.UserId AS 'UserId', 
+		A.Name AS 'Name', 
+		UA.ActivityPoints AS 'Points' 
+		FROM {databaseOwner}{objectQualifier}DNNGamification_Activities A 
+		inner join {databaseOwner}{objectQualifier}DNNGamification_UserActivitiesLog UA
+		ON A.ActivityId = UA.ActivityId
+		WHERE UA.UserId = @UserId and UA.CreateDate >= @beginDate and UA.CreateDate <= @endDate and UA.PortalId = @PortalId
+	END
+
+END
+GO
