@@ -26,6 +26,17 @@
         combo._dropDownWidth = setwidth;
     }
 
+<%--    function onModulesComboChange() {
+        var cbModules = document.getElementById("<%= cmbLearnerModule.ClientID %>");
+        var divDate = document.getElementById("<%= divDateRange.ClientID %>");
+
+        if (cbModules.get_value() == "default") {
+            divDate.style.display = 'none';
+        } else {
+            divDate.style.display = '';
+        }
+    }--%>
+
 </script>
 
 <div class="dnnForm dnnClear gmfLeaderboardSettings gmfScope">
@@ -61,13 +72,15 @@
 			CssClass="dnnFormMessage dnnFormError" Display="Dynamic" ResourceKey="PageSize.Required"
 			runat="server" />
 	</div>
-    <div class="dnnFormItem">
+    <div id="divDateRange" runat="server">
+        <div class="dnnFormItem">
             <dnn:Label ResourceKey="DateRange.Label" runat="server" enableviewstate="False"></dnn:Label>
             <interzoic:DateRangeSelector runat="server" ID="ctlCompletionDate" ShowInterval="false" DateRange="AllTime" />
+        </div>
+        <div class="dnnFormItem">
+		    <dnn:Label ResourceKey="ShowDateFilters.Label" Visible="true" runat="server" />
+		    <%-- Control --%>
+		    <asp:CheckBox ID="chkShowDateFilters" runat="server" />
+	    </div>
     </div>
-    <div class="dnnFormItem">
-		<dnn:Label ResourceKey="ShowDateFilters.Label" Visible="true" runat="server" />
-		<%-- Control --%>
-		<asp:CheckBox ID="chkShowDateFilters" runat="server" />
-	</div>
 </div>

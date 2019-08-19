@@ -494,7 +494,7 @@ namespace DNNGamification.Infrastructure
 
                 string showDateFilter = ShowDateFilter.ToString();
                 {
-                    controller.UpdateModuleSetting(_moduleId, "ShowDateFilter", showPaging);
+                    controller.UpdateModuleSetting(_moduleId, "ShowDateFilter", showDateFilter);
                 }
 
                 string learnerModuleId = LearnerModuleId.ToString();

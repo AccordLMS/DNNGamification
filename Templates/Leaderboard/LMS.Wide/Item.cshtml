@@ -1,0 +1,23 @@
+@using System.Data;
+@using System.Data.Linq;
+@using System.Linq;
+
+@using DotNetNuke.Web.Razor;
+
+@using DNNGamification;
+@using DNNGamification.Components.Entities;
+@using DNNGamification.Components;
+
+@inherits LeaderboardWebPage
+
+<tr class="dnnGridItem">
+	<td align="left"><img src="@Model.ProfilePhotoUrl" class="gmfPhotoThumbnail">&nbsp;&nbsp;@Model.DisplayName</td>
+	<td>@Model.ActivityPoints</td>
+	<td>
+		@foreach (var badge in Model.Badges.Where(b => !b.Expired).Take(3)) {
+			<div class="gmfBadge">
+				<img class="gmfBadgeThumbnail" src="@badge.ImageFileUrl" title="@badge.Name" />
+			</div>
+		}
+	</td>
+</tr>

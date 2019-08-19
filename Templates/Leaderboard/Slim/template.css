@@ -1,0 +1,14 @@
+.gmfLeaderboard .gmfPagination { width: 100%; }
+    .gmfLeaderboard .gmfPagination .gmfNavigation { float: right; }
+        .gmfLeaderboard .gmfPagination .gmfNavigation > div { display: inline-block; outline: none; }
+    .gmfLeaderboard .gmfPagination .gmfTotal { float: left; }
+
+.gmfLeaderboard .gmfTable { width: 100%; display: table; text-align: center; }
+    .gmfLeaderboard .gmfTable th { font-size: 12px; }
+        .gmfLeaderboard .gmfTable th:last-child { border-right: 0; }
+    .gmfLeaderboard .gmfTable .gmfProfilePhotoThumbnail { max-width: 54px; outline: none none; }
+    .gmfLeaderboard .gmfTable .gmfItemHighlighted { font-weight: bold; }
+
+.gmfLeaderboard .gmfBadge { display: inline-block; margin: 3px; }
+    .gmfLeaderboard .gmfBadge .gmfBadgeThumbnail { max-width: 54px; }
+    .gmfLeaderboard .gmfBadge .gmfBadgeName { margin: 0 10px; }

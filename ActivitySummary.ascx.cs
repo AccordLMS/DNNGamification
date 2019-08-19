@@ -29,19 +29,49 @@ namespace DNNGamification
 
     using Telerik.Web.UI;
 
-  
+    using DotNetNuke.Entities.Modules.Communications;
+    using DotNetNuke.Entities.Modules.Actions;
+    using DotNetNuke.Entities.Modules;
+    using System.Text;
+
+
 
 
     /// <summary>
     /// Module view control.
     /// </summary>
-    public partial class ActivitySummary : ModuleBase
+    public partial class ActivitySummary : ModuleBase, IModuleListener
     {
         #region Defines
 
         public const string TEMPLATES_PATH = "~\\DesktopModules\\DNNGamification\\Templates";
 
         #endregion
+
+        public void OnModuleCommunication(object s, ModuleCommunicationEventArgs e)
+        {
+            string[] dateRangeData = e.Value.ToString().Split(';');
+
+            string senderIdentifier = "Transcript" + _settings.LearnerModuleId.ToString();
+
+            if (e.Sender == senderIdentifier)
+            {
+                if (dateRangeData.Length > 2)
+                {
+                    String dateRange = dateRangeData[0];
+                    DateTime startDate = Convert.ToDateTime(dateRange[1]);
+                    DateTime endDate = Convert.ToDateTime(dateRange[2]);
+
+                    _settings.BeginDate = startDate;
+                    _settings.EndDate = ctlCompletionDate.EndDate;
+                    _settings.DateRange = ctlCompletionDate.DateRange;
+
+                    ctlCompletionDate.DateRange = dateRange;
+                    ctlCompletionDate.StartDate = startDate;
+                    ctlCompletionDate.EndDate = endDate;
+                }
+            }
+        }
 
         #region Private Fields
 
@@ -51,6 +81,8 @@ namespace DNNGamification
         private RadAjaxManager _ajaxManager = null;
 
         #endregion
+
+        //public ModuleActionCollection ModuleActions => throw new NotImplementedException();
 
         #region Private Fields : Templating
 
@@ -83,6 +115,8 @@ namespace DNNGamification
             set { ViewState["CurrentPage"] = value; }
         }
 
+        public string LearnerModuleId { get; set; } = "0";
+
         #endregion
 
         #region Private Methods
@@ -99,15 +133,13 @@ namespace DNNGamification
                 int total = -1; // define activity summary total records
                 int portalId = (_settings.PortalId <0 ? PortalId : _settings.PortalId);
 
-                DateTime beginDate = _settings.BeginDate;
-                DateTime endDate = _settings.EndDate;         
+                DateTime beginDate = ctlCompletionDate.StartDate;
+                DateTime endDate = ctlCompletionDate.EndDate;      
 
                 List<UserActivitySummary> dataSource = UnitOfWork.UserActivitiesLog.GetUserActivitySummary
                 (
-                    userId, portalId, beginDate, endDate
-                );
-
-                total = dataSource.Count;
+                    userId, portalId, beginDate, endDate, CurrentPage * _settings.PageSize, _settings.PageSize, out total
+                );              
 
                 var source = new PagedDataSource { DataSource = dataSource, VirtualCount = total };
                 {
@@ -233,11 +265,37 @@ namespace DNNGamification
                     }
                 }
 
-                if (!IsPostBack)
-                {
+                if (!IsPostBack && !Page.IsCallback)
+                {                   
+                    if (_settings.BeginDate != null && _settings.EndDate != null)
+                    {
+                        ctlCompletionDate.DateRange = _settings.DateRange;
+                        ctlCompletionDate.StartDate = _settings.BeginDate;
+                        ctlCompletionDate.EndDate = _settings.EndDate;
+                    }
+                    if (_settings.ShowDateFilter == true)
+                    {
+                        divDateRange.Style.Add("display", "");
+                        //divDateRange.Visible = true;
+                    }
+                    else
+                    {
+                        divDateRange.Style.Add("display", "none");
+                        //divDateRange.Visible = false;
+                    }
+
                     BindActivitySummary();
                 }
+
+                ctlCompletionDate.HideShowDates(ctlCompletionDate.DateRange);
+
+                LearnerModuleId = _settings.LearnerModuleId.ToString();
+
+                RegisterSyncJS(IsPostBack);
+
+
             }
+
             catch (Exception ex) // catch exceptions
             {
                 Exceptions.ProcessModuleLoadException(this, ex);
@@ -397,5 +455,64 @@ namespace DNNGamification
         }
 
         #endregion
+
+        protected void btnApplyFilters_Click(object sender, EventArgs e)
+        {
+            BindActivitySummary();
+        }
+
+        private void RegisterSyncJS(bool isPostback)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append("function SyncWithTranscriptControl"+ LearnerModuleId.ToString() + "()");
+            sb.Append("{");
+            sb.Append("     var moduleId = " + LearnerModuleId.ToString() + ";");
+            sb.Append("     var thisModuleId = " + ModuleId.ToString() + ";");
+            sb.Append("     var ctrlSourceId = 'dnn_ctr' + moduleId + '_EnrollmentDefault_EnrollmentTranscripts_ctlLearnerPanes_ctlCompletionDate_cmbDateRange';");           
+            sb.Append("     var cmbDateSource = document.getElementById(ctrlSourceId);");
+            sb.Append("     if (cmbDateSource != null)");
+            sb.Append("     {");
+            sb.Append("         var dateRange = cmbDateSource.options[cmbDateSource.selectedIndex].value;");
+            sb.Append("         var hiddenButton = document.getElementById('"+ btnHidden2.ClientID +"');");
+            sb.Append("         if (document.getElementById('dnn_ctr' + thisModuleId + '_ActivitySummary_ctlCompletionDate_rdpStartDate') != null)");
+            sb.Append("         {");
+            sb.Append("             if (dateRange == 'Custom')");
+            sb.Append("             {");
+            sb.Append("                 var startDateSource = $find('dnn_ctr' + moduleId + '_EnrollmentDefault_EnrollmentTranscripts_ctlLearnerPanes_ctlCompletionDate_rdpStartDate');");
+            sb.Append("                 var endDateSource = $find('dnn_ctr' + moduleId + '_EnrollmentDefault_EnrollmentTranscripts_ctlLearnerPanes_ctlCompletionDate_rdpEndDate');");
+            sb.Append("                 $find('dnn_ctr' + thisModuleId + '_ActivitySummary_ctlCompletionDate_rdpStartDate').set_selectedDate(startDateSource.get_selectedDate());");
+            sb.Append("                 $find('dnn_ctr' + thisModuleId + '_ActivitySummary_ctlCompletionDate_rdpEndDate').set_selectedDate(endDateSource.get_selectedDate());");
+            sb.Append("             }");
+            sb.Append("             var cmbDateMine = document.getElementById('dnn_ctr' + thisModuleId + '_ActivitySummary_ctlCompletionDate_cmbDateRange');");
+            sb.Append("             cmbDateMine.selectedIndex = cmbDateSource.selectedIndex;");
+            sb.Append("             hiddenButton.click();");
+            sb.Append("         }");
+            sb.Append("     }");
+            sb.Append("}");
+            //if (!isPostback)
+            //{
+            //    sb.Append("jQuery(document).ready(function(event) {");
+            //    sb.Append("SyncWithTranscriptControl" + LearnerModuleId.ToString() + "();");
+            //    sb.Append("});");
+            //}
+
+
+            Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "MyScript", sb.ToString(), true);
+        }
+
+        protected void btnHidden2_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ctlCompletionDate.HideShowDates(ctlCompletionDate.DateRange);
+                BindActivitySummary();
+            }
+            catch (Exception ex) // catch exceptions
+            {
+                Exceptions.ProcessModuleLoadException(this, ex);
+            }
+            
+        }
     }
 }

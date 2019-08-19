@@ -101,14 +101,20 @@ namespace DNNGamification.Components.Repositories
         /// <summary>
         /// Gets scoring leaderboard.
         /// </summary>
-        public List<UserActivitySummary> GetUserActivitySummary(int? userId, int portalId, DateTime start, DateTime end)
+        public List<UserActivitySummary> GetUserActivitySummary(int? userId, int portalId, DateTime start, DateTime end, int startIndex, int length, out int total)
         {
-            IDataReader reader = DataProvider.ExecuteReader("DNNGamification_GetActivitySummary", portalId, userId, start, end);
+            IDataReader reader;
 
-            reader.Read();
+            if (start == Null.NullDate || end == Null.NullDate)
             {
-                return CBO.FillCollection<UserActivitySummary>(reader);
+                reader = DataProvider.ExecuteReader("DNNGamification_GetActivitySummary", portalId, userId, DBNull.Value, DBNull.Value, startIndex, length);
             }
+            else
+            {
+                reader = DataProvider.ExecuteReader("DNNGamification_GetActivitySummary", portalId, userId, start, end, startIndex, length);
+            }
+            reader.Read(); total = Utils.ConvertTo<int>(reader["TotalCount"]); reader.NextResult();
+            return CBO.FillCollection<UserActivitySummary>(reader);
         }
 
         #endregion

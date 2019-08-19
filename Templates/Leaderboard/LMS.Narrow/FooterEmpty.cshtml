@@ -1,0 +1,15 @@
+@using DotNetNuke.Web.Razor;
+
+@using DNNGamification;
+@using DNNGamification.Components.Entities;
+@using DNNGamification.Components;
+
+@inherits LeaderboardWebPage
+
+		<tr class="dnnGridItem">
+			<td colspan="2" style="text-align: left;">
+				@Html.GetLocalizedString("EmptyLeaderboard.Label")
+			</td>
+		</tr>
+	</tbody>
+</table>

@@ -1,0 +1,5 @@
+.gmfProfile .gmfBadges { margin: 0; text-align: center; }
+
+    .gmfProfile .gmfBadges .gmfBadge { display: inline-block; margin: 3px; width: 120px; vertical-align: top; }
+        .gmfProfile .gmfBadges .gmfBadge .gmfBadgeThumbnail { max-width: 54px; }
+        .gmfProfile .gmfBadges .gmfBadge .gmfTitle { margin: 10px 0; }

@@ -123,6 +123,9 @@
   <data name="Badges.Header" xml:space="preserve">
     <value>Badges</value>
   </data>
+  <data name="btnApplyFilters.Text" xml:space="preserve">
+    <value>Apply Filters</value>
+  </data>
   <data name="First.Paging" xml:space="preserve">
     <value>First</value>
   </data>
@@ -164,5 +167,8 @@
   </data>
   <data name="Row.Header" xml:space="preserve">
     <value>Row</value>
+  </data>
+  <data name="DateRange.Label" xml:space="preserve">
+    <value>Completion Date Range:</value>
   </data>
 </root>

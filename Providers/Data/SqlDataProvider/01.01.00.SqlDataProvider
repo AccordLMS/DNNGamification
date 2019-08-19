@@ -4,32 +4,63 @@ IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwne
 GO
 
 CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_GetActivitySummary]
-    @PortalId int, @UserId int, @beginDate DATETIME, @endDate DATETIME
+    @PortalId int, @UserId int, @beginDate DATETIME, @endDate DATETIME, @StartIndex int, @Length int
 AS
 BEGIN
 
+	Declare @activitysummaries TABLE
+    (
+        [UserId] int,
+		[Name] nvarchar(max),
+		[Points] int
+    )
+
 	IF (@beginDate IS NULL or @endDate IS NULL)
 	BEGIN
+
+		INSERT INTO @activitysummaries ([UserId], [Name], [Points])
 		SELECT 
 		UA.UserId AS 'UserId', 
 		A.Name AS 'Name', 
-		UA.ActivityPoints AS 'Points'  
+		SUM(UA.ActivityPoints) AS 'Points'  
 		FROM {databaseOwner}{objectQualifier}DNNGamification_Activities A 
 		inner join {databaseOwner}{objectQualifier}DNNGamification_UserActivitiesLog UA
 		ON A.ActivityId = UA.ActivityId
 		WHERE UA.UserId = @UserId and UA.PortalId = @PortalId
+		GROUP BY Name, UserId
 	END
 	ELSE
 	BEGIN
+		INSERT INTO @activitysummaries ([UserId], [Name], [Points])
 		SELECT 
 		UA.UserId AS 'UserId', 
 		A.Name AS 'Name', 
-		UA.ActivityPoints AS 'Points' 
+		SUM(UA.ActivityPoints) AS 'Points' 
 		FROM {databaseOwner}{objectQualifier}DNNGamification_Activities A 
 		inner join {databaseOwner}{objectQualifier}DNNGamification_UserActivitiesLog UA
 		ON A.ActivityId = UA.ActivityId
 		WHERE UA.UserId = @UserId and UA.CreateDate >= @beginDate and UA.CreateDate <= @endDate and UA.PortalId = @PortalId
+		GROUP BY Name, UserId
 	END
+
+	SELECT COUNT(*) AS TotalCount
+      FROM
+	  @activitysummaries
+
+	SELECT q.*
+      FROM
+   (SELECT DENSE_RANK() OVER (ORDER BY R.[Points] DESC) AS [Rank],
+           ROW_NUMBER() OVER (ORDER BY COALESCE(R.[Points], 0) DESC) AS [Row],
+           R.*	   
+      FROM @activitysummaries AS R
+     ) AS q
+     WHERE (q.[Row] > @StartIndex AND q.[Row] <= @StartIndex + @Length)
+  ORDER BY q.[Row]
 
 END
 GO
+
+
+
+
+

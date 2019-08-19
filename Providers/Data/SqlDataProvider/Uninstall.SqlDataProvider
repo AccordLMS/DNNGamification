@@ -134,3 +134,6 @@ GO
 IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_UpdateUserBadge]') AND type in (N'P', N'PC'))
     DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_UpdateUserBadge]
 GO
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_GetActivitySummary]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_GetActivitySummary]
+GO

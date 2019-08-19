@@ -609,7 +609,7 @@ namespace DNNGamification.CommonControls
 
         protected void Page_Init(object sender, System.EventArgs e)
         {
-            RegisterOnDateRangeChange();
+            //RegisterOnDateRangeChange();
         }
 
         protected void Page_Load(object sender, System.EventArgs e)
@@ -617,6 +617,14 @@ namespace DNNGamification.CommonControls
             try
             {
                 LocalizeLabels();
+
+                if (_DateRange == Null.NullString || _DateRange != DateRangeCustom)
+                {
+                    TrEndDate.Style.Clear();
+                    TrEndDate.Style.Add("display", "none");
+                    TrStartDate.Style.Clear();
+                    TrStartDate.Style.Add("display", "none");
+                }
 
                 if (!Page.IsPostBack)
                 {
@@ -707,6 +715,26 @@ namespace DNNGamification.CommonControls
                 //If the timezone ID could not be found, we use TimeZoneInfo.Local
                 return TimeZoneInfo.Local;
             }
+        }
+
+        public void HideShowDates(string dateRange)
+        {
+            if (dateRange == DateRangeCustom)
+            {
+                TrEndDate.Style["display"] = string.Empty;
+                TrStartDate.Style["display"] = string.Empty;
+            }
+
+            if (dateRange == Null.NullString | dateRange != DateRangeCustom)
+            {
+                TrEndDate.Style.Clear();
+                TrEndDate.Style.Add("display", "none");
+                TrStartDate.Style.Clear();
+                TrStartDate.Style.Add("display", "none");
+            }
+
+            string test = rdpStartDate.SelectedDate.ToString();
+            string test2 = test;
         }
 
     }

@@ -1,0 +1,13 @@
+@using DotNetNuke.Web.Razor;
+
+@using DNNGamification;
+@using DNNGamification.Components.Entities;
+@using DNNGamification.Components;
+
+@inherits LeaderboardWebPage
+
+<tr class="dnnGridAltItem">
+	<td>@Model.Rank</td>
+	<td align="left"><img class="gmfPhotoThumbnail" height="50" width="50" src="@Model.ProfilePhotoUrl"/>&nbsp;&nbsp;@Model.FirstName</td>
+	<td>@Model.ActivityPoints</td>
+</tr>

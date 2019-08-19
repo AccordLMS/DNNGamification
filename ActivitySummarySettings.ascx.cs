@@ -6,6 +6,7 @@ using DotNetNuke.Entities.Users;
 using DotNetNuke.Entities.Tabs;
 using DotNetNuke.Common;
 using DotNetNuke.Common.Utilities;
+using DotNetNuke.Entities.Modules.Communications;
 
 
 namespace DNNGamification
@@ -28,7 +29,7 @@ namespace DNNGamification
     using System.Collections;
     using Telerik.Web.UI;
 
-    using DotNetNuke.Entities.Modules.Communications;
+    using DotNetNuke.Services.Localization;
 
     /// <summary>
     /// 
@@ -42,7 +43,7 @@ namespace DNNGamification
         /// </summary>
         private const string TEMPLATES_DIRECTORY = "~\\DesktopModules\\DNNGamification\\Templates\\ActivitySummary";
 
-        #endregion
+        #endregion      
 
         #region Private Fields
 
@@ -81,9 +82,10 @@ namespace DNNGamification
         protected void Page_Load(object sender, EventArgs e)
         {
             try // try to handle Page_Load
-            {
+            {             
                 if (!IsPostBack)
                 {
+                    BindLearnerModules();
                     txtPageSize.Text = _settings.PageSize.ToString();
 
                     foreach (string directory in Directory.EnumerateDirectories(Server.MapPath(TEMPLATES_DIRECTORY)))
@@ -104,13 +106,24 @@ namespace DNNGamification
                     }
 
                     chkShowDateFilters.Checked = _settings.ShowDateFilter;
+                    chbShowPaging.Checked = _settings.ShowPaging;
 
                     if (_settings.BeginDate != null && _settings.EndDate != null)
                     {
-                        ctlCompletionDate.StartDate = _settings.BeginDate;
-                        ctlCompletionDate.EndDate = _settings.EndDate;
                         ctlCompletionDate.DateRange = _settings.DateRange;
-                    }                
+                        ctlCompletionDate.StartDate = _settings.BeginDate;
+                        ctlCompletionDate.EndDate = _settings.EndDate;                     
+                    }
+
+                    if(_settings.LearnerModuleId == -1)
+                    {
+                        cmbLearnerModule.SelectedValue = "default";
+                    }
+                    else
+                    {
+                        cmbLearnerModule.SelectedValue = _settings.LearnerModuleId.ToString();
+                    }
+                    
                 }
             }
             catch (Exception ex) // catch exceptions
@@ -163,7 +176,19 @@ namespace DNNGamification
 
                     if(cmbLearnerModule.SelectedIndex >= 0)
                     {
-                        _settings.LearnerModuleId = Convert.ToInt32(cmbLearnerModule.SelectedValue);
+                        if (cmbLearnerModule.SelectedValue != "default")
+                        {
+                            _settings.LearnerModuleId = Convert.ToInt32(cmbLearnerModule.SelectedValue);
+                        }
+                        else
+                        {
+                            _settings.LearnerModuleId = -1;
+                        }
+
+                    }
+                    else
+                    {
+                        _settings.LearnerModuleId = -1;
                     }
 
                     _settings.ShowDateFilter = chkShowDateFilters.Checked;
@@ -171,11 +196,7 @@ namespace DNNGamification
 
                     _settings.BeginDate = ctlCompletionDate.StartDate;
                     _settings.EndDate = ctlCompletionDate.EndDate;
-                    _settings.DateRange = ctlCompletionDate.DateRange;
-              
-
-                    //TODO:
-                        //ADD DATES FROM CONTROL
+                    _settings.DateRange = ctlCompletionDate.DateRange;            
 
                     int pageSize = 0; if (!String.IsNullOrEmpty(txtPageSize.Text) && Int32.TryParse(txtPageSize.Text, out pageSize))
                     {
@@ -207,6 +228,12 @@ namespace DNNGamification
                 int managerId = Null.NullInteger;
 
                 cmbLearnerModule.Items.Clear();
+
+                RadComboBoxItem objListItem2;
+                objListItem2 = new RadComboBoxItem();
+                objListItem2.Value = "default";
+                objListItem2.Text = "None";
+                cmbLearnerModule.Items.Add(objListItem2);
 
                 foreach (PortalInfo portal in objPortals)
                 {

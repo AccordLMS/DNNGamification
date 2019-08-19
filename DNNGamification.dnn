@@ -140,7 +140,7 @@
 				</attributes>
 			</eventMessage>
 		</package>
-		<package name="DNNGamification.Leaderboard" type="Module" version="01.00.08">
+		<package name="DNNGamification.Leaderboard" type="Module" version="01.01.00">
 			<description>Gamification leaderboard module</description>
 			<iconFile>~/DesktopModules/DNNGamification/Images/logo.png</iconFile>
 			<friendlyName>DNNGamification Leaderboard</friendlyName>

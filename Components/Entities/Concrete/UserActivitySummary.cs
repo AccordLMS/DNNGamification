@@ -31,6 +31,12 @@ namespace DNNGamification.Components.Entities
         #region Public Properties
 
         /// <summary>
+        /// Gets or sets row.
+        /// </summary>
+        [DataMember]
+        public int Row { get; set; }
+
+        /// <summary>
         /// Gets or sets points.
         /// </summary>
         [DataMember]
@@ -47,6 +53,12 @@ namespace DNNGamification.Components.Entities
         /// </summary>
         [DataMember]
         public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets rank.
+        /// </summary>
+        [DataMember]
+        public int Rank { get; set; }
 
         /// <summary>
         /// Gets or sets key ID.
@@ -66,6 +78,8 @@ namespace DNNGamification.Components.Entities
         /// </summary>
         public override void Fill(IDataReader r)
         {
+            Rank = Utils.ConvertTo<int>(r["Rank"]);
+            Row = Utils.ConvertTo<int>(r["Row"]);
             Points           = Utils.ConvertTo<int>(r["Points"]);         
             UserId         = Utils.ConvertTo<int>(r["UserId"]);
             Name      = Utils.ConvertTo<string>(r["Name"]);

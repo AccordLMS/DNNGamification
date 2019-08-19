@@ -49,7 +49,7 @@
         }
     }
 
-function changeDateRange(){
+    function changeDateRange2(){
 	var trStartDate = document.getElementById("<%= TrStartDate.ClientID %>");
 	var trEndDate = document.getElementById("<%= TrEndDate.ClientID %>"); 
         var cmbDate = document.getElementById("<%= cmbDateRange.ClientID %>"); 
@@ -67,18 +67,16 @@ function changeDateRange(){
                		document.getElementById("<%= tblRangeValidator.ClientID %>").style.display = 'none'; 
                 	ValidatorEnable(validator, false);
                 	break;
-	    };
+        };      
+    }
 
-	$find("<%= rdpStartDate.ClientID %>").set_selectedDate(new Date());
-   	$find("<%= rdpEndDate.ClientID %>").set_selectedDate(new Date());
-}
 </script>
 
 <asp:Panel runat="server" ID="pnlDateRange">
     <table id="tblDateRange" runat="server">
         <tr runat="server" id="trDateRange">
             <td colspan="2" runat="server" id="tdDrpDownDateRange">
-                <asp:DropDownList runat="server" ID="cmbDateRange" CssClass="NormalTextBox" AutoPostBack="false"  onchange="changeDateRange()"  Width="200px"> <%--style="width:100%"--%>
+                <asp:DropDownList runat="server" ID="cmbDateRange" CssClass="NormalTextBox" AutoPostBack="false"  Width="200px" onchange="changeDateRange2()"> <%--style="width:100%"--%>
                 </asp:DropDownList>
             </td>
         </tr>

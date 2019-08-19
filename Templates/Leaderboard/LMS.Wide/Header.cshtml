@@ -1,0 +1,22 @@
+@using DotNetNuke.Web.Razor;
+
+@using DNNGamification;
+@using DNNGamification.Components.Entities;
+@using DNNGamification.Components;
+
+@inherits LeaderboardWebPage
+
+<table class="dnnGrid gmfTable" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col style="">
+		<col style="">
+		<col style="">
+	</colgroup>
+	<thead>
+		<tr class="dnnGridHeader">
+			<th>@Html.GetLocalizedString("Name.Header")</th>
+			<th>@Html.GetLocalizedString("Points.Header")</th>
+			<th>@Html.GetLocalizedString("RecentBadges.Header")</th>
+		</tr>
+	</thead>
+	<tbody>

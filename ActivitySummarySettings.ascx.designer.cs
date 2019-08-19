@@ -85,6 +85,15 @@ namespace DNNGamification {
         protected global::System.Web.UI.WebControls.RequiredFieldValidator rqvPageSize;
         
         /// <summary>
+        /// divDateRange control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divDateRange;
+        
+        /// <summary>
         /// ctlCompletionDate control.
         /// </summary>
         /// <remarks>

@@ -1,0 +1,8 @@
+.gmfProfile .gmfBadges { margin: 15px 0; }
+    .gmfProfile .gmfBadges .gmfBadge { display: inline-block; margin: 3px; outline: none none; }
+        .gmfProfile  .gmfBadges .gmfBadge .gmfBadgeThumbnail { max-width: 54px; }
+
+.gmfTooltip * { font-family: "Courier New", Courier, monospace !important; }
+
+.gmfTooltip { display: none; text-align: left; }
+    .gmfTooltip .gmfName { font-weight: bold; font-size: 13pt; }
