@@ -56,7 +56,7 @@
     <div class="dnnFormItem" runat="server" id="divDateRange">
         <dnn:Label ResourceKey="DateRange.Label" runat="server" enableviewstate="False"></dnn:Label>
         <interzoic:DateRangeSelector runat="server" ID="ctlCompletionDate" ShowInterval="false" DateRange="AllTime" />
-        <asp:LinkButton runat="server" ID="btnApplyFilters" CssClass="dnnPrimaryAction2" resourcekey="btnApplyFilters" OnClick="btnApplyFilters_Click"></asp:LinkButton>
+        <asp:LinkButton runat="server" ID="btnApplyFilters" CssClass="dnnPrimaryAction" resourcekey="btnApplyFilters" OnClick="btnApplyFilters_Click"></asp:LinkButton>
     </div>
     <div class="gmfLeaderboard gmfScope">
         <asp:Repeater ID="rptLeaderboard" runat="server">
