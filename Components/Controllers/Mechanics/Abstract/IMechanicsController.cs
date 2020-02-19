@@ -25,7 +25,7 @@ namespace DNNGamification.Components.Controllers
         /// <summary>
         /// Adds activity.
         /// </summary>
-        int AddActivity(int desktopModuleId, string name, string description, string synonym, int activityPoints, bool once);
+        int AddActivity(int desktopModuleId, string name, string description, string synonym, decimal activityPoints, bool once);
 
         /// <summary>
         /// Adds user badge.
@@ -68,7 +68,7 @@ namespace DNNGamification.Components.Controllers
         /// <summary>
         /// Updates activity.
         /// </summary>
-        void UpdateActivity(int id, int desktopModuleId, string name, string description, string synonym, int activityPoints, bool once);
+        void UpdateActivity(int id, int desktopModuleId, string name, string description, string synonym, decimal activityPoints, bool once);
 
         #endregion
 

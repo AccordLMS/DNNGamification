@@ -67,7 +67,7 @@ namespace DNNGamification.Components.Entities
         /// Gets or sets activity points.
         /// </summary>
         [DataMember]
-        public int ActivityPoints { get; set; }
+        public decimal ActivityPoints { get; set; }
 
         /// <summary>
         /// Gets or sets name.
@@ -106,7 +106,7 @@ namespace DNNGamification.Components.Entities
             DesktopModuleId   = Utils.ConvertTo<int>(r["DesktopModuleId"]);
             DesktopModuleName = Utils.ConvertTo<string>(r["DesktopModuleName"]);
             Name              = Utils.ConvertTo<string>(r["Name"]);
-            ActivityPoints    = Utils.ConvertTo<int>(r["ActivityPoints"]);
+            ActivityPoints    = Utils.ConvertTo<decimal>(r["ActivityPoints"]);
             CreateDate        = Utils.ConvertTo<DateTime>(r["CreateDate"]);
         }
 
@@ -122,7 +122,7 @@ namespace DNNGamification.Components.Entities
         /// <summary>
         /// Constructor with specified parameters.
         /// </summary>
-        public UserActivityLog(int id, int points)
+        public UserActivityLog(int id, decimal points)
         {
             UserActivityLogId = id; ActivityPoints = points;
         }

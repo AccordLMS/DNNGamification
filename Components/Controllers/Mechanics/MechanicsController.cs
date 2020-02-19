@@ -124,11 +124,11 @@ namespace DNNGamification.Components.Controllers
         {
             int result = -1;
 
-            var dictionary = new Dictionary<int, int>();
+            var dictionary = new Dictionary<int, decimal>();
 
             foreach (var group in _uow.UserActivitiesLog.GetManyBy(userId, portalId).GroupBy(a => a.ActivityId))
             {
-                int points = 0; group.ForEach(a => points += a.ActivityPoints);
+                decimal points = 0; group.ForEach(a => points += a.ActivityPoints);
                 {
                     dictionary.Add(group.Key, points); // add activity-point item to dictionary
                 }
@@ -177,7 +177,7 @@ namespace DNNGamification.Components.Controllers
 
                 //Update the gamificatio activity value, passing the difference between the old and new values (it could be negative). Updated table: DNNGamification_UserActivities
                 //addValue is "how many times" the Activity-ActivityPoints should be added to UserActivity-ActivityPoints:  (activity.ActivityPoints * decimal.ToInt32(addValue)
-                int newPoints = userActivity.ActivityPoints + (activity.ActivityPoints * decimal.ToInt32(addValue));
+                decimal newPoints = userActivity.ActivityPoints + (activity.ActivityPoints * decimal.ToInt32(addValue));
                 
                 _uow.UserActivities.Update(userActivity.UserActivityId, userId, portalId, newPoints);
             }
@@ -198,7 +198,7 @@ namespace DNNGamification.Components.Controllers
         /// <summary>
         /// Adds activity.
         /// </summary>
-        public int AddActivity(int desktopModuleId, string name, string description, string synonym, int activityPoints, bool once)
+        public int AddActivity(int desktopModuleId, string name, string description, string synonym, decimal activityPoints, bool once)
         {
             using (var r = _uow.Activities) return r.Add(desktopModuleId, name, description, synonym, activityPoints, once);
         }
@@ -262,7 +262,7 @@ namespace DNNGamification.Components.Controllers
         /// <summary>
         /// Updates activity.
         /// </summary>
-        public void UpdateActivity(int id, int desktopModuleId, string name, string description, string synonym, int activityPoints, bool once)
+        public void UpdateActivity(int id, int desktopModuleId, string name, string description, string synonym, decimal activityPoints, bool once)
         {
             using (var r = _uow.Activities) r.Update(id, desktopModuleId, name, description, synonym, activityPoints, once);
         }

@@ -49,7 +49,7 @@ namespace DNNGamification.Components.Entities
         /// Gets or sets activity points.
         /// </summary>
         [DataMember]
-        public int ActivityPoints { get; set; }
+        public decimal ActivityPoints { get; set; }
 
         /// <summary>
         /// Gets or sets last modified date.
@@ -75,7 +75,7 @@ namespace DNNGamification.Components.Entities
             UserActivityId   = Utils.ConvertTo<int>(r["UserActivityId"]);
             UserId           = Utils.ConvertTo<int>(r["UserId"]);
             PortalId         = Utils.ConvertTo<int>(r["PortalId"]);
-            ActivityPoints   = Utils.ConvertTo<int>(r["ActivityPoints"]);
+            ActivityPoints   = Utils.ConvertTo<decimal>(r["ActivityPoints"]);
             LastModifiedDate = Utils.ConvertTo<DateTime?>(r["LastModifiedDate"]);
             CreateDate       = Utils.ConvertTo<DateTime>(r["CreateDate"]);
         }
@@ -92,7 +92,7 @@ namespace DNNGamification.Components.Entities
         /// <summary>
         /// Constructor with specified parameters.
         /// </summary>
-        public UserActivity(int id, int points)
+        public UserActivity(int id, decimal points)
         {
             UserActivityId = id; ActivityPoints = points;
         }

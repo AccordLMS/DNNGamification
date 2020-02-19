@@ -22,7 +22,7 @@ namespace DNNGamification.Components.Repositories
         /// <summary>
         /// Adds user activity.
         /// </summary>
-        public int Add(int userId, int portalId, int activityPoints)
+        public int Add(int userId, int portalId, decimal activityPoints)
         {
             return DataProvider.ExecuteScalar<int>("DNNGamification_AddUserActivity", userId, portalId, activityPoints);
         }
@@ -46,7 +46,7 @@ namespace DNNGamification.Components.Repositories
         /// <summary>
         /// Updates user activity.
         /// </summary>
-        public void Update(int id, int? userId, int? portalId, int? activityPoints)
+        public void Update(int id, int? userId, int? portalId, decimal? activityPoints)
         {
             DataProvider.ExecuteNonQuery("DNNGamification_UpdateUserActivity", id, userId, portalId, activityPoints);
         }

@@ -425,6 +425,7 @@
     <Content Include="Templates\ActivitySummary\Wide\Header.cshtml" />
     <Content Include="Templates\ActivitySummary\Wide\Item.cshtml" />
     <Content Include="Templates\ActivitySummary\Wide\ItemHighlighted.cshtml" />
+    <Content Include="Providers\Data\SqlDataProvider\01.01.01.SqlDataProvider" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
@@ -436,7 +437,9 @@
     <Content Include="App_LocalResources\ActivitySummary.resx">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="App_LocalResources\ActivitySummarySettings.resx" />
+    <Content Include="App_LocalResources\ActivitySummarySettings.resx">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="CommonControls\App_LocalResources\DateRangeSelector.ascx.resx" />
     <EmbeddedResource Include="Properties\licenses.licx" />
   </ItemGroup>

@@ -129,9 +129,24 @@ namespace DNNGamification
             try // try to handle BindActivitySummary
             {                        
                 int? userId = UserInfo.UserID;
-                
+                             
                 int total = -1; // define activity summary total records
                 int portalId = (_settings.PortalId <0 ? PortalId : _settings.PortalId);
+
+                //If there is an active learner in the transcript module. We get it.
+                if (txtActiveLearnerHidden.Text != null)
+                {
+                    UserInfo activeUser = UserController.GetUserByName(portalId, txtActiveLearnerHidden.Text);
+                    if(activeUser != null)
+                    {
+                        if(activeUser.UserID > 0)
+                        {
+                            userId = activeUser.UserID;
+                        }
+                        
+                    }
+                    
+                }
 
                 DateTime beginDate = ctlCompletionDate.StartDate;
                 DateTime endDate = ctlCompletionDate.EndDate;      
@@ -471,6 +486,13 @@ namespace DNNGamification
             sb.Append("     var thisModuleId = " + ModuleId.ToString() + ";");
             sb.Append("     var ctrlSourceId = 'dnn_ctr' + moduleId + '_EnrollmentDefault_EnrollmentTranscripts_ctlLearnerPanes_ctlCompletionDate_cmbDateRange';");           
             sb.Append("     var cmbDateSource = document.getElementById(ctrlSourceId);");
+            sb.Append("     var ctrlActiveLearnerId = 'dnn_ctr' + moduleId + '_EnrollmentDefault_txtActiveLearner';");
+            sb.Append("     var txtActiveLearnerSource = document.getElementById(ctrlActiveLearnerId);");
+            sb.Append("     if (txtActiveLearnerSource != null)");
+            sb.Append("     {");
+            sb.Append("         var txtActiveLearnerHidden = document.getElementById('" + txtActiveLearnerHidden.ClientID + "');");
+            sb.Append("         txtActiveLearnerHidden.value = txtActiveLearnerSource.value;");
+            sb.Append("     }");
             sb.Append("     if (cmbDateSource != null)");
             sb.Append("     {");
             sb.Append("         var dateRange = cmbDateSource.options[cmbDateSource.selectedIndex].value;");

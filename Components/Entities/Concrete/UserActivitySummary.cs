@@ -40,7 +40,7 @@ namespace DNNGamification.Components.Entities
         /// Gets or sets points.
         /// </summary>
         [DataMember]
-        public int Points { get; set; }
+        public decimal Points { get; set; }
 
         /// <summary>
         /// Gets or sets points.
@@ -80,7 +80,7 @@ namespace DNNGamification.Components.Entities
         {
             Rank = Utils.ConvertTo<int>(r["Rank"]);
             Row = Utils.ConvertTo<int>(r["Row"]);
-            Points           = Utils.ConvertTo<int>(r["Points"]);         
+            Points           = Utils.ConvertTo<decimal>(r["Points"]);         
             UserId         = Utils.ConvertTo<int>(r["UserId"]);
             Name      = Utils.ConvertTo<string>(r["Name"]);
         }

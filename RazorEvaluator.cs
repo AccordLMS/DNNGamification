@@ -21,7 +21,7 @@
         /// <summary>
         /// Gets or sets activity points.
         /// </summary>
-        public int ActivityPoints { get; set; }
+        public decimal ActivityPoints { get; set; }
 
         #endregion
     }
@@ -152,7 +152,7 @@
         /// <summary>
         /// Evaluates token replacement.
         /// </summary>
-        public string Evaluate(UserBadge data, int points, string template)
+        public string Evaluate(UserBadge data, decimal points, string template)
         {
             var razor = new RazorEngine(template, ModuleContext, LocalResourceFile);
             {

@@ -88,7 +88,7 @@ namespace DNNGamification.Components.Entities
         /// Gets or sets activity points.
         /// </summary>
         [DataMember]
-        public int ActivityPoints { get; set; }
+        public decimal ActivityPoints { get; set; }
 
         /// <summary>
         /// Gets or sets row.
@@ -106,7 +106,7 @@ namespace DNNGamification.Components.Entities
         public override void Fill(IDataReader r)
         {
             UserId         = Utils.ConvertTo<int>(r["UserId"]);
-            ActivityPoints = Utils.ConvertTo<int>(r["ActivityPoints"]);
+            ActivityPoints = Utils.ConvertTo<decimal>(r["ActivityPoints"]);
             UserName       = Utils.ConvertTo<string>(r["Username"]);
             Row            = Utils.ConvertTo<int>(r["Row"]);
         }

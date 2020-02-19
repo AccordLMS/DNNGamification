@@ -71,7 +71,7 @@ namespace DNNGamification.Components.Entities
         /// Gets or sets activity points.
         /// </summary>
         [DataMember]
-        public int ActivityPoints { get; set; }
+        public decimal ActivityPoints { get; set; }
 
         /// <summary>
         /// Gets or sets once.
@@ -94,7 +94,7 @@ namespace DNNGamification.Components.Entities
             Description               = Utils.ConvertTo<string>(r["Description"]);
             Synonym                   = Utils.ConvertTo<string>(r["Synonym"]);
             DesktopModuleId           = Utils.ConvertTo<int>(r["DesktopModuleId"]);
-            ActivityPoints            = Utils.ConvertTo<int>(r["ActivityPoints"]);
+            ActivityPoints            = Utils.ConvertTo<decimal>(r["ActivityPoints"]);
             Once                      = Utils.ConvertTo<bool>(r["Once"]);
         }
 

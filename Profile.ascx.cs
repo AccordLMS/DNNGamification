@@ -34,7 +34,7 @@
         /// <summary>
         /// 
         /// </summary>
-        private int _activityPoints = 0;
+        private decimal _activityPoints = 0;
 
         #endregion
 
@@ -146,7 +146,7 @@
 
                     UserActivity userActivity = UnitOfWork.UserActivities.GetBy(userId, portalId);
                     {
-                        int points = (_activityPoints = userActivity != null ? userActivity.ActivityPoints : 0);
+                        decimal points = (_activityPoints = userActivity != null ? userActivity.ActivityPoints : 0);
                     }
 
                     DateTime now = DateTime.Now.Date;

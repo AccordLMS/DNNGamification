@@ -1,0 +1,202 @@
+﻿
+SET QUOTED_IDENTIFIER ON 
+GO
+SET ANSI_NULLS ON 
+GO
+
+
+ALTER TABLE {databaseOwner}[{objectQualifier}DNNGamification_UserActivitiesLog]
+ALTER COLUMN ActivityPoints decimal(10,2)
+
+ALTER TABLE {databaseOwner}[{objectQualifier}DNNGamification_Activities]
+ALTER COLUMN ActivityPoints decimal(10,2)
+
+ALTER TABLE {databaseOwner}[{objectQualifier}DNNGamification_UserActivities]
+ALTER COLUMN ActivityPoints decimal(10,2)
+
+
+
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_GetActivitySummary]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_GetActivitySummary]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_GetActivitySummary]
+    @PortalId int, @UserId int, @beginDate DATETIME, @endDate DATETIME, @StartIndex int, @Length int
+AS
+BEGIN
+
+	Declare @activitysummaries TABLE
+    (
+        [UserId] int,
+		[Name] nvarchar(max),
+		[Points] decimal (10,2)
+    )
+
+	IF (@beginDate IS NULL or @endDate IS NULL)
+	BEGIN
+
+		INSERT INTO @activitysummaries ([UserId], [Name], [Points])
+		SELECT 
+		UA.UserId AS 'UserId', 
+		A.Name AS 'Name', 
+		SUM(UA.ActivityPoints) AS 'Points'  
+		FROM {databaseOwner}{objectQualifier}DNNGamification_Activities A 
+		inner join {databaseOwner}{objectQualifier}DNNGamification_UserActivitiesLog UA
+		ON A.ActivityId = UA.ActivityId
+		WHERE UA.UserId = @UserId and UA.PortalId = @PortalId
+		GROUP BY Name, UserId
+	END
+	ELSE
+	BEGIN
+		INSERT INTO @activitysummaries ([UserId], [Name], [Points])
+		SELECT 
+		UA.UserId AS 'UserId', 
+		A.Name AS 'Name', 
+		SUM(UA.ActivityPoints) AS 'Points' 
+		FROM {databaseOwner}{objectQualifier}DNNGamification_Activities A 
+		inner join {databaseOwner}{objectQualifier}DNNGamification_UserActivitiesLog UA
+		ON A.ActivityId = UA.ActivityId
+		WHERE UA.UserId = @UserId and UA.CreateDate >= @beginDate and UA.CreateDate <= @endDate and UA.PortalId = @PortalId
+		GROUP BY Name, UserId
+	END
+
+	SELECT COUNT(*) AS TotalCount
+      FROM
+	  @activitysummaries
+
+	SELECT q.*
+      FROM
+   (SELECT DENSE_RANK() OVER (ORDER BY R.[Points] DESC) AS [Rank],
+           ROW_NUMBER() OVER (ORDER BY COALESCE(R.[Points], 0) DESC) AS [Row],
+           R.*	   
+      FROM @activitysummaries AS R
+     ) AS q
+     WHERE (q.[Row] > @StartIndex AND q.[Row] <= @StartIndex + @Length)
+  ORDER BY q.[Row]
+
+END
+GO
+
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_AddActivity]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_AddActivity]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_AddActivity]
+    @DesktopModuleId int, @Name nvarchar(100), @Description nvarchar(512), @Synonym nvarchar(128), @ActivityPoints decimal, @Once bit
+AS
+BEGIN
+    INSERT INTO {databaseOwner}[{objectQualifier}DNNGamification_Activities] ([DesktopModuleId], [Name], [Description], [Synonym], [ActivityPoints], [Once])
+         VALUES (@DesktopModuleId, @Name, @Description, @Synonym, @ActivityPoints, @Once)
+
+    SELECT SCOPE_IDENTITY()
+END
+GO
+
+
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_AddUserActivity]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_AddUserActivity]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_AddUserActivity]
+    @UserId int, @PortalId int, @ActivityPoints decimal
+AS
+BEGIN
+    INSERT INTO {databaseOwner}[{objectQualifier}DNNGamification_UserActivities] ([UserId], [PortalId], [ActivityPoints])
+         VALUES (@UserId, @PortalId, @ActivityPoints)
+
+    SELECT SCOPE_IDENTITY()
+END
+GO
+
+
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_AddUserActivityLog]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_AddUserActivityLog]
+GO
+
+
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_AddUserActivityLog]
+    @ActivityId int, @UserId int, @PortalId int, @PortalActivityId int, @ActivityPoints decimal
+AS
+BEGIN
+    DECLARE @_Id int = -1
+
+    DECLARE @_UserActivityId int = (SELECT TOP(1) [UserActivityId]
+       FROM {databaseOwner}[{objectQualifier}DNNGamification_UserActivities]
+      WHERE [UserId] = @UserId AND [PortalId] = @PortalId)
+
+     INSERT INTO {databaseOwner}[{objectQualifier}DNNGamification_UserActivitiesLog] ([ActivityId], [UserId], [PortalId], [PortalActivityId], [ActivityPoints])
+          VALUES (@ActivityId, @UserId, @PortalId, @PortalActivityId, @ActivityPoints)
+
+        SET @_Id = SCOPE_IDENTITY()
+
+IF (@_UserActivityId IS NOT NULL) BEGIN
+     UPDATE {databaseOwner}[{objectQualifier}DNNGamification_UserActivities]
+        SET [ActivityPoints] = ([ActivityPoints] + @ActivityPoints),
+            [LastModifiedDate] = getutcdate()
+      WHERE [UserId] = @UserId AND [PortalId] = @PortalId
+END ELSE BEGIN
+     INSERT INTO {databaseOwner}[{objectQualifier}DNNGamification_UserActivities] ([UserId], [PortalId], [ActivityPoints])
+          VALUES (@UserId, @PortalId, @ActivityPoints)
+END
+
+     SELECT @_Id
+
+END
+GO
+
+
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_UpdateActivity]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_UpdateActivity]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_UpdateActivity]
+    @Id int, @DesktopModuleId int, @Name nvarchar(100), @Description nvarchar(512), @Synonym nvarchar(128), @ActivityPoints decimal, @Once bit
+AS
+BEGIN
+    UPDATE {databaseOwner}[{objectQualifier}DNNGamification_Activities]
+       SET [DesktopModuleId] = COALESCE(@DesktopModuleId, [DesktopModuleId]),
+           [Name] = COALESCE(@Name, [Name]),
+           [Description] = COALESCE(@Description, [Description]),
+           [Synonym] = COALESCE(@Synonym, [Synonym]),
+           [ActivityPoints] = COALESCE(@ActivityPoints, [ActivityPoints]),
+           [Once] = COALESCE(@Once, [Once])
+     WHERE [ActivityId] = @Id
+END
+GO
+
+
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_UpdateUserActivity]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_UpdateUserActivity]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_UpdateUserActivity]
+    @Id int, @UserId int, @PortalId int, @ActivityPoints decimal
+AS
+BEGIN
+    UPDATE {databaseOwner}[{objectQualifier}DNNGamification_UserActivities]
+       SET [ActivityPoints] = COALESCE(@ActivityPoints, [ActivityPoints]),
+           [UserId] = COALESCE(@UserId, [UserId]),
+           [PortalId] = COALESCE(@PortalId, [PortalId])
+     WHERE [UserActivityId] = @Id
+END
+GO
+
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_UpdateUserActivityLog]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_UpdateUserActivityLog]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_UpdateUserActivityLog]
+    @Id int, @ActivityId int, @UserId int, @ActivityPoints decimal
+AS
+BEGIN
+    UPDATE {databaseOwner}[{objectQualifier}DNNGamification_UserActivitiesLog]
+       SET [ActivityId] = COALESCE(@ActivityId, [ActivityId]),
+           [UserId] = COALESCE(@UserId, [UserId]),
+           [ActivityPoints] = COALESCE(@ActivityPoints, [ActivityPoints])
+     WHERE [UserActivityLogId] = @Id
+END
+GO
+
+
+

@@ -100,4 +100,5 @@
         </script>
     </div>
     <asp:Button runat="server" ID="btnHidden2" CssClass="dnnPrimaryAction" style="display:none" OnClick="btnHidden2_Click"></asp:Button>
+    <asp:TextBox runat="server" ID="txtActiveLearnerHidden" style="display:none"></asp:TextBox>
 </tlr:RadAjaxPanel>

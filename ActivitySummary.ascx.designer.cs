@@ -137,5 +137,14 @@ namespace DNNGamification {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnHidden2;
+        
+        /// <summary>
+        /// txtActiveLearnerHidden control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtActiveLearnerHidden;
     }
 }

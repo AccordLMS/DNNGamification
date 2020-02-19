@@ -181,7 +181,7 @@
 
                         UserActivity userActivity = UnitOfWork.UserActivities.GetBy(userId, portalId);
                         {
-                            int activityPoints = (userActivity != null ? userActivity.ActivityPoints : 0);
+                            decimal activityPoints = (userActivity != null ? userActivity.ActivityPoints : 0);
                             {
                                 tbActivityPoints.Text = activityPoints.ToString();
                             }

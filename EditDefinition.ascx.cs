@@ -174,9 +174,9 @@
                         throw new Exception("Activity is not found");
                     }
 
-                    int activityPoints = 0;
+                    decimal activityPoints = 0;
 
-                    if (Int32.TryParse(tbActivityPoints.Text, out activityPoints))
+                    if (Decimal.TryParse(tbActivityPoints.Text, out activityPoints))
                     {
                         UnitOfWork.Activities.Update(activityId, null, null, tbDescription.Text, null, activityPoints, chbOnce.Checked);
                     }

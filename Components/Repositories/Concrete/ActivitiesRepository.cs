@@ -22,7 +22,7 @@ namespace DNNGamification.Components.Repositories
         /// <summary>
         /// Adds activity.
         /// </summary>
-        public int Add(int desktopModuleId, string name, string description, string synonym, int activityPoints, bool once)
+        public int Add(int desktopModuleId, string name, string description, string synonym, decimal activityPoints, bool once)
         {
             return DataProvider.ExecuteScalar<int>("DNNGamification_AddActivity", desktopModuleId, name, description, synonym, activityPoints, once);
         }
@@ -75,7 +75,7 @@ namespace DNNGamification.Components.Repositories
         /// <summary>
         /// Updates activity.
         /// </summary>
-        public void Update(int id, int? desktopModuleId, string name, string description, string synonym, int? activityPoints, bool? once)
+        public void Update(int id, int? desktopModuleId, string name, string description, string synonym, decimal? activityPoints, bool? once)
         {
             DataProvider.ExecuteNonQuery("DNNGamification_UpdateActivity", id, desktopModuleId, name, description, synonym, activityPoints, once);
         }
