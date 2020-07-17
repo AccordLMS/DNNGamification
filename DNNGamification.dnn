@@ -1,6 +1,6 @@
 <dotnetnuke type="Package" version="5.0">
 	<packages>
-		<package name="DNNGamification.Mechanics" type="Module" version="01.01.02">
+		<package name="DNNGamification.Mechanics" type="Module" version="01.01.04">
 			<description>Gamification mechanics module</description>
 			<iconFile>~/DesktopModules/DNNGamification/Images/logo.png</iconFile>
 			<friendlyName>DNNGamification Mechanics</friendlyName>
@@ -121,6 +121,10 @@
               <name>01.01.01.SqlDataProvider</name>
               <version>01.01.01</version>
             </script>
+            <script type="Install">
+              <name>01.01.04.SqlDataProvider</name>
+              <version>01.01.04</version>
+            </script>
 						<script type="UnInstall">
 							<name>Uninstall.SqlDataProvider</name>
 						</script>
@@ -144,7 +148,7 @@
 				</attributes>
 			</eventMessage>
 		</package>
-		<package name="DNNGamification.Leaderboard" type="Module" version="01.01.02">
+		<package name="DNNGamification.Leaderboard" type="Module" version="01.01.04">
 			<description>Gamification leaderboard module</description>
 			<iconFile>~/DesktopModules/DNNGamification/Images/logo.png</iconFile>
 			<friendlyName>DNNGamification Leaderboard</friendlyName>
@@ -199,7 +203,7 @@
 				</component>
 			</components>
 		</package>
-		<package name="DNNGamification.Profile" type="Module" version="01.01.02">
+		<package name="DNNGamification.Profile" type="Module" version="01.01.04">
 			<description>Gamification profile module</description>
 			<iconFile>~/DesktopModules/DNNGamification/Images/logo.png</iconFile>
 			<friendlyName>DNNGamification Profile</friendlyName>
@@ -254,7 +258,7 @@
 				</component>
 			</components>
 		</package>
-    <package name="DNNGamification.ActivitySummary" type="Module" version="01.01.02">
+    <package name="DNNGamification.ActivitySummary" type="Module" version="01.01.04">
       <description>Gamification activity summary module</description>
       <iconFile>~/DesktopModules/DNNGamification/Images/logo.png</iconFile>
       <friendlyName>DNNGamification Activity Summary</friendlyName>

@@ -120,6 +120,26 @@ namespace DNNGamification.Components.Controllers
         /// <summary>
         /// 
         /// </summary>
+        private MechanicsController Log(string synonym, int desktopModuleId, int userId, int portalId, int portalActivityId, decimal points)
+        {
+            int result = -1;
+
+            Activity activity = _uow.Activities.GetBy(synonym, desktopModuleId);
+            {
+                if (activity == null) throw new NullReferenceException("Activity is not found");
+            }
+
+            if (!(activity.Once && _uow.UserActivitiesLog.GetManyBy(userId, portalId).Any(l => l.ActivityId == activity.ActivityId)))
+            {
+                result = _uow.UserActivitiesLog.Add(activity.ActivityId, userId, portalId, portalActivityId, points);
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         private MechanicsController Award(int userId, int portalId, int portalActivityId)
         {
             int result = -1;
@@ -198,6 +218,15 @@ namespace DNNGamification.Components.Controllers
         /// <summary>
         /// Adds activity.
         /// </summary>
+        public int AddActivity(int desktopModuleId, string name, string description, string synonym, int activityPoints, bool once)
+        {
+            decimal actPoints = activityPoints;
+            using (var r = _uow.Activities) return r.Add(desktopModuleId, name, description, synonym, actPoints, once);
+        }
+
+        /// <summary>
+        /// Adds activity.
+        /// </summary>
         public int AddActivity(int desktopModuleId, string name, string description, string synonym, decimal activityPoints, bool once)
         {
             using (var r = _uow.Activities) return r.Add(desktopModuleId, name, description, synonym, activityPoints, once);
@@ -262,6 +291,15 @@ namespace DNNGamification.Components.Controllers
         /// <summary>
         /// Updates activity.
         /// </summary>
+        public void UpdateActivity(int id, int desktopModuleId, string name, string description, string synonym, int activityPoints, bool once)
+        {
+            decimal actPoints = activityPoints;
+            using (var r = _uow.Activities) r.Update(id, desktopModuleId, name, description, synonym, actPoints, once);
+        }
+
+        /// <summary>
+        /// Updates activity.
+        /// </summary>
         public void UpdateActivity(int id, int desktopModuleId, string name, string description, string synonym, decimal activityPoints, bool once)
         {
             using (var r = _uow.Activities) r.Update(id, desktopModuleId, name, description, synonym, activityPoints, once);
@@ -313,6 +351,14 @@ namespace DNNGamification.Components.Controllers
         public void LogUserActivity(string synonym, int desktopModuleId, int userId, int portalId, int portalActivityId)
         {
             Log(synonym, desktopModuleId, userId, portalId, portalActivityId).Award(userId, portalId, portalActivityId);
+        }
+
+        /// <summary>
+        /// Logs user activity (uses transaction).
+        /// </summary>
+        public void LogUserActivity(string synonym, int desktopModuleId, int userId, int portalId, int portalActivityId, decimal points)
+        {
+            Log(synonym, desktopModuleId, userId, portalId, portalActivityId, points).Award(userId, portalId, portalActivityId);
         }
 
         /// <summary>

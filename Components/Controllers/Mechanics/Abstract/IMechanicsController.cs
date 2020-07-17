@@ -25,6 +25,11 @@ namespace DNNGamification.Components.Controllers
         /// <summary>
         /// Adds activity.
         /// </summary>
+        int AddActivity(int desktopModuleId, string name, string description, string synonym, int activityPoints, bool once);
+
+        /// <summary>
+        /// Adds activity.
+        /// </summary>
         int AddActivity(int desktopModuleId, string name, string description, string synonym, decimal activityPoints, bool once);
 
         /// <summary>
@@ -65,6 +70,11 @@ namespace DNNGamification.Components.Controllers
 
         #region Public Methods : Update
 
+        // <summary>
+        /// Updates activity.
+        /// </summary>
+        void UpdateActivity(int id, int desktopModuleId, string name, string description, string synonym, int activityPoints, bool once);
+
         /// <summary>
         /// Updates activity.
         /// </summary>
@@ -102,6 +112,11 @@ namespace DNNGamification.Components.Controllers
         /// Logs user activity (uses transaction).
         /// </summary>
         void LogUserActivity(string synonym, int desktopModuleId, int userId, int portalId);
+
+        /// <summary>
+        /// Logs user activity (uses transaction).
+        /// </summary>
+        void LogUserActivity(string synonym, int desktopModuleId, int userId, int portalId, int portalActivityId, decimal points);
 
         /// <summary>
         /// Update user activity, adding the addValue to the existing one (addValue could be negavitve, to substract)
