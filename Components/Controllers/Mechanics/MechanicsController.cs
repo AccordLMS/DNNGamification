@@ -111,7 +111,7 @@ namespace DNNGamification.Components.Controllers
 
             if (!(activity.Once && _uow.UserActivitiesLog.GetManyBy(userId, portalId).Any(l => l.ActivityId == activity.ActivityId)))
             {
-                result = _uow.UserActivitiesLog.Add(activity.ActivityId, userId, portalId, portalActivityId, activity.ActivityPoints);
+                result = _uow.UserActivitiesLog.Add(activity.ActivityId, userId, portalId, portalActivityId, activity.ActivityPoints, 0);
             }
 
             return this;
@@ -120,22 +120,26 @@ namespace DNNGamification.Components.Controllers
         /// <summary>
         /// 
         /// </summary>
-        private MechanicsController Log(string synonym, int desktopModuleId, int userId, int portalId, int portalActivityId, decimal points)
+        private MechanicsController Log(string synonym, int desktopModuleId, int userId, int portalId, int portalActivityId, decimal points, int attemptId)
         {
-            int result = -1;
+            int result = -1;           
 
             Activity activity = _uow.Activities.GetBy(synonym, desktopModuleId);
+            
             {
                 if (activity == null) throw new NullReferenceException("Activity is not found");
             }
 
+            decimal totalPoints = points * activity.ActivityPoints;
+
             if (!(activity.Once && _uow.UserActivitiesLog.GetManyBy(userId, portalId).Any(l => l.ActivityId == activity.ActivityId)))
             {
-                result = _uow.UserActivitiesLog.Add(activity.ActivityId, userId, portalId, portalActivityId, points);
+                result = _uow.UserActivitiesLog.Add(activity.ActivityId, userId, portalId, portalActivityId, totalPoints, attemptId);
             }
 
             return this;
         }
+
 
         /// <summary>
         /// 
@@ -358,7 +362,15 @@ namespace DNNGamification.Components.Controllers
         /// </summary>
         public void LogUserActivity(string synonym, int desktopModuleId, int userId, int portalId, int portalActivityId, decimal points)
         {
-            Log(synonym, desktopModuleId, userId, portalId, portalActivityId, points).Award(userId, portalId, portalActivityId);
+            Log(synonym, desktopModuleId, userId, portalId, portalActivityId, points, 0).Award(userId, portalId, portalActivityId);
+        }
+
+        /// <summary>
+        /// Logs user activity (uses transaction).
+        /// </summary>
+        public void LogUserActivity(string synonym, int desktopModuleId, int userId, int portalId, int portalActivityId, decimal points, int attemptId)
+        {
+            Log(synonym, desktopModuleId, userId, portalId, portalActivityId, points, attemptId).Award(userId, portalId, portalActivityId);
         }
 
         /// <summary>

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -13,7 +13,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DNNGamification</RootNamespace>
     <AssemblyName>DNNGamification</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -344,7 +344,9 @@
     <Content Include="App_LocalResources\EditBadge.resx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_LocalResources\Mechanics.resx" />
+    <Content Include="App_LocalResources\Mechanics.resx">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_LocalResources\Profile.resx" />
@@ -426,6 +428,9 @@
     <Content Include="Templates\ActivitySummary\Wide\Item.cshtml" />
     <Content Include="Templates\ActivitySummary\Wide\ItemHighlighted.cshtml" />
     <Content Include="Providers\Data\SqlDataProvider\01.01.01.SqlDataProvider" />
+    <Content Include="Providers\Data\SqlDataProvider\01.01.04.SqlDataProvider" />
+    <Content Include="Providers\Data\SqlDataProvider\01.01.06.SqlDataProvider" />
+    <Content Include="Providers\Data\SqlDataProvider\01.01.07.SqlDataProvider" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

@@ -1,0 +1,43 @@
+﻿
+SET QUOTED_IDENTIFIER ON 
+GO
+SET ANSI_NULLS ON 
+GO
+
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}DNNGamification_AddUserActivityLog]') AND type in (N'P', N'PC'))
+    DROP PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_AddUserActivityLog]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}DNNGamification_AddUserActivityLog]
+    @ActivityId int, @UserId int, @PortalId int, @PortalActivityId int, @ActivityPoints decimal(10,7)
+AS
+BEGIN
+    DECLARE @_Id int = -1
+
+    DECLARE @_UserActivityId int = (SELECT TOP(1) [UserActivityId]
+       FROM {databaseOwner}[{objectQualifier}DNNGamification_UserActivities]
+      WHERE [UserId] = @UserId AND [PortalId] = @PortalId)
+
+     INSERT INTO {databaseOwner}[{objectQualifier}DNNGamification_UserActivitiesLog] ([ActivityId], [UserId], [PortalId], [PortalActivityId], [ActivityPoints])
+          VALUES (@ActivityId, @UserId, @PortalId, @PortalActivityId, @ActivityPoints)
+
+        SET @_Id = SCOPE_IDENTITY()
+
+IF (@_UserActivityId IS NOT NULL) BEGIN
+     UPDATE {databaseOwner}[{objectQualifier}DNNGamification_UserActivities]
+        SET [ActivityPoints] = ([ActivityPoints] + @ActivityPoints),
+            [LastModifiedDate] = getutcdate()
+      WHERE [UserId] = @UserId AND [PortalId] = @PortalId
+END ELSE BEGIN
+     INSERT INTO {databaseOwner}[{objectQualifier}DNNGamification_UserActivities] ([UserId], [PortalId], [ActivityPoints])
+          VALUES (@UserId, @PortalId, @ActivityPoints)
+END
+
+     SELECT @_Id
+
+END
+GO
+
+
+
+
