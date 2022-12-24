@@ -13,7 +13,7 @@ CREATE PROCEDURE {databaseOwner}[{objectQualifier}{objectQualifier}DNNGamificati
     @ActivityId int, @UserId int, @PortalId int, @PortalActivityId int, @ActivityPoints decimal(10,7), @AttemptId int
 AS
 BEGIN
-	IF NOT EXISTS (SELECT * FROM {databaseOwner}[{objectQualifier}DNNGamification_UserActivitiesLog] where UserId = @UserId and AttemptId = @AttemptId)
+	IF NOT EXISTS (SELECT * FROM {databaseOwner}[{objectQualifier}DNNGamification_UserActivitiesLog] where UserId = @UserId and AttemptId = @AttemptId and ActivityId = @ActivityId)
 	BEGIN
 	    DECLARE @_Id int = -1
 
