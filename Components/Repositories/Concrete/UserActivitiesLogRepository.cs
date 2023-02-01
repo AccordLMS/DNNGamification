@@ -26,7 +26,15 @@ namespace DNNGamification.Components.Repositories
         /// </summary>
         public int Add(int activityId, int userId, int portalId, int portalActivityId, decimal activityPoints, int attemptId)
         {
+            try
+            {
+
+            
             return DataProvider.ExecuteScalar<int>("DNNGamification_AddUserActivityLog", activityId, userId, portalId, portalActivityId, activityPoints, attemptId);
+            }catch(Exception ex)
+            {
+                return 0;
+            }
         }
 
         #endregion
